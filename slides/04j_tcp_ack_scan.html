@@ -1,0 +1,83 @@
+<!-- SLIDE: TCP ACK Scan (-sA) -->
+<section>
+  <h2><i class="fa-solid fa-shield-halved highlight-htb"></i> TCP ACK Scan (<code style="color: var(--htb-green);">-sA</code>)</h2>
+  <p class="slide-subtitle">
+    Mapping firewall rulesets, detecting stateful filtering, and identifying reachable ports.
+  </p>
+
+  <div class="grid-2" style="align-items: stretch; gap: 1.4rem;">
+    
+    <!-- Left Column: Purpose & Mechanics -->
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      <div class="cyber-card">
+        <div class="card-title">
+          <span class="cyber-badge badge-htb">FLAG: -sA</span> Firewall Ruleset Mapping
+        </div>
+        <ul style="margin-bottom: 0.6rem;">
+          <li><strong>Unique Objective:</strong> Unlike other scans, TCP ACK scan <strong>never determines open ports</strong> (or even <code style="color: var(--accent-yellow);">open|filtered</code>).</li>
+          <li><strong>Primary Purpose:</strong> Used exclusively to map out firewall rulesets and determine whether firewalls are <strong>stateful</strong> or <strong>stateless</strong>.</li>
+          <li><strong>Probe Flag:</strong> Sends probe packets with only the <code style="color: var(--accent-cyan);">ACK</code> flag set.</li>
+        </ul>
+      </div>
+
+      <div class="cyber-card secure">
+        <div class="card-title">
+          <span class="cyber-badge badge-cyan">FIREWALL STATE</span> Stateful vs. Stateless
+        </div>
+        <ul class="secure-list" style="margin-bottom: 0;">
+          <li><strong>Stateless Firewalls:</strong> Pass unexpected ACK probes through $\rightarrow$ ports respond with <code style="color: var(--accent-red);">RST</code> and are labeled <span class="cyber-badge badge-cyan" style="font-size: 0.72rem;">unfiltered</span>.</li>
+          <li><strong>Stateful Firewalls:</strong> Track active connection tables; drop unexpected ACK probes without an active session $\rightarrow$ labeled <span class="cyber-badge badge-purple" style="font-size: 0.72rem;">filtered</span>.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Right Column: Response Table & Terminal -->
+    <div style="display: flex; flex-direction: column; justify-content: space-between; gap: 1rem;">
+      
+      <!-- Probe Response Table Card -->
+      <div class="cyber-card">
+        <div class="card-title">
+          <span class="cyber-badge badge-purple">STATE MAPPING</span> ACK Probe Response Table
+        </div>
+        
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.84em; margin-top: 0.6rem; color: var(--text-main);">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--htb-border); text-align: left;">
+              <th style="padding: 6px 8px; color: var(--text-white); font-family: var(--font-heading);">Probe Response</th>
+              <th style="padding: 6px 8px; color: var(--text-white); font-family: var(--font-heading); text-align: right;">Assigned State</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+              <td style="padding: 8px;">TCP <code style="color: var(--accent-red);">RST</code> packet returned</td>
+              <td style="padding: 8px; text-align: right;"><span class="cyber-badge badge-cyan" style="font-size: 0.72rem;">unfiltered</span></td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+              <td style="padding: 8px;">No response received (after retries)</td>
+              <td style="padding: 8px; text-align: right;"><span class="cyber-badge badge-purple" style="font-size: 0.72rem;">filtered</span></td>
+            </tr>
+            <tr>
+              <td style="padding: 8px;">ICMP Unreachable (Type 3, Code 1, 2, 3, 9, 10, 13)</td>
+              <td style="padding: 8px; text-align: right;"><span class="cyber-badge badge-purple" style="font-size: 0.72rem;">filtered</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Terminal Output Example -->
+      <div>
+        <div class="terminal-header" style="padding: 0.35rem 0.8rem;">
+          <span class="terminal-dot dot-red"></span>
+          <span class="terminal-dot dot-yellow"></span>
+          <span class="terminal-dot dot-green"></span>
+          <span class="terminal-title">sudo nmap -sA -v target.htb</span>
+        </div>
+        <pre style="margin: 0;"><code class="language-bash" style="padding: 0.75rem 1rem; font-size: 0.78em;">PORT   STATE      SERVICE
+22/tcp unfiltered ssh
+80/tcp filtered   http</code></pre>
+      </div>
+
+    </div>
+
+  </div>
+</section>

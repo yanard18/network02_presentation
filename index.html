@@ -703,6 +703,418 @@ nping --udp --traceroute -c 13 -p 54 target.htb</code></pre>
   </div>
 </section>
 
+      <!-- Loaded from slides/04h_stealth_tcp_scans.html -->
+<!-- SLIDE: TCP FIN, NULL, & Xmas Scans Overview -->
+<section>
+  <h2><i class="fa-solid fa-ghost highlight-htb"></i> Stealth TCP Scans: NULL, FIN & Xmas</h2>
+  <p class="slide-subtitle">
+    Advanced TCP firewall evasion techniques utilizing malformed packets based on RFC 793 compliance.
+  </p>
+
+  <div class="grid-2" style="align-items: stretch; gap: 1.4rem;">
+    
+    <!-- Left Column: Purpose & RFC 793 Logic -->
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      <div class="cyber-card">
+        <div class="card-title">
+          <span class="cyber-badge badge-htb">EVASION RATIONALE</span> Why Use Malformed Packets?
+        </div>
+        <ul style="margin-bottom: 0.6rem;">
+          <li><strong>Firewall Bypass:</strong> Non-stateful firewalls block incoming connections by dropping packets with <code style="color: var(--htb-green);">SYN</code> set and <code style="color: var(--accent-cyan);">ACK</code> cleared.</li>
+          <li><strong>Bypassing Rules:</u></strong> Sending packets without <code style="color: var(--htb-green);">SYN</code>, <code style="color: var(--accent-red);">RST</code>, or <code style="color: var(--accent-cyan);">ACK</code> flags bypasses simple SYN-filtering rules.</li>
+        </ul>
+      </div>
+
+      <div class="cyber-card secure">
+        <div class="card-title">
+          <span class="cyber-badge badge-cyan">RFC 793 RULE</span> OS TCP Stack Response Logic
+        </div>
+        <p style="font-size: 0.88em; color: var(--text-muted); margin-bottom: 0.5rem;">
+          RFC 793 dictates how compliant operating systems must handle unexpected TCP packets without SYN/RST/ACK:
+        </p>
+        <ul class="secure-list" style="margin-bottom: 0;">
+          <li><span class="cyber-badge badge-red" style="font-size: 0.72rem;">closed</span> <strong>Closed Port:</strong> Target system MUST reply with an <code style="color: var(--accent-red);">RST</code> packet.</li>
+          <li><span class="cyber-badge badge-htb" style="font-size: 0.72rem;">open</span> <strong>Open Port:</strong> Target sees an invalid packet and <strong>silently drops it</strong> without replying.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Right Column: Scan Types & Flags -->
+    <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+      
+      <!-- NULL Scan -->
+      <div class="cyber-card" style="padding: 0.9rem 1.1rem;">
+        <div class="card-title" style="font-size: 1.05em; margin-bottom: 0.4rem;">
+          <span class="cyber-badge badge-htb">FLAG: -sN</span> NULL Scan
+        </div>
+        <p style="margin: 0; font-size: 0.88em; color: var(--text-main);">
+          Does not set any bits at all. The TCP header flag field is completely <code style="color: var(--htb-green);">0</code>.
+        </p>
+      </div>
+
+      <!-- FIN Scan -->
+      <div class="cyber-card" style="padding: 0.9rem 1.1rem;">
+        <div class="card-title" style="font-size: 1.05em; margin-bottom: 0.4rem;">
+          <span class="cyber-badge badge-cyan">FLAG: -sF</span> FIN Scan
+        </div>
+        <p style="margin: 0; font-size: 0.88em; color: var(--text-main);">
+          Sets only the TCP <code style="color: var(--accent-cyan);">FIN</code> (Finish) bit used to close connections.
+        </p>
+      </div>
+
+      <!-- Xmas Scan -->
+      <div class="cyber-card" style="padding: 0.9rem 1.1rem;">
+        <div class="card-title" style="font-size: 1.05em; margin-bottom: 0.4rem;">
+          <span class="cyber-badge badge-purple">FLAG: -sX</span> Xmas Scan
+        </div>
+        <p style="margin: 0; font-size: 0.88em; color: var(--text-main);">
+          Sets <code style="color: var(--accent-purple);">FIN</code>, <code style="color: var(--accent-purple);">PSH</code>, and <code style="color: var(--accent-purple);">URG</code> flags simultaneously ("lighting the packet up like a Christmas tree").
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+      <!-- Loaded from slides/04i_stealth_tcp_responses.html -->
+<!-- SLIDE: Stealth TCP Responses & OS Limitations -->
+<section>
+  <h2><i class="fa-solid fa-table-list highlight-htb"></i> Stealth TCP Responses & Limitations</h2>
+  <p class="slide-subtitle">
+    Interpreting probe responses and understanding non-RFC compliant operating system behavior.
+  </p>
+
+  <div class="grid-2" style="align-items: stretch; gap: 1.4rem;">
+    
+    <!-- Left Column: Probe Response Mapping Table -->
+    <div class="cyber-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title">
+          <span class="cyber-badge badge-htb">STATE MAPPING</span> Stealth Response Table
+        </div>
+        
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.85em; margin-top: 0.8rem; color: var(--text-main);">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--htb-border); text-align: left;">
+              <th style="padding: 8px; color: var(--text-white); font-family: var(--font-heading);">Probe Response</th>
+              <th style="padding: 8px; color: var(--text-white); font-family: var(--font-heading); text-align: right;">Assigned State</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+              <td style="padding: 10px 8px;">No response received (even after retries)</td>
+              <td style="padding: 10px 8px; text-align: right;"><span class="cyber-badge badge-yellow" style="font-size: 0.72rem;">open | filtered</span></td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+              <td style="padding: 10px 8px;">TCP <code style="color: var(--accent-red);">RST</code> packet returned</td>
+              <td style="padding: 10px 8px; text-align: right;"><span class="cyber-badge badge-red" style="font-size: 0.72rem;">closed</span></td>
+            </tr>
+            <tr>
+              <td style="padding: 10px 8px;">ICMP Unreachable (Type 3, Code 1, 2, 3, 9, 10, 13)</td>
+              <td style="padding: 10px 8px; text-align: right;"><span class="cyber-badge badge-purple" style="font-size: 0.72rem;">filtered</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top: 1rem; font-size: 0.82em; color: var(--text-muted); padding: 0.5rem 0.8rem; background: rgba(7, 14, 27, 0.6); border-radius: 4px;">
+        <i class="fa-solid fa-circle-info highlight-cyan"></i> Open ports drop probes without replying, making them indistinguishable from firewall drops.
+      </div>
+    </div>
+
+    <!-- Right Column: OS Compliance Limitations & Terminal -->
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      
+      <!-- Threat Card for Windows OS Non-compliance -->
+      <div class="cyber-card threat">
+        <div class="card-title">
+          <span class="cyber-badge badge-red">LIMITATION</span> OS Non-Compliance (Windows/Cisco)
+        </div>
+        <ul class="threat-list" style="margin-bottom: 0;">
+          <li><strong>RFC 793 Requirement:</strong> Works primarily on Linux, BSD, and Unix systems adhering strictly to RFC 793.</li>
+          <li><strong>Windows / Cisco Behavior:</strong> MS Windows and Cisco devices respond with <code style="color: var(--accent-red);">RST</code> packets to malformed probes regardless of whether the port is open or closed, showing all ports as <span class="cyber-badge badge-red" style="font-size: 0.7rem;">closed</span>.</li>
+        </ul>
+      </div>
+
+      <!-- Terminal Output Example -->
+      <div>
+        <div class="terminal-header" style="padding: 0.35rem 0.8rem;">
+          <span class="terminal-dot dot-red"></span>
+          <span class="terminal-dot dot-yellow"></span>
+          <span class="terminal-dot dot-green"></span>
+          <span class="terminal-title">sudo nmap -sF -v target.htb</span>
+        </div>
+        <pre style="margin: 0;"><code class="language-bash" style="padding: 0.75rem 1rem; font-size: 0.78em;">PORT   STATE         SERVICE
+22/tcp open|filtered ssh
+80/tcp open|filtered http
+81/tcp closed        hosts2-ns</code></pre>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+      <!-- Loaded from slides/04j_tcp_ack_scan.html -->
+<!-- SLIDE: TCP ACK Scan (-sA) -->
+<section>
+  <h2><i class="fa-solid fa-shield-halved highlight-htb"></i> TCP ACK Scan (<code style="color: var(--htb-green);">-sA</code>)</h2>
+  <p class="slide-subtitle">
+    Mapping firewall rulesets, detecting stateful filtering, and identifying reachable ports.
+  </p>
+
+  <div class="grid-2" style="align-items: stretch; gap: 1.4rem;">
+    
+    <!-- Left Column: Purpose & Mechanics -->
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      <div class="cyber-card">
+        <div class="card-title">
+          <span class="cyber-badge badge-htb">FLAG: -sA</span> Firewall Ruleset Mapping
+        </div>
+        <ul style="margin-bottom: 0.6rem;">
+          <li><strong>Unique Objective:</strong> Unlike other scans, TCP ACK scan <strong>never determines open ports</strong> (or even <code style="color: var(--accent-yellow);">open|filtered</code>).</li>
+          <li><strong>Primary Purpose:</strong> Used exclusively to map out firewall rulesets and determine whether firewalls are <strong>stateful</strong> or <strong>stateless</strong>.</li>
+          <li><strong>Probe Flag:</strong> Sends probe packets with only the <code style="color: var(--accent-cyan);">ACK</code> flag set.</li>
+        </ul>
+      </div>
+
+      <div class="cyber-card secure">
+        <div class="card-title">
+          <span class="cyber-badge badge-cyan">FIREWALL STATE</span> Stateful vs. Stateless
+        </div>
+        <ul class="secure-list" style="margin-bottom: 0;">
+          <li><strong>Stateless Firewalls:</strong> Pass unexpected ACK probes through $\rightarrow$ ports respond with <code style="color: var(--accent-red);">RST</code> and are labeled <span class="cyber-badge badge-cyan" style="font-size: 0.72rem;">unfiltered</span>.</li>
+          <li><strong>Stateful Firewalls:</strong> Track active connection tables; drop unexpected ACK probes without an active session $\rightarrow$ labeled <span class="cyber-badge badge-purple" style="font-size: 0.72rem;">filtered</span>.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Right Column: Response Table & Terminal -->
+    <div style="display: flex; flex-direction: column; justify-content: space-between; gap: 1rem;">
+      
+      <!-- Probe Response Table Card -->
+      <div class="cyber-card">
+        <div class="card-title">
+          <span class="cyber-badge badge-purple">STATE MAPPING</span> ACK Probe Response Table
+        </div>
+        
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.84em; margin-top: 0.6rem; color: var(--text-main);">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--htb-border); text-align: left;">
+              <th style="padding: 6px 8px; color: var(--text-white); font-family: var(--font-heading);">Probe Response</th>
+              <th style="padding: 6px 8px; color: var(--text-white); font-family: var(--font-heading); text-align: right;">Assigned State</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+              <td style="padding: 8px;">TCP <code style="color: var(--accent-red);">RST</code> packet returned</td>
+              <td style="padding: 8px; text-align: right;"><span class="cyber-badge badge-cyan" style="font-size: 0.72rem;">unfiltered</span></td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+              <td style="padding: 8px;">No response received (after retries)</td>
+              <td style="padding: 8px; text-align: right;"><span class="cyber-badge badge-purple" style="font-size: 0.72rem;">filtered</span></td>
+            </tr>
+            <tr>
+              <td style="padding: 8px;">ICMP Unreachable (Type 3, Code 1, 2, 3, 9, 10, 13)</td>
+              <td style="padding: 8px; text-align: right;"><span class="cyber-badge badge-purple" style="font-size: 0.72rem;">filtered</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Terminal Output Example -->
+      <div>
+        <div class="terminal-header" style="padding: 0.35rem 0.8rem;">
+          <span class="terminal-dot dot-red"></span>
+          <span class="terminal-dot dot-yellow"></span>
+          <span class="terminal-dot dot-green"></span>
+          <span class="terminal-title">sudo nmap -sA -v target.htb</span>
+        </div>
+        <pre style="margin: 0;"><code class="language-bash" style="padding: 0.75rem 1rem; font-size: 0.78em;">PORT   STATE      SERVICE
+22/tcp unfiltered ssh
+80/tcp filtered   http</code></pre>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+      <!-- Loaded from slides/04k_tcp_idle_scan_overview.html -->
+<!-- SLIDE: TCP Idle Scan Overview (-sI) -->
+<section>
+  <h2><i class="fa-solid fa-user-secret highlight-htb"></i> TCP Idle Scan (<code style="color: var(--htb-green);">-sI</code>)</h2>
+  <p class="slide-subtitle">
+    "Blind" port scanning technique that bounces forged packets off an innocent zombie host.
+  </p>
+
+  <div class="grid-2" style="align-items: stretch; gap: 1.4rem;">
+    
+    <!-- Left Column: Concept & Packet Forging -->
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      
+      <!-- Blind Scanning Concept -->
+      <div class="cyber-card">
+        <div class="card-title">
+          <span class="cyber-badge badge-htb">BLIND SCANNING</span> Evasion & Spoofing
+        </div>
+        <ul style="margin-bottom: 0.6rem;">
+          <li><strong>Zero Direct Packets:</strong> Attacker scans target without sending a single packet from their own IP address directly to the target.</li>
+          <li><strong>Zombie Host Bouncing:</strong> Traffic is bounced off an idle "zombie" host. Target IDS logs will list the innocent zombie as the attacker.</li>
+        </ul>
+      </div>
+
+      <!-- Packet Forging Logic -->
+      <div class="cyber-card secure">
+        <div class="card-title">
+          <span class="cyber-badge badge-cyan">RAW PACKETS</span> Forging the SYN Probe
+        </div>
+        <ul class="secure-list" style="margin-bottom: 0;">
+          <li><strong>Craft TCP Payload:</strong> Sets <code style="color: var(--htb-green);">SYN = 1</code> requesting target port connection.</li>
+          <li><strong>IP Header Spoofing:</strong> Sets <strong>Destination IP</strong> = Target IP, and <strong>Source IP</strong> = Zombie IP!</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Right Column: IP ID Field Diagram & Command -->
+    <div style="display: flex; flex-direction: column; justify-content: space-between; gap: 1rem;">
+      
+      <!-- IP ID Field Diagram Box -->
+      <div style="background: #ffffff; padding: 10px; border-radius: 8px; border: 1px solid var(--htb-border); box-shadow: 0 0 20px var(--htb-green-glow); text-align: center;">
+        <img src="media/idle_scan_ip_id_field.png" alt="IP Header ID Field" style="max-height: 170px; width: 100%; display: block; object-fit: contain;">
+        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #333333; font-weight: 600; margin-top: 6px;">
+          <i class="fa-solid fa-barcode" style="color: #2e7d32;"></i> 16-Bit IP Packet Identification Field (Increments Sequentially)
+        </div>
+      </div>
+
+      <!-- Terminal Output Example -->
+      <div>
+        <div class="terminal-header" style="padding: 0.35rem 0.8rem;">
+          <span class="terminal-dot dot-red"></span>
+          <span class="terminal-dot dot-yellow"></span>
+          <span class="terminal-dot dot-green"></span>
+          <span class="terminal-title">sudo nmap -Pn -sI &lt;zombie_ip&gt; &lt;target_ip&gt;</span>
+        </div>
+        <pre style="margin: 0;"><code class="language-bash" style="padding: 0.75rem 1rem; font-size: 0.78em;">Idle scan using zombie zombie.htb (10.10.10.50)
+PORT   STATE SERVICE
+22/tcp open  ssh</code></pre>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+      <!-- Loaded from slides/04l_tcp_idle_scan_open.html -->
+<!-- SLIDE: TCP Idle Scan Open Port Mechanics -->
+<section>
+  <h2><i class="fa-solid fa-door-open highlight-htb"></i> Idle Scan: Open Port Execution</h2>
+  <p class="slide-subtitle">
+    Step-by-step packet flow and IP ID increment analysis (+2) when scanning an open target port.
+  </p>
+
+  <div class="grid-2" style="align-items: center; gap: 1.4rem;">
+    
+    <!-- Left Column: Step-by-Step Breakdown -->
+    <div class="cyber-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title">
+          <span class="cyber-badge badge-htb">STEP-BY-STEP</span> Open Port IP ID Flow
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.8rem; font-size: 0.86em;">
+          
+          <!-- Step 1 -->
+          <div style="border-left: 3px solid var(--htb-green); padding-left: 0.8rem;">
+            <strong style="color: var(--htb-green);">Step 1: Probe Zombie's Initial IP ID</strong>
+            <div style="color: var(--text-muted);">Attacker sends <code style="color: var(--htb-green);">SYN-ACK</code> to zombie. Zombie responds with <code style="color: var(--accent-red);">RST</code>, disclosing <code style="color: var(--htb-green);">IP ID = 31337</code>.</div>
+          </div>
+
+          <!-- Step 2 -->
+          <div style="border-left: 3px solid var(--accent-cyan); padding-left: 0.8rem;">
+            <strong style="color: var(--accent-cyan);">Step 2: Forge SYN to Target</strong>
+            <div style="color: var(--text-muted);">Target port is OPEN; sends <code style="color: var(--htb-green);">SYN-ACK</code> to zombie. Zombie sends <code style="color: var(--accent-red);">RST</code> to target, incrementing its IP ID to <code style="color: var(--accent-cyan);">31338</code>.</div>
+          </div>
+
+          <!-- Step 3 -->
+          <div style="border-left: 3px solid var(--accent-purple); padding-left: 0.8rem;">
+            <strong style="color: var(--accent-purple);">Step 3: Re-probe Zombie's IP ID</strong>
+            <div style="color: var(--text-muted);">Attacker probes zombie again. Zombie returns <code style="color: var(--accent-red);">RST</code> with <code style="color: var(--accent-purple);">IP ID = 31339</code>.</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Verdict Badge Box -->
+      <div style="margin-top: 1rem; padding: 0.65rem 0.9rem; background: rgba(159, 239, 0, 0.12); border: 1px solid var(--htb-green); border-radius: 6px; font-size: 0.86em; color: var(--text-white);">
+        <i class="fa-solid fa-check-circle highlight-htb"></i> <strong>Verdict:</strong> Total IP ID incremented by <strong>+2</strong> $\rightarrow$ Target Port is <span class="cyber-badge badge-htb" style="font-size: 0.72rem;">open</span>!
+      </div>
+    </div>
+
+    <!-- Right Column: Open Port Diagram -->
+    <div style="background: #ffffff; padding: 12px; border-radius: 8px; border: 1px solid var(--htb-border); box-shadow: 0 0 20px var(--htb-green-glow); text-align: center;">
+      <img src="media/idle_scan_open_port.png" alt="Idle Scan Open Port Diagram" style="max-height: 380px; width: 100%; display: block; object-fit: contain;">
+      <div style="font-family: var(--font-mono); font-size: 0.73rem; color: #333333; font-weight: 600; margin-top: 6px;">
+        <i class="fa-solid fa-diagram-project" style="color: #2e7d32;"></i> Figure: Open Port Sequence (Attacker &rarr; Zombie &rarr; Target)
+      </div>
+    </div>
+
+  </div>
+</section>
+
+      <!-- Loaded from slides/04m_tcp_idle_scan_closed_filtered.html -->
+<!-- SLIDE: TCP Idle Scan Closed & Filtered Ports -->
+<section>
+  <h2><i class="fa-solid fa-ban highlight-htb"></i> Idle Scan: Closed & Filtered Ports</h2>
+  <p class="slide-subtitle">
+    Comparing packet traces and IP ID increment behaviors (+1) for closed and filtered target ports.
+  </p>
+
+  <div class="grid-2" style="align-items: stretch; gap: 1.4rem;">
+    
+    <!-- Closed Port Column -->
+    <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+      <div class="cyber-card threat" style="padding: 0.9rem 1.1rem;">
+        <div class="card-title" style="font-size: 1.05em; margin-bottom: 0.4rem;">
+          <span class="cyber-badge badge-red">INCREMENT +1</span> Closed Port Sequence
+        </div>
+        <p style="margin: 0; font-size: 0.84em; color: var(--text-main); line-height: 1.45;">
+          Target sends an unsolicited <code style="color: var(--accent-red);">RST</code> to zombie. Zombie ignores it and sends no packet. Zombie IP ID increments by only <strong>+1</strong> during final probe.
+        </p>
+      </div>
+
+      <div style="background: #ffffff; padding: 8px; border-radius: 8px; border: 1px solid var(--htb-border-red); box-shadow: 0 0 15px rgba(255, 46, 99, 0.2); text-align: center;">
+        <img src="media/idle_scan_closed.png" alt="Idle Scan Closed Port Diagram" style="max-height: 200px; width: 100%; display: block; object-fit: contain;">
+        <div style="font-family: var(--font-mono); font-size: 0.7rem; color: #333333; font-weight: 600; margin-top: 4px;">
+          <i class="fa-solid fa-xmark-circle" style="color: #c62828;"></i> Closed Port Trace (Target sends RST &rarr; Zombie ignores)
+        </div>
+      </div>
+    </div>
+
+    <!-- Filtered Port Column -->
+    <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+      <div class="cyber-card" style="padding: 0.9rem 1.1rem;">
+        <div class="card-title" style="font-size: 1.05em; margin-bottom: 0.4rem;">
+          <span class="cyber-badge badge-purple">INCREMENT +1</span> Filtered Port Sequence
+        </div>
+        <p style="margin: 0; font-size: 0.84em; color: var(--text-main); line-height: 1.45;">
+          Target firewall drops packet. Zombie receives nothing and sends no packet. Zombie IP ID increments by <strong>+1</strong> during final probe (indistinguishable from closed).
+        </p>
+      </div>
+
+      <div style="background: #ffffff; padding: 8px; border-radius: 8px; border: 1px solid var(--htb-border); box-shadow: 0 0 15px rgba(157, 78, 221, 0.25); text-align: center;">
+        <img src="media/idle_scan_filtered.png" alt="Idle Scan Filtered Port Diagram" style="max-height: 200px; width: 100%; display: block; object-fit: contain;">
+        <div style="font-family: var(--font-mono); font-size: 0.7rem; color: #333333; font-weight: 600; margin-top: 4px;">
+          <i class="fa-solid fa-filter" style="color: #6a1b9a;"></i> Filtered Port Trace (Firewall drops &rarr; Zombie unaware)
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
       <!-- Loaded from slides/05_discovery_flags.html -->
 <!-- SLIDE: Host Discovery Flags -->
 <section>

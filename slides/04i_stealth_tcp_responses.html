@@ -1,0 +1,77 @@
+<!-- SLIDE: Stealth TCP Responses & OS Limitations -->
+<section>
+  <h2><i class="fa-solid fa-table-list highlight-htb"></i> Stealth TCP Responses & Limitations</h2>
+  <p class="slide-subtitle">
+    Interpreting probe responses and understanding non-RFC compliant operating system behavior.
+  </p>
+
+  <div class="grid-2" style="align-items: stretch; gap: 1.4rem;">
+    
+    <!-- Left Column: Probe Response Mapping Table -->
+    <div class="cyber-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title">
+          <span class="cyber-badge badge-htb">STATE MAPPING</span> Stealth Response Table
+        </div>
+        
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.85em; margin-top: 0.8rem; color: var(--text-main);">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--htb-border); text-align: left;">
+              <th style="padding: 8px; color: var(--text-white); font-family: var(--font-heading);">Probe Response</th>
+              <th style="padding: 8px; color: var(--text-white); font-family: var(--font-heading); text-align: right;">Assigned State</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+              <td style="padding: 10px 8px;">No response received (even after retries)</td>
+              <td style="padding: 10px 8px; text-align: right;"><span class="cyber-badge badge-yellow" style="font-size: 0.72rem;">open | filtered</span></td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+              <td style="padding: 10px 8px;">TCP <code style="color: var(--accent-red);">RST</code> packet returned</td>
+              <td style="padding: 10px 8px; text-align: right;"><span class="cyber-badge badge-red" style="font-size: 0.72rem;">closed</span></td>
+            </tr>
+            <tr>
+              <td style="padding: 10px 8px;">ICMP Unreachable (Type 3, Code 1, 2, 3, 9, 10, 13)</td>
+              <td style="padding: 10px 8px; text-align: right;"><span class="cyber-badge badge-purple" style="font-size: 0.72rem;">filtered</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top: 1rem; font-size: 0.82em; color: var(--text-muted); padding: 0.5rem 0.8rem; background: rgba(7, 14, 27, 0.6); border-radius: 4px;">
+        <i class="fa-solid fa-circle-info highlight-cyan"></i> Open ports drop probes without replying, making them indistinguishable from firewall drops.
+      </div>
+    </div>
+
+    <!-- Right Column: OS Compliance Limitations & Terminal -->
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      
+      <!-- Threat Card for Windows OS Non-compliance -->
+      <div class="cyber-card threat">
+        <div class="card-title">
+          <span class="cyber-badge badge-red">LIMITATION</span> OS Non-Compliance (Windows/Cisco)
+        </div>
+        <ul class="threat-list" style="margin-bottom: 0;">
+          <li><strong>RFC 793 Requirement:</strong> Works primarily on Linux, BSD, and Unix systems adhering strictly to RFC 793.</li>
+          <li><strong>Windows / Cisco Behavior:</strong> MS Windows and Cisco devices respond with <code style="color: var(--accent-red);">RST</code> packets to malformed probes regardless of whether the port is open or closed, showing all ports as <span class="cyber-badge badge-red" style="font-size: 0.7rem;">closed</span>.</li>
+        </ul>
+      </div>
+
+      <!-- Terminal Output Example -->
+      <div>
+        <div class="terminal-header" style="padding: 0.35rem 0.8rem;">
+          <span class="terminal-dot dot-red"></span>
+          <span class="terminal-dot dot-yellow"></span>
+          <span class="terminal-dot dot-green"></span>
+          <span class="terminal-title">sudo nmap -sF -v target.htb</span>
+        </div>
+        <pre style="margin: 0;"><code class="language-bash" style="padding: 0.75rem 1rem; font-size: 0.78em;">PORT   STATE         SERVICE
+22/tcp open|filtered ssh
+80/tcp open|filtered http
+81/tcp closed        hosts2-ns</code></pre>
+      </div>
+
+    </div>
+
+  </div>
+</section>

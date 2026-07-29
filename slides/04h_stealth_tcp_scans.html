@@ -1,0 +1,72 @@
+<!-- SLIDE: TCP FIN, NULL, & Xmas Scans Overview -->
+<section>
+  <h2><i class="fa-solid fa-ghost highlight-htb"></i> Stealth TCP Scans: NULL, FIN & Xmas</h2>
+  <p class="slide-subtitle">
+    Advanced TCP firewall evasion techniques utilizing malformed packets based on RFC 793 compliance.
+  </p>
+
+  <div class="grid-2" style="align-items: stretch; gap: 1.4rem;">
+    
+    <!-- Left Column: Purpose & RFC 793 Logic -->
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      <div class="cyber-card">
+        <div class="card-title">
+          <span class="cyber-badge badge-htb">EVASION RATIONALE</span> Why Use Malformed Packets?
+        </div>
+        <ul style="margin-bottom: 0.6rem;">
+          <li><strong>Firewall Bypass:</strong> Non-stateful firewalls block incoming connections by dropping packets with <code style="color: var(--htb-green);">SYN</code> set and <code style="color: var(--accent-cyan);">ACK</code> cleared.</li>
+          <li><strong>Bypassing Rules:</u></strong> Sending packets without <code style="color: var(--htb-green);">SYN</code>, <code style="color: var(--accent-red);">RST</code>, or <code style="color: var(--accent-cyan);">ACK</code> flags bypasses simple SYN-filtering rules.</li>
+        </ul>
+      </div>
+
+      <div class="cyber-card secure">
+        <div class="card-title">
+          <span class="cyber-badge badge-cyan">RFC 793 RULE</span> OS TCP Stack Response Logic
+        </div>
+        <p style="font-size: 0.88em; color: var(--text-muted); margin-bottom: 0.5rem;">
+          RFC 793 dictates how compliant operating systems must handle unexpected TCP packets without SYN/RST/ACK:
+        </p>
+        <ul class="secure-list" style="margin-bottom: 0;">
+          <li><span class="cyber-badge badge-red" style="font-size: 0.72rem;">closed</span> <strong>Closed Port:</strong> Target system MUST reply with an <code style="color: var(--accent-red);">RST</code> packet.</li>
+          <li><span class="cyber-badge badge-htb" style="font-size: 0.72rem;">open</span> <strong>Open Port:</strong> Target sees an invalid packet and <strong>silently drops it</strong> without replying.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Right Column: Scan Types & Flags -->
+    <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+      
+      <!-- NULL Scan -->
+      <div class="cyber-card" style="padding: 0.9rem 1.1rem;">
+        <div class="card-title" style="font-size: 1.05em; margin-bottom: 0.4rem;">
+          <span class="cyber-badge badge-htb">FLAG: -sN</span> NULL Scan
+        </div>
+        <p style="margin: 0; font-size: 0.88em; color: var(--text-main);">
+          Does not set any bits at all. The TCP header flag field is completely <code style="color: var(--htb-green);">0</code>.
+        </p>
+      </div>
+
+      <!-- FIN Scan -->
+      <div class="cyber-card" style="padding: 0.9rem 1.1rem;">
+        <div class="card-title" style="font-size: 1.05em; margin-bottom: 0.4rem;">
+          <span class="cyber-badge badge-cyan">FLAG: -sF</span> FIN Scan
+        </div>
+        <p style="margin: 0; font-size: 0.88em; color: var(--text-main);">
+          Sets only the TCP <code style="color: var(--accent-cyan);">FIN</code> (Finish) bit used to close connections.
+        </p>
+      </div>
+
+      <!-- Xmas Scan -->
+      <div class="cyber-card" style="padding: 0.9rem 1.1rem;">
+        <div class="card-title" style="font-size: 1.05em; margin-bottom: 0.4rem;">
+          <span class="cyber-badge badge-purple">FLAG: -sX</span> Xmas Scan
+        </div>
+        <p style="margin: 0; font-size: 0.88em; color: var(--text-main);">
+          Sets <code style="color: var(--accent-purple);">FIN</code>, <code style="color: var(--accent-purple);">PSH</code>, and <code style="color: var(--accent-purple);">URG</code> flags simultaneously ("lighting the packet up like a Christmas tree").
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</section>

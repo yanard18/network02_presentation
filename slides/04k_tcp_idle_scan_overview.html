@@ -1,0 +1,64 @@
+<!-- SLIDE: TCP Idle Scan Overview (-sI) -->
+<section>
+  <h2><i class="fa-solid fa-user-secret highlight-htb"></i> TCP Idle Scan (<code style="color: var(--htb-green);">-sI</code>)</h2>
+  <p class="slide-subtitle">
+    "Blind" port scanning technique that bounces forged packets off an innocent zombie host.
+  </p>
+
+  <div class="grid-2" style="align-items: stretch; gap: 1.4rem;">
+    
+    <!-- Left Column: Concept & Packet Forging -->
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      
+      <!-- Blind Scanning Concept -->
+      <div class="cyber-card">
+        <div class="card-title">
+          <span class="cyber-badge badge-htb">BLIND SCANNING</span> Evasion & Spoofing
+        </div>
+        <ul style="margin-bottom: 0.6rem;">
+          <li><strong>Zero Direct Packets:</strong> Attacker scans target without sending a single packet from their own IP address directly to the target.</li>
+          <li><strong>Zombie Host Bouncing:</strong> Traffic is bounced off an idle "zombie" host. Target IDS logs will list the innocent zombie as the attacker.</li>
+        </ul>
+      </div>
+
+      <!-- Packet Forging Logic -->
+      <div class="cyber-card secure">
+        <div class="card-title">
+          <span class="cyber-badge badge-cyan">RAW PACKETS</span> Forging the SYN Probe
+        </div>
+        <ul class="secure-list" style="margin-bottom: 0;">
+          <li><strong>Craft TCP Payload:</strong> Sets <code style="color: var(--htb-green);">SYN = 1</code> requesting target port connection.</li>
+          <li><strong>IP Header Spoofing:</strong> Sets <strong>Destination IP</strong> = Target IP, and <strong>Source IP</strong> = Zombie IP!</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Right Column: IP ID Field Diagram & Command -->
+    <div style="display: flex; flex-direction: column; justify-content: space-between; gap: 1rem;">
+      
+      <!-- IP ID Field Diagram Box -->
+      <div style="background: #ffffff; padding: 10px; border-radius: 8px; border: 1px solid var(--htb-border); box-shadow: 0 0 20px var(--htb-green-glow); text-align: center;">
+        <img src="media/idle_scan_ip_id_field.png" alt="IP Header ID Field" style="max-height: 170px; width: 100%; display: block; object-fit: contain;">
+        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #333333; font-weight: 600; margin-top: 6px;">
+          <i class="fa-solid fa-barcode" style="color: #2e7d32;"></i> 16-Bit IP Packet Identification Field (Increments Sequentially)
+        </div>
+      </div>
+
+      <!-- Terminal Output Example -->
+      <div>
+        <div class="terminal-header" style="padding: 0.35rem 0.8rem;">
+          <span class="terminal-dot dot-red"></span>
+          <span class="terminal-dot dot-yellow"></span>
+          <span class="terminal-dot dot-green"></span>
+          <span class="terminal-title">sudo nmap -Pn -sI &lt;zombie_ip&gt; &lt;target_ip&gt;</span>
+        </div>
+        <pre style="margin: 0;"><code class="language-bash" style="padding: 0.75rem 1rem; font-size: 0.78em;">Idle scan using zombie zombie.htb (10.10.10.50)
+PORT   STATE SERVICE
+22/tcp open  ssh</code></pre>
+      </div>
+
+    </div>
+
+  </div>
+</section>
