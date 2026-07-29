@@ -1,0 +1,67 @@
+<!-- SLIDE: UDP Scan Speed & Optimization Tactics -->
+<section>
+  <h2><i class="fa-solid fa-gauge-high highlight-htb"></i> UDP Scan Optimization Tactics</h2>
+  <p class="slide-subtitle">
+    Overcoming UDP timeouts and ICMP rate limiting bottlenecks with targeted optimization flags.
+  </p>
+
+  <div class="grid-2" style="gap: 1.2rem;">
+    
+    <!-- Flag 1: Parallel Host Scans -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">PARALLELISM</span> <code style="color: var(--htb-green); font-size: 0.95em;">--min-hostgroup 100</code>
+      </div>
+      <p style="color: var(--text-muted); font-size: 0.88em; margin-bottom: 0.5rem;">
+        Increases parallel host group scanning sizes.
+      </p>
+      <ul style="margin-bottom: 0; font-size: 0.88em;">
+        <li>Scans 100 targets simultaneously rather than waiting sequentially.</li>
+        <li>Bypasses single-host ICMP rate limiting bottlenecks by distributing probes.</li>
+      </ul>
+    </div>
+
+    <!-- Flag 2: Probe Intensity -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-cyan">FAST PROBES</span> <code style="color: var(--accent-cyan); font-size: 0.95em;">--version-intensity 0</code>
+      </div>
+      <p style="color: var(--text-muted); font-size: 0.88em; margin-bottom: 0.5rem;">
+        Restricts service probes during version scans (<code style="color: var(--htb-green);">-sV</code>).
+      </p>
+      <ul style="margin-bottom: 0; font-size: 0.88em;">
+        <li>Only fires the most likely, high-probability service probes (intensity scale 0 to 9).</li>
+        <li>Dramatically reduces scan duration while maintaining key service identification.</li>
+      </ul>
+    </div>
+
+    <!-- Flag 3: Host Timeout -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-purple">TIMEOUT CONTROL</span> <code style="color: var(--accent-purple); font-size: 0.95em;">--host-timeout &lt;time&gt;</code>
+      </div>
+      <p style="color: var(--text-muted); font-size: 0.88em; margin-bottom: 0.5rem;">
+        Prevents single slow hosts from stalling entire scans.
+      </p>
+      <ul style="margin-bottom: 0; font-size: 0.88em;">
+        <li>Gives up on unresponsive targets after a set threshold (e.g., <code style="color: var(--accent-purple);">--host-timeout 30m</code>).</li>
+        <li>Frees up scanner bandwidth for remaining network targets.</li>
+      </ul>
+    </div>
+
+    <!-- Flag 4: Scan Verbosity & Progress -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-yellow">REAL-TIME ETA</span> <code style="color: var(--accent-yellow); font-size: 0.95em;">-v</code> / <code style="color: var(--accent-yellow); font-size: 0.95em;">-v2</code>
+      </div>
+      <p style="color: var(--text-muted); font-size: 0.88em; margin-bottom: 0.5rem;">
+        Enables verbosity and scan progress tracking.
+      </p>
+      <ul style="margin-bottom: 0; font-size: 0.88em;">
+        <li>Prints real-time host status updates and completion ETAs.</li>
+        <li>Allows pressing <code style="color: var(--accent-yellow);">&lt;Space&gt;</code> during scans to inspect live completion percentage.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>

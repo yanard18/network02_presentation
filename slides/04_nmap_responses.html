@@ -1,0 +1,51 @@
+<!-- SLIDE: Nmap Port States & Responses -->
+<section>
+  <h2><i class="fa-solid fa-network-wired highlight-htb"></i> Nmap Port States & Responses</h2>
+  <p class="slide-subtitle">
+    How Nmap interprets probe responses and firewall filtering behavior:
+  </p>
+
+  <div style="display: flex; flex-direction: column; gap: 0.9rem; text-align: left; max-width: 1050px; margin: 0 auto;">
+    
+    <!-- OPEN -->
+    <div style="display: grid; grid-template-columns: 180px 1fr; gap: 1.2rem; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.65rem;">
+      <div><span class="cyber-badge badge-htb" style="font-size: 0.9rem; width: 150px; text-align: center;">open</span></div>
+      <div style="font-size: 0.95em; color: var(--text-main); line-height: 1.45;">
+        An application is actively listening and accepting connections on this port.
+      </div>
+    </div>
+
+    <!-- CLOSED -->
+    <div style="display: grid; grid-template-columns: 180px 1fr; gap: 1.2rem; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.65rem;">
+      <div><span class="cyber-badge badge-red" style="font-size: 0.9rem; width: 150px; text-align: center;">closed</span></div>
+      <div style="font-size: 0.95em; color: var(--text-main); line-height: 1.45;">
+        Reachable (no firewall), but no application is running on this port. Nmap receives an <code style="color: var(--accent-red);">RST</code> flag response.
+      </div>
+    </div>
+
+    <!-- FILTERED -->
+    <div style="display: grid; grid-template-columns: 180px 1fr; gap: 1.2rem; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.65rem;">
+      <div><span class="cyber-badge badge-purple" style="font-size: 0.9rem; width: 150px; text-align: center;">filtered</span></div>
+      <div style="font-size: 0.95em; color: var(--text-main); line-height: 1.45;">
+        No response returned; Nmap cannot determine port state. Likely packets are dropped by a firewall or returned an ICMP error.
+      </div>
+    </div>
+
+    <!-- OPEN | FILTERED -->
+    <div style="display: grid; grid-template-columns: 180px 1fr; gap: 1.2rem; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.65rem;">
+      <div><span class="cyber-badge badge-yellow" style="font-size: 0.9rem; width: 150px; text-align: center;">open | filtered</span></div>
+      <div style="font-size: 0.95em; color: var(--text-main); line-height: 1.45;">
+        Common during UDP scans (<code style="color: var(--htb-green);">-sU</code>) or stealth scans (FIN/NULL). Open ports ignore packets without replying, making them indistinguishable from firewall filtering.
+      </div>
+    </div>
+
+    <!-- CLOSED | FILTERED -->
+    <div style="display: grid; grid-template-columns: 180px 1fr; gap: 1.2rem; align-items: center; padding-bottom: 0.2rem;">
+      <div><span class="cyber-badge badge-cyan" style="font-size: 0.85rem; width: 150px; text-align: center;">closed | filtered</span></div>
+      <div style="font-size: 0.95em; color: var(--text-main); line-height: 1.45;">
+        <em>(Extremely rare)</em> Occurs during stealth "Idle scans" (<code style="color: var(--accent-cyan);">-sI</code>). Traffic was bounced off a Zombie machine, but mathematical results were inconclusive.
+      </div>
+    </div>
+
+  </div>
+</section>

@@ -1,0 +1,60 @@
+<!-- SLIDE: TCP Connect Scan (-sT) -->
+<section>
+  <h2><i class="fa-solid fa-link highlight-htb"></i> TCP Connect Scan (<code style="color: var(--htb-green);">-sT</code>)</h2>
+  <p class="slide-subtitle">
+    The standard full-connection scan used when raw socket privileges are unavailable.
+  </p>
+
+  <div class="grid-2" style="align-items: center; gap: 1.5rem;">
+    
+    <!-- Left Column: Core Characteristics -->
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      <div class="cyber-card">
+        <div class="card-title">
+          <span class="cyber-badge badge-htb">FULL HANDSHAKE</span> Key Characteristics
+        </div>
+        <ul style="margin-bottom: 0.6rem;">
+          <li><strong>Full Handshake:</strong> Completes the complete TCP 3-way handshake (<code style="color: var(--htb-green);">SYN</code> &rarr; <code style="color: var(--htb-green);">SYN-ACK</code> &rarr; <code style="color: var(--htb-green);">ACK</code>).</li>
+          <li><strong>Unprivileged Execution:</strong> Used automatically when raw packets are unavailable (running Nmap without <code style="color: var(--htb-green);">sudo</code>) or scanning IPv6 networks.</li>
+          <li><strong>Berkeley Sockets API:</strong> Issues standard OS system calls (<code style="color: var(--accent-cyan);">connect()</code>), identical to web browsers.</li>
+        </ul>
+      </div>
+
+      <div class="cyber-card threat">
+        <div class="card-title">
+          <span class="cyber-badge badge-red">LOGGING & IDS</span> Stealth Trade-off
+        </div>
+        <ul class="threat-list" style="margin-bottom: 0;">
+          <li><strong>Application Logging:</strong> Because a full TCP session is established, target applications are highly likely to log the connection event.</li>
+          <li><strong>IDS / IPS Detection:</strong> Intrusion Detection Systems easily detect both SYN and Connect scans due to high-rate connection attempts.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Right Column: Diagram Showcase & Command -->
+    <div style="display: flex; flex-direction: column; gap: 1rem; text-align: center;">
+      
+      <!-- Diagram Frame -->
+      <div style="background: #ffffff; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--htb-border); box-shadow: 0 0 20px var(--htb-green-glow);">
+        <img src="media/nmap_tcp_connect_scan.png" alt="TCP Connect Scan Diagram" style="max-height: 220px; width: 100%; display: block; object-fit: contain;">
+        <div style="font-family: var(--font-mono); font-size: 0.73rem; color: #333333; font-weight: 600; margin-top: 6px;">
+          <i class="fa-solid fa-network-wired" style="color: #2e7d32;"></i> Full Handshake Exchange & Session Teardown
+        </div>
+      </div>
+
+      <!-- Terminal Output Example -->
+      <div>
+        <div class="terminal-header" style="padding: 0.35rem 0.8rem;">
+          <span class="terminal-dot dot-red"></span>
+          <span class="terminal-dot dot-yellow"></span>
+          <span class="terminal-dot dot-green"></span>
+          <span class="terminal-title">nmap -sT target.htb (Unprivileged user)</span>
+        </div>
+        <pre style="margin: 0;"><code class="language-bash" style="padding: 0.75rem 1rem; font-size: 0.8em;">PORT   STATE SERVICE
+22/tcp open  ssh</code></pre>
+      </div>
+
+    </div>
+
+  </div>
+</section>

@@ -1,0 +1,59 @@
+<!-- SLIDE: TCP-SYN Scan Filtered Ports & Retransmission -->
+<section>
+  <h2><i class="fa-solid fa-filter-circle-xmark highlight-htb"></i> TCP-SYN Scan: Filtered Ports & Retransmission</h2>
+  <p class="slide-subtitle">
+    Understanding how TCP-SYN scans handle packet loss, firewall drop rules, and probe retransmissions.
+  </p>
+
+  <div class="grid-2" style="align-items: center; gap: 1.5rem;">
+    
+    <!-- Left Column: Filtered Mechanics & Retransmission -->
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      <div class="cyber-card threat">
+        <div class="card-title">
+          <span class="cyber-badge badge-purple">FILTERED STATE</span> Firewall & Packet Drop Behavior
+        </div>
+        <ul class="threat-list" style="margin-bottom: 0.6rem;">
+          <li><strong>No Response Packet:</strong> If Nmap receives no packet back (or ICMP error), the port state is determined as <span class="cyber-badge badge-purple" style="font-size: 0.75rem;">filtered</span>.</li>
+          <li><strong>Firewall Filtering:</strong> Depending on rules, firewalls or routers may silently drop/ignore incoming <code style="color: var(--htb-green);">SYN</code> packets.</li>
+        </ul>
+      </div>
+
+      <div class="cyber-card">
+        <div class="card-title">
+          <span class="cyber-badge badge-cyan">RETRANSMISSION</span> Network Retries
+        </div>
+        <ul>
+          <li><strong>Slow Networks & Retries:</strong> When target or network is slow/filtered, TCP sends multiple <code style="color: var(--htb-green);">SYN</code> packets before giving up.</li>
+          <li><strong>Probe Retry:</strong> Example SYN scan on filtered NetBIOS port <code style="color: var(--htb-green);">139</code> re-sends probes: <em>"Try again. Anybody home?"</em></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Right Column: Diagram & Nmap CLI Example -->
+    <div style="display: flex; flex-direction: column; gap: 1rem; text-align: center;">
+      
+      <!-- Filtered Diagram Box -->
+      <div style="background: #ffffff; padding: 12px 14px; border-radius: 8px; border: 1px solid var(--htb-border); box-shadow: 0 0 20px rgba(157, 78, 221, 0.3);">
+        <img src="media/Ereet_Packet_Trace_Syn_Filtered.png" alt="TCP SYN Scan Filtered Port" style="max-height: 210px; width: 100%; display: block; object-fit: contain;">
+        <div style="font-family: var(--font-mono); font-size: 0.75rem; color: #333333; font-weight: 600; margin-top: 6px;">
+          <i class="fa-solid fa-rotate-right" style="color: #6a1b9a;"></i> Filtered Port Packet Trace (Multiple SYN Probes & Retransmissions)
+        </div>
+      </div>
+
+      <!-- Terminal Output Example -->
+      <div>
+        <div class="terminal-header" style="padding: 0.35rem 0.8rem;">
+          <span class="terminal-dot dot-red"></span>
+          <span class="terminal-dot dot-yellow"></span>
+          <span class="terminal-dot dot-green"></span>
+          <span class="terminal-title">sudo nmap -sS -p 139 target.htb</span>
+        </div>
+        <pre style="margin: 0;"><code class="language-bash" style="padding: 0.75rem 1rem; font-size: 0.8em;">PORT    STATE    SERVICE
+139/tcp filtered netbios-ssn</code></pre>
+      </div>
+
+    </div>
+
+  </div>
+</section>

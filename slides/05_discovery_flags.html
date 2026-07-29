@@ -1,0 +1,51 @@
+<!-- SLIDE: Host Discovery Flags -->
+<section>
+  <h2><i class="fa-solid fa-binoculars highlight-htb"></i> Host Discovery & Ping Flags</h2>
+  <p class="slide-subtitle">
+    Controlling how Nmap discovers active hosts, handles ARP, and manages DNS resolution:
+  </p>
+
+  <div style="display: flex; flex-direction: column; gap: 0.85rem; text-align: left; max-width: 1050px; margin: 0 auto;">
+    
+    <!-- -Pn -->
+    <div style="display: grid; grid-template-columns: 220px 1fr; gap: 1.2rem; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.6rem;">
+      <div><code style="color: var(--htb-green); font-size: 1rem; font-weight: 700;">-Pn</code></div>
+      <div style="font-size: 0.95em; color: var(--text-main);">
+        Disables host discovery and assumes the host is alive.
+      </div>
+    </div>
+
+    <!-- -sn -->
+    <div style="display: grid; grid-template-columns: 220px 1fr; gap: 1.2rem; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.6rem;">
+      <div><code style="color: var(--htb-green); font-size: 1rem; font-weight: 700;">-sn</code></div>
+      <div style="font-size: 0.95em; color: var(--text-main);">
+        Skips port scan; only checks if target host is alive or not (ping sweep).
+      </div>
+    </div>
+
+    <!-- -PR -->
+    <div style="display: grid; grid-template-columns: 220px 1fr; gap: 1.2rem; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.6rem;">
+      <div><code style="color: var(--htb-green); font-size: 1rem; font-weight: 700;">-PR</code></div>
+      <div style="font-size: 0.95em; color: var(--text-main);">
+        Performs ARP ping discovery for local subnet scanning.
+      </div>
+    </div>
+
+    <!-- -n -->
+    <div style="display: grid; grid-template-columns: 220px 1fr; gap: 1.2rem; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.6rem;">
+      <div><code style="color: var(--htb-green); font-size: 1rem; font-weight: 700;">-n</code></div>
+      <div style="font-size: 0.95em; color: var(--text-main);">
+        Disables reverse DNS resolution to speed up scanning.
+      </div>
+    </div>
+
+    <!-- --disable-arp-ping -->
+    <div style="display: grid; grid-template-columns: 220px 1fr; gap: 1.2rem; align-items: center; padding-bottom: 0.2rem;">
+      <div><code style="color: var(--htb-green); font-size: 0.9rem; font-weight: 700;">--disable-arp-ping</code></div>
+      <div style="font-size: 0.95em; color: var(--text-main);">
+        Disables default ARP ping probes on local Ethernet networks.
+      </div>
+    </div>
+
+  </div>
+</section>

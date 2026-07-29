@@ -1,0 +1,35 @@
+<!-- SLIDE: Debug & Trace Flags -->
+<section>
+  <h2><i class="fa-solid fa-bug highlight-htb"></i> Debug & Trace Flags</h2>
+  <p class="slide-subtitle">
+    Inspecting packet exchanges, scan decisions, and real-time progress:
+  </p>
+
+  <div style="display: flex; flex-direction: column; gap: 1rem; text-align: left; max-width: 1050px; margin: 0 auto;">
+    
+    <!-- --packet-trace -->
+    <div style="display: grid; grid-template-columns: 220px 1fr; gap: 1.2rem; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.8rem;">
+      <div><code style="color: var(--accent-cyan); font-size: 0.95rem; font-weight: 700;">--packet-trace</code></div>
+      <div style="font-size: 0.95em; color: var(--text-main);">
+        Shows a detailed trace of every packet sent and received by Nmap.
+      </div>
+    </div>
+
+    <!-- --reason -->
+    <div style="display: grid; grid-template-columns: 220px 1fr; gap: 1.2rem; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.8rem;">
+      <div><code style="color: var(--accent-cyan); font-size: 0.95rem; font-weight: 700;">--reason</code></div>
+      <div style="font-size: 0.95em; color: var(--text-main);">
+        Displays the precise reason (e.g. <code style="color: var(--accent-red);">syn-ack</code>, <code style="color: var(--accent-red);">rst</code>, or <code style="color: var(--accent-red);">no-response</code>) why Nmap assigned a specific port state.
+      </div>
+    </div>
+
+    <!-- --stats-every=5s -->
+    <div style="display: grid; grid-template-columns: 220px 1fr; gap: 1.2rem; align-items: center; padding-bottom: 0.2rem;">
+      <div><code style="color: var(--accent-cyan); font-size: 0.95rem; font-weight: 700;">--stats-every=5s</code></div>
+      <div style="font-size: 0.95em; color: var(--text-main);">
+        Prints scan status and progress metrics periodically every 5 seconds.
+      </div>
+    </div>
+
+  </div>
+</section>

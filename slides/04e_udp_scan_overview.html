@@ -1,0 +1,80 @@
+<!-- SLIDE: UDP Scan Overview (-sU) -->
+<section>
+  <h2><i class="fa-solid fa-bolt highlight-htb"></i> UDP Scan (<code style="color: var(--htb-green);">-sU</code>)</h2>
+  <p class="slide-subtitle">
+    Stateless UDP scanning mechanics, probe response mapping, and state determination.
+  </p>
+
+  <div class="grid-2" style="align-items: stretch; gap: 1.4rem;">
+    
+    <!-- Left Column: Response Mapping Table -->
+    <div class="cyber-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title">
+          <span class="cyber-badge badge-htb">STATE MAPPING</span> Probe Response Rules
+        </div>
+        
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.82em; margin-top: 0.6rem; color: var(--text-main);">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--htb-border); text-align: left;">
+              <th style="padding: 6px 8px; color: var(--text-white); font-family: var(--font-heading);">Probe Response</th>
+              <th style="padding: 6px 8px; color: var(--text-white); font-family: var(--font-heading); text-align: right;">Assigned State</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+              <td style="padding: 8px;">Any UDP response from target port</td>
+              <td style="padding: 8px; text-align: right;"><span class="cyber-badge badge-htb" style="font-size: 0.72rem;">open</span></td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+              <td style="padding: 8px;">No response received (after retries)</td>
+              <td style="padding: 8px; text-align: right;"><span class="cyber-badge badge-yellow" style="font-size: 0.72rem;">open | filtered</span></td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+              <td style="padding: 8px;">ICMP Port Unreachable (Type 3, Code 3)</td>
+              <td style="padding: 8px; text-align: right;"><span class="cyber-badge badge-red" style="font-size: 0.72rem;">closed</span></td>
+            </tr>
+            <tr>
+              <td style="padding: 8px;">Other ICMP Unreachable (Code 1, 2, 9, 10, 13)</td>
+              <td style="padding: 8px; text-align: right;"><span class="cyber-badge badge-purple" style="font-size: 0.72rem;">filtered</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top: 0.8rem; font-size: 0.82em; color: var(--text-muted); padding: 0.5rem 0.8rem; background: rgba(7, 14, 27, 0.6); border-radius: 4px;">
+        <i class="fa-solid fa-circle-info highlight-cyan"></i> Because UDP is connectionless, open ports rarely send back confirmations to empty probes.
+      </div>
+    </div>
+
+    <!-- Right Column: Mechanics & Terminal -->
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      <div class="cyber-card">
+        <div class="card-title">
+          <span class="cyber-badge badge-cyan">UDP MECHANICS</span> Empty Probes & Ambiguity
+        </div>
+        <ul style="margin-bottom: 0;">
+          <li><strong>Stateless Protocol:</strong> UDP has no TCP-like handshakes or SYN/ACK packet confirmations.</li>
+          <li><strong>Default Probes:</strong> Nmap sends empty UDP packets to most ports. If no error comes back, Nmap cannot distinguish an open port from a firewall drop $\rightarrow$ <span class="cyber-badge badge-yellow" style="font-size: 0.72rem;">open | filtered</span>.</li>
+        </ul>
+      </div>
+
+      <!-- Terminal Output Example -->
+      <div>
+        <div class="terminal-header" style="padding: 0.35rem 0.8rem;">
+          <span class="terminal-dot dot-red"></span>
+          <span class="terminal-dot dot-yellow"></span>
+          <span class="terminal-dot dot-green"></span>
+          <span class="terminal-title">sudo nmap -sU -v 192.168.0.42</span>
+        </div>
+        <pre style="margin: 0;"><code class="language-bash" style="padding: 0.75rem 1rem; font-size: 0.78em;">PORT    STATE         SERVICE
+53/udp  open|filtered domain
+67/udp  open|filtered dhcpserver
+111/udp open|filtered rpcbind
+MAC Address: 00:02:E3:14:11:02 (Lite-on)</code></pre>
+      </div>
+
+    </div>
+
+  </div>
+</section>

@@ -1,0 +1,42 @@
+<!-- SLIDE: What is Nmap? -->
+<section>
+  <h2><i class="fa-solid fa-crosshairs highlight-htb"></i> What is Nmap?</h2>
+  <p class="slide-subtitle">
+    Network Mapper (Nmap) is the industry-standard, open-source tool for network discovery & security auditing.
+  </p>
+
+  <div class="grid-2">
+    <!-- Card 1: Core Definition & Capabilities -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">OVERVIEW</span> Key Capabilities
+      </div>
+      <ul>
+        <li><strong>Host Discovery:</strong> Locates live hosts, IP addresses, and active devices on any network.</li>
+        <li><strong>Port Scanning:</strong> Identifies open TCP/UDP ports listening for network connections.</li>
+        <li><strong>Service & Version Detection:</strong> Queries open ports to determine application names and exact versions (<code style="color: var(--htb-green);">-sV</code>).</li>
+        <li><strong>OS Fingerprinting:</strong> Analyzes network responses to detect remote Operating Systems (<code style="color: var(--htb-green);">-O</code>).</li>
+      </ul>
+    </div>
+
+    <!-- Terminal Output Demonstration -->
+    <div>
+      <div class="terminal-header">
+        <span class="terminal-dot dot-red"></span>
+        <span class="terminal-dot dot-yellow"></span>
+        <span class="terminal-dot dot-green"></span>
+        <span class="terminal-title">root@htb:~# nmap -sV 10.10.11.20</span>
+      </div>
+      <pre><code class="language-bash">Starting Nmap 7.94 ( https://nmap.org )
+Nmap scan report for target.htb (10.10.11.20)
+Host is up (0.024s latency).
+PORT     STATE SERVICE VERSION
+22/tcp   open  ssh     OpenSSH 8.9p1 Ubuntu
+80/tcp   open  http    Apache httpd 2.4.52
+443/tcp  open  ssl/http Apache httpd 2.4.52
+3306/tcp open  mysql   MySQL 8.0.35
+
+Nmap done: 1 IP address (1 host up) scanned</code></pre>
+    </div>
+  </div>
+</section>

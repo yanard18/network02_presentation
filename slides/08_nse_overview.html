@@ -1,0 +1,51 @@
+<!-- SLIDE: NSE Overview & Syntax -->
+<section>
+  <h2><i class="fa-solid fa-code highlight-htb"></i> Nmap Scripting Engine (NSE)</h2>
+  <p class="slide-subtitle">
+    Automating vulnerability detection, service enumeration, and exploitation with Lua scripts:
+  </p>
+
+  <div class="grid-2" style="align-items: start; gap: 1.5rem;">
+    <!-- Key Concepts -->
+    <div style="display: flex; flex-direction: column; gap: 0.8rem; text-align: left;">
+      <div style="border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.6rem;">
+        <strong style="color: var(--htb-green); font-size: 1.05em;">What is NSE?</strong>
+        <p style="margin-top: 0.3rem; font-size: 0.92em; color: var(--text-main);">
+          NSE allows users to write and share Lua scripts to automate complex network tasks, vulnerability scanning, and advanced service discovery.
+        </p>
+      </div>
+
+      <div style="border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.6rem;">
+        <strong style="color: var(--accent-cyan); font-size: 1.05em;">14 Total Categories</strong>
+        <p style="margin-top: 0.3rem; font-size: 0.92em; color: var(--text-main);">
+          Over 600+ scripts organized into 14 distinct functional categories ranging from passive discovery to active exploitation.
+        </p>
+      </div>
+
+      <div>
+        <strong style="color: var(--accent-purple); font-size: 1.05em;">Default Script Execution</strong>
+        <p style="margin-top: 0.3rem; font-size: 0.92em; color: var(--text-main);">
+          The <code style="color: var(--htb-green);">-sC</code> flag runs the standard set of safe, fast default scripts against open ports.
+        </p>
+      </div>
+    </div>
+
+    <!-- Terminal Code Window -->
+    <div>
+      <div class="terminal-header">
+        <span class="terminal-dot dot-red"></span>
+        <span class="terminal-dot dot-yellow"></span>
+        <span class="terminal-dot dot-green"></span>
+        <span class="terminal-title">root@htb:~# NSE Command Syntax</span>
+      </div>
+      <pre><code class="language-bash"># Run default scripts (-sC)
+sudo nmap 10.10.11.20 -sC
+
+# Run all scripts in a category (e.g. vuln)
+sudo nmap 10.10.11.20 --script vuln
+
+# Run specific scripts by name
+sudo nmap 10.10.11.20 --script http-enum,smb-os-discovery</code></pre>
+    </div>
+  </div>
+</section>

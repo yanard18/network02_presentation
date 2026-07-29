@@ -1,0 +1,67 @@
+<!-- SLIDE: UDP Scan Challenges & Verification -->
+<section>
+  <h2><i class="fa-solid fa-triangle-exclamation highlight-htb"></i> UDP Challenges & Verification Tricks</h2>
+  <p class="slide-subtitle">
+    Overcoming ICMP rate limiting, resolving open|filtered ambiguity, and manual hop-count analysis.
+  </p>
+
+  <div class="grid-2" style="align-items: stretch; gap: 1.4rem;">
+    
+    <!-- Left Column: ICMP Rate Limiting & Service Probes -->
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      
+      <!-- ICMP Rate Limiting Threat Card -->
+      <div class="cyber-card threat">
+        <div class="card-title">
+          <span class="cyber-badge badge-red">ICMP RATE LIMITING</span> The Speed Pitfall
+        </div>
+        <ul class="threat-list" style="margin-bottom: 0.5rem;">
+          <li><strong>Kernel Caps:</strong> Operating systems limit ICMP error generation rate (e.g., Linux caps ICMP unreachable at ~1/sec).</li>
+          <li><strong>High Scan Rates Backfire:</strong> Forcing fast scans with <code style="color: var(--accent-red);">--min-rate 1000</code> causes targets to drop ICMP error packets, turning <span class="cyber-badge badge-red" style="font-size: 0.7rem;">closed</span> ports into false <span class="cyber-badge badge-yellow" style="font-size: 0.7rem;">open|filtered</span> results.</li>
+        </ul>
+      </div>
+
+      <!-- Service Probes Solution Card -->
+      <div class="cyber-card secure">
+        <div class="card-title">
+          <span class="cyber-badge badge-htb">SOLUTIONS</span> Service Probes (<code style="color: var(--htb-green);">-sV</code>)
+        </div>
+        <ul class="secure-list" style="margin-bottom: 0;">
+          <li><strong>Payload-Based Probing:</strong> Enabling <code style="color: var(--htb-green);">-sV</code> (or <code style="color: var(--htb-green);">-A</code>) loads <code style="color: var(--accent-cyan);">nmap-service-probes</code>.</li>
+          <li><strong>Payload Trigger:</strong> Sends real protocol payloads (e.g. DNS queries, SNMP requests) instead of empty packets, triggering real UDP replies to confirm <span class="cyber-badge badge-htb" style="font-size: 0.7rem;">open</span> ports.</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Right Column: Nping Hop-Count Trick -->
+    <div class="cyber-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title">
+          <span class="cyber-badge badge-purple">MANUAL TRICK</span> Nping Hop-Count Analysis
+        </div>
+        <p style="font-size: 0.88em; color: var(--text-muted); margin-bottom: 0.6rem;">
+          Use <code style="color: var(--accent-cyan);">nping</code> to disambiguate <span class="cyber-badge badge-yellow" style="font-size: 0.7rem;">open|filtered</span> ports by comparing traceroute hop counts against a known closed port:
+        </p>
+
+        <!-- Code Snippet -->
+        <div class="terminal-header" style="padding: 0.35rem 0.8rem; margin-top: 0.4rem;">
+          <span class="terminal-dot dot-red"></span>
+          <span class="terminal-dot dot-yellow"></span>
+          <span class="terminal-dot dot-green"></span>
+          <span class="terminal-title">Compare Hop Counts on Target</span>
+        </div>
+        <pre style="margin: 0;"><code class="language-bash" style="padding: 0.7rem; font-size: 0.75em;"># Test suspected open|filtered port
+nping --udp --traceroute -c 13 -p 53 target.htb
+
+# Test known closed port
+nping --udp --traceroute -c 13 -p 54 target.htb</code></pre>
+
+        <ul style="margin-top: 0.8rem; margin-bottom: 0; font-size: 0.88em;">
+          <li><strong>Analysis:</strong> If the hop count on port 53 matches the closed port (54), the target received the probe and dropped the ICMP reply $\rightarrow$ port 53 is actually <strong>closed</strong>.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>

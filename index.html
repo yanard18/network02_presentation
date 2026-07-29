@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hack The Box Cyber Presentation Base Deck</title>
+  <meta name="description" content="Hack The Box dark cyber theme presentation template built with Reveal.js">
+  
+  <!-- Reveal.js & Plugins CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.0/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/tokyo-night-dark.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Hack The Box Cyber Theme -->
+  <link rel="stylesheet" href="css/cyber-theme.css">
+</head>
+<body>
+
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- Loaded from slides/title.html -->
+<!-- SLIDE 1: Title Slide -->
+<section data-background-gradient="radial-gradient(circle, rgba(159,239,0,0.12) 0%, rgba(11,18,31,1) 100%)">
+  <div style="text-align: center;">
+    <span class="cyber-badge badge-htb" style="margin-bottom: 1.5rem; font-size: 0.9rem;">
+      <i class="fa-solid fa-shield-halved"></i> SİBER GÜVENLİK // NETWORK SECURITY
+    </span>
+    <h1 style="font-size: 3.4em; margin-bottom: 0.4em;">Ağ Güvenlik <span class="htb-highlight">Zafiyetleri ve Saldırıları</span></h1>
+    <h3 style="color: var(--text-muted); font-weight: 400; margin-bottom: 2.5rem; font-size: 1.3em;">
+      Network Vulnerabilities, Attack Vectors & Defense Mechanics
+    </h3>
+    
+    <div style="display: flex; justify-content: center; gap: 1.8rem; font-family: var(--font-mono); font-size: 0.95rem;">
+      <span class="cyber-badge badge-htb"><i class="fa-solid fa-network-wired"></i> Ağ Temelleri & Protokoller</span>
+      <span class="cyber-badge badge-red"><i class="fa-solid fa-bug"></i> Zafiyetler & Saldırılar</span>
+      <span class="cyber-badge badge-purple"><i class="fa-solid fa-lock"></i> Savunma & Sertleştirme</span>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/agenda.html -->
+<!-- SLIDE 2: Presentation Roadmap / Agenda -->
+<section>
+  <h2><i class="fa-solid fa-list-check highlight-htb"></i> Presentation Roadmap & Agenda</h2>
+  <p class="slide-subtitle">
+    This presentation is structured into 3 core logical blocks:
+  </p>
+
+  <div class="grid-3">
+    <!-- BLOCK 1 -->
+    <div class="cyber-card">
+      <div class="card-title"><span class="cyber-badge badge-htb">BLOCK 1</span> Network Scanning & Nmap</div>
+      <ul style="margin-bottom: 0;">
+        <li><strong>Topic 1.1:</strong> What is Nmap?</li>
+        <li><strong>Topic 1.2:</strong> Why We Need Nmap</li>
+        <li><strong>Topic 1.3:</strong> Scan Types & Techniques</li>
+      </ul>
+    </div>
+
+    <!-- BLOCK 2 -->
+    <div class="cyber-card">
+      <div class="card-title"><span class="cyber-badge badge-cyan">BLOCK 2</span> Vulnerabilities & Attacks</div>
+      <ul style="margin-bottom: 0;">
+        <li><strong>Topic 2.1:</strong> Port Exploitation</li>
+        <li><strong>Topic 2.2:</strong> Service Misconfigurations</li>
+        <li><strong>Topic 2.3:</strong> Protocol Weaknesses</li>
+      </ul>
+    </div>
+
+    <!-- BLOCK 3 -->
+    <div class="cyber-card">
+      <div class="card-title"><span class="cyber-badge badge-purple">BLOCK 3</span> Defense & Hardening</div>
+      <ul style="margin-bottom: 0;">
+        <li><strong>Topic 3.1:</strong> Firewall Rules & IDS/IPS</li>
+        <li><strong>Topic 3.2:</strong> Port Hardening</li>
+        <li><strong>Topic 3.3:</strong> Best Practices & Mitigation</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/01_what_is_nmap.html -->
+<!-- SLIDE: What is Nmap? -->
+<section>
+  <h2><i class="fa-solid fa-crosshairs highlight-htb"></i> What is Nmap?</h2>
+  <p class="slide-subtitle">
+    Network Mapper (Nmap) is the industry-standard, open-source tool for network discovery & security auditing.
+  </p>
+
+  <div class="grid-2">
+    <!-- Card 1: Core Definition & Capabilities -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">OVERVIEW</span> Key Capabilities
+      </div>
+      <ul>
+        <li><strong>Host Discovery:</strong> Locates live hosts, IP addresses, and active devices on any network.</li>
+        <li><strong>Port Scanning:</strong> Identifies open TCP/UDP ports listening for network connections.</li>
+        <li><strong>Service & Version Detection:</strong> Queries open ports to determine application names and exact versions (<code style="color: var(--htb-green);">-sV</code>).</li>
+        <li><strong>OS Fingerprinting:</strong> Analyzes network responses to detect remote Operating Systems (<code style="color: var(--htb-green);">-O</code>).</li>
+      </ul>
+    </div>
+
+    <!-- Terminal Output Demonstration -->
+    <div>
+      <div class="terminal-header">
+        <span class="terminal-dot dot-red"></span>
+        <span class="terminal-dot dot-yellow"></span>
+        <span class="terminal-dot dot-green"></span>
+        <span class="terminal-title">root@htb:~# nmap -sV 10.10.11.20</span>
+      </div>
+      <pre><code class="language-bash">Starting Nmap 7.94 ( https://nmap.org )
+Nmap scan report for target.htb (10.10.11.20)
+Host is up (0.024s latency).
+PORT     STATE SERVICE VERSION
+22/tcp   open  ssh     OpenSSH 8.9p1 Ubuntu
+80/tcp   open  http    Apache httpd 2.4.52
+443/tcp  open  ssl/http Apache httpd 2.4.52
+3306/tcp open  mysql   MySQL 8.0.35
+
+Nmap done: 1 IP address (1 host up) scanned</code></pre>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/02_why_nmap.html -->
+<!-- SLIDE: Why We Need Nmap -->
+<section>
+  <h2><i class="fa-solid fa-shield-virus highlight-htb"></i> Why We Need Nmap</h2>
+  <p class="slide-subtitle">
+    Essential use cases in network administration, security auditing, and threat defense.
+  </p>
+
+  <div class="grid-3">
+    <!-- Card 1: Network Inventory & Visibility -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">VISIBILITY</span> Network Inventory
+      </div>
+      <p style="margin-bottom: 0.6rem; color: var(--text-muted); font-size: 0.9em;">
+        Maintains complete network awareness and control.
+      </p>
+      <ul>
+        <li>Maps all connected systems & active IP ranges.</li>
+        <li>Detects unauthorized or rogue devices instantly.</li>
+        <li>Monitors service uptime and network availability.</li>
+      </ul>
+    </div>
+
+    <!-- Card 2: Security Auditing & Vulnerability Discovery -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">AUDITING</span> Vulnerability Analysis
+      </div>
+      <p style="margin-bottom: 0.6rem; color: var(--text-muted); font-size: 0.9em;">
+        Identifies potential attack surfaces before adversaries do.
+      </p>
+      <ul class="threat-list">
+        <li>Uncovers exposed / unnecessary open ports.</li>
+        <li>Flags unpatched, outdated service versions.</li>
+        <li>Automates exploit checks via Nmap Scripting Engine (NSE).</li>
+      </ul>
+    </div>
+
+    <!-- Card 3: Firewall & Defense Verification -->
+    <div class="cyber-card secure">
+      <div class="card-title">
+        <span class="cyber-badge badge-cyan">DEFENSE</span> Policy Verification
+      </div>
+      <p style="margin-bottom: 0.6rem; color: var(--text-muted); font-size: 0.9em;">
+        Validates security controls & access rules.
+      </p>
+      <ul class="secure-list">
+        <li>Tests firewall filtering and ACL efficiency.</li>
+        <li>Verifies network segmentation controls.</li>
+        <li>Ensures compliance with security baselines.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/03_nmap_live_target.html -->
+<!-- SLIDE: Nmap Basic Scan -->
+<section>
+  <h2><i class="fa-solid fa-terminal highlight-htb"></i> Nmap Basic Scan</h2>
+  
+  <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-top: 0.5rem;">
+    <img src="media/basic_nmap_scan.png" style="max-height: 480px; max-width: 90%; border: none !important; outline: none !important; box-shadow: none !important; background: transparent !important;" alt="basic nmap scan">
+    <p style="margin-top: 1rem; color: var(--text-muted); font-size: 0.9em;">
+      show nmap on live target
+    </p>
+  </div>
+</section>
+
+      <!-- Loaded from slides/04_nmap_responses.html -->
+<!-- SLIDE: Nmap Port States & Responses -->
+<section>
+  <h2><i class="fa-solid fa-network-wired highlight-htb"></i> Nmap Port States & Responses</h2>
+  <p class="slide-subtitle">
+    How Nmap interprets probe responses and firewall filtering behavior:
+  </p>
+
+  <div style="display: flex; flex-direction: column; gap: 0.9rem; text-align: left; max-width: 1050px; margin: 0 auto;">
+    
+    <!-- OPEN -->
+    <div style="display: grid; grid-template-columns: 180px 1fr; gap: 1.2rem; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.65rem;">
+      <div><span class="cyber-badge badge-htb" style="font-size: 0.9rem; width: 150px; text-align: center;">open</span></div>
+      <div style="font-size: 0.95em; color: var(--text-main); line-height: 1.45;">
+        An application is actively listening and accepting connections on this port.
+      </div>
+    </div>
+
+    <!-- CLOSED -->
+    <div style="display: grid; grid-template-columns: 180px 1fr; gap: 1.2rem; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.65rem;">
+      <div><span class="cyber-badge badge-red" style="font-size: 0.9rem; width: 150px; text-align: center;">closed</span></div>
+      <div style="font-size: 0.95em; color: var(--text-main); line-height: 1.45;">
+        Reachable (no firewall), but no application is running on this port. Nmap receives an <code style="color: var(--accent-red);">RST</code> flag response.
+      </div>
+    </div>
+
+    <!-- FILTERED -->
+    <div style="display: grid; grid-template-columns: 180px 1fr; gap: 1.2rem; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.65rem;">
+      <div><span class="cyber-badge badge-purple" style="font-size: 0.9rem; width: 150px; text-align: center;">filtered</span></div>
+      <div style="font-size: 0.95em; color: var(--text-main); line-height: 1.45;">
+        No response returned; Nmap cannot determine port state. Likely packets are dropped by a firewall or returned an ICMP error.
+      </div>
+    </div>
+
+    <!-- OPEN | FILTERED -->
+    <div style="display: grid; grid-template-columns: 180px 1fr; gap: 1.2rem; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.65rem;">
+      <div><span class="cyber-badge badge-yellow" style="font-size: 0.9rem; width: 150px; text-align: center;">open | filtered</span></div>
+      <div style="font-size: 0.95em; color: var(--text-main); line-height: 1.45;">
+        Common during UDP scans (<code style="color: var(--htb-green);">-sU</code>) or stealth scans (FIN/NULL). Open ports ignore packets without replying, making them indistinguishable from firewall filtering.
+      </div>
+    </div>
+
+    <!-- CLOSED | FILTERED -->
+    <div style="display: grid; grid-template-columns: 180px 1fr; gap: 1.2rem; align-items: center; padding-bottom: 0.2rem;">
+      <div><span class="cyber-badge badge-cyan" style="font-size: 0.85rem; width: 150px; text-align: center;">closed | filtered</span></div>
+      <div style="font-size: 0.95em; color: var(--text-main); line-height: 1.45;">
+        <em>(Extremely rare)</em> Occurs during stealth "Idle scans" (<code style="color: var(--accent-cyan);">-sI</code>). Traffic was bounced off a Zombie machine, but mathematical results were inconclusive.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+      <!-- Loaded from slides/04a_nmap_raw_packets.html -->
+<!-- SLIDE: Nmap Raw Packets -->
+<section>
+  <h2><i class="fa-solid fa-microchip highlight-htb"></i> Nmap & Raw Packets</h2>
+  <p class="slide-subtitle">
+    Why Nmap requires root privileges and how it bypasses standard operating system networking APIs.
+  </p>
+
+  <div class="grid-2" style="align-items: stretch; gap: 1.5rem; max-width: 1050px; margin: 0 auto;">
+    
+    <!-- Standard Applications -->
+    <div class="cyber-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title">
+          <span class="cyber-badge badge-cyan">STANDARD APPS</span> OS Socket API
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.92em; margin-bottom: 1rem;">
+          Normal network applications (browsers, SSH clients, curl) rely on operating system high-level socket APIs:
+        </p>
+        <ul style="margin-bottom: 0;">
+          <li>Uses standard kernel functions (<code style="color: var(--accent-cyan);">connect()</code>, <code style="color: var(--accent-cyan);">send()</code>).</li>
+          <li>OS kernel automatically handles TCP handshakes, sequence numbers, and packet flags.</li>
+          <li>Applications cannot manually manipulate underlying TCP/IP header fields.</li>
+        </ul>
+      </div>
+
+      <div style="margin-top: 1.2rem; padding: 0.75rem 1rem; background: rgba(45, 226, 230, 0.08); border-left: 3px solid var(--accent-cyan); border-radius: 4px; font-size: 0.85em; color: var(--text-main);">
+        <i class="fa-solid fa-info-circle highlight-cyan"></i> No special privileges required (runs under standard user account).
+      </div>
+    </div>
+
+    <!-- Nmap Raw Packets -->
+    <div class="cyber-card secure" style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title">
+          <span class="cyber-badge badge-htb">NMAP RAW SOCKETS</span> Direct Header Crafting
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.92em; margin-bottom: 1rem;">
+          Nmap bypasses high-level APIs to construct raw network frames from scratch:
+        </p>
+        <ul class="secure-list" style="margin-bottom: 0;">
+          <li><strong>Direct Packet Manipulation:</strong> Manually sets custom IP/TCP headers, flags (<code style="color: var(--htb-green);">SYN</code>, <code style="color: var(--accent-red);">RST</code>, <code style="color: var(--accent-yellow);">FIN</code>), and options.</li>
+          <li><strong>Probing Capabilities:</strong> Enables stealth scans, OS fingerprinting, and custom response detection.</li>
+          <li><strong>Root / Sudo Privileges:</strong> Opening raw sockets (<code style="color: var(--htb-green);">SOCK_RAW</code>) requires root access.</li>
+        </ul>
+      </div>
+
+      <div style="margin-top: 1.2rem; padding: 0.75rem 1rem; background: rgba(159, 239, 0, 0.1); border-left: 3px solid var(--htb-green); border-radius: 4px; font-size: 0.85em; color: var(--text-main);">
+        <i class="fa-solid fa-key highlight-htb"></i> <strong>Sudo Requirement:</strong> Raw socket access is restricted by the kernel for network security.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+      <!-- Loaded from slides/04b_tcp_syn_scan_overview.html -->
+<!-- SLIDE: TCP-SYN (Stealth) Scan Overview -->
+<section>
+  <h2><i class="fa-solid fa-user-ninja highlight-htb"></i> TCP-SYN (Stealth) Scan (<code style="color: var(--htb-green);">-sS</code>)</h2>
+  <p class="slide-subtitle">
+    The default and most popular Nmap scan technique. Performs a "half-open" TCP scan without completing the 3-way handshake.
+  </p>
+
+  <div class="grid-2" style="align-items: center; gap: 1.5rem;">
+    
+    <!-- Key Mechanics & Responses -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">HALF-OPEN SCAN</span> Core Mechanics
+      </div>
+      <ul style="margin-bottom: 0.8rem;">
+        <li><strong>Privileges:</strong> Requires <code style="color: var(--htb-green);">sudo</code> / root privileges to craft raw TCP packets.</li>
+        <li><strong>Stealth Mechanism:</strong> Never completes the TCP 3-way handshake; prevents connection logging by applications.</li>
+      </ul>
+
+      <div class="card-title" style="margin-top: 1rem; font-size: 1.05em;">
+        <i class="fa-solid fa-exchange-alt highlight-cyan"></i> Packet Responses & Port Detection:
+      </div>
+      <ul style="margin-bottom: 0;">
+        <li>
+          <span class="cyber-badge badge-htb" style="font-size: 0.75rem;">open</span> 
+          Target responds with <code style="color: var(--htb-green);">SYN-ACK</code>. Nmap detects port as <strong>open</strong> and immediately sends an <code style="color: var(--accent-red);">RST</code> to tear down the connection.
+        </li>
+        <li>
+          <span class="cyber-badge badge-red" style="font-size: 0.75rem;">closed</span> 
+          Target responds with <code style="color: var(--accent-red);">RST</code> packet &rarr; Nmap detects port as <strong>closed</strong>.
+        </li>
+      </ul>
+    </div>
+
+    <!-- Diagrams for Open and Closed Traces -->
+    <div style="display: flex; flex-direction: column; gap: 1rem; text-align: center;">
+      
+      <!-- Open Port Diagram -->
+      <div style="background: #ffffff; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--htb-border); box-shadow: 0 0 15px var(--htb-green-glow);">
+        <img src="media/Ereet_Packet_Trace_Syn_Open.png" alt="TCP SYN Scan Open Port" style="max-height: 180px; width: 100%; display: block; object-fit: contain;">
+        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #333333; font-weight: 600; margin-top: 4px;">
+          <i class="fa-solid fa-arrow-right-to-bracket" style="color: #2e7d32;"></i> Open Port Packet Exchange (SYN &rarr; SYN-ACK &rarr; RST)
+        </div>
+      </div>
+
+      <!-- Closed Port Diagram -->
+      <div style="background: #ffffff; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--htb-border-red); box-shadow: 0 0 15px rgba(255, 46, 99, 0.25);">
+        <img src="media/Ereet_Packet_Trace_Syn_Closed.png" alt="TCP SYN Scan Closed Port" style="max-height: 180px; width: 100%; display: block; object-fit: contain;">
+        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #333333; font-weight: 600; margin-top: 4px;">
+          <i class="fa-solid fa-ban" style="color: #c62828;"></i> Closed Port Packet Exchange (SYN &rarr; RST)
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+      <!-- Loaded from slides/04c_tcp_syn_scan_filtered.html -->
+<!-- SLIDE: TCP-SYN Scan Filtered Ports & Retransmission -->
+<section>
+  <h2><i class="fa-solid fa-filter-circle-xmark highlight-htb"></i> TCP-SYN Scan: Filtered Ports & Retransmission</h2>
+  <p class="slide-subtitle">
+    Understanding how TCP-SYN scans handle packet loss, firewall drop rules, and probe retransmissions.
+  </p>
+
+  <div class="grid-2" style="align-items: center; gap: 1.5rem;">
+    
+    <!-- Left Column: Filtered Mechanics & Retransmission -->
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      <div class="cyber-card threat">
+        <div class="card-title">
+          <span class="cyber-badge badge-purple">FILTERED STATE</span> Firewall & Packet Drop Behavior
+        </div>
+        <ul class="threat-list" style="margin-bottom: 0.6rem;">
+          <li><strong>No Response Packet:</strong> If Nmap receives no packet back (or ICMP error), the port state is determined as <span class="cyber-badge badge-purple" style="font-size: 0.75rem;">filtered</span>.</li>
+          <li><strong>Firewall Filtering:</strong> Depending on rules, firewalls or routers may silently drop/ignore incoming <code style="color: var(--htb-green);">SYN</code> packets.</li>
+        </ul>
+      </div>
+
+      <div class="cyber-card">
+        <div class="card-title">
+          <span class="cyber-badge badge-cyan">RETRANSMISSION</span> Network Retries
+        </div>
+        <ul>
+          <li><strong>Slow Networks & Retries:</strong> When target or network is slow/filtered, TCP sends multiple <code style="color: var(--htb-green);">SYN</code> packets before giving up.</li>
+          <li><strong>Probe Retry:</strong> Example SYN scan on filtered NetBIOS port <code style="color: var(--htb-green);">139</code> re-sends probes: <em>"Try again. Anybody home?"</em></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Right Column: Diagram & Nmap CLI Example -->
+    <div style="display: flex; flex-direction: column; gap: 1rem; text-align: center;">
+      
+      <!-- Filtered Diagram Box -->
+      <div style="background: #ffffff; padding: 12px 14px; border-radius: 8px; border: 1px solid var(--htb-border); box-shadow: 0 0 20px rgba(157, 78, 221, 0.3);">
+        <img src="media/Ereet_Packet_Trace_Syn_Filtered.png" alt="TCP SYN Scan Filtered Port" style="max-height: 210px; width: 100%; display: block; object-fit: contain;">
+        <div style="font-family: var(--font-mono); font-size: 0.75rem; color: #333333; font-weight: 600; margin-top: 6px;">
+          <i class="fa-solid fa-rotate-right" style="color: #6a1b9a;"></i> Filtered Port Packet Trace (Multiple SYN Probes & Retransmissions)
+        </div>
+      </div>
+
+      <!-- Terminal Output Example -->
+      <div>
+        <div class="terminal-header" style="padding: 0.35rem 0.8rem;">
+          <span class="terminal-dot dot-red"></span>
+          <span class="terminal-dot dot-yellow"></span>
+          <span class="terminal-dot dot-green"></span>
+          <span class="terminal-title">sudo nmap -sS -p 139 target.htb</span>
+        </div>
+        <pre style="margin: 0;"><code class="language-bash" style="padding: 0.75rem 1rem; font-size: 0.8em;">PORT    STATE    SERVICE
+139/tcp filtered netbios-ssn</code></pre>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+      <!-- Loaded from slides/04d_tcp_connect_scan.html -->
+<!-- SLIDE: TCP Connect Scan (-sT) -->
+<section>
+  <h2><i class="fa-solid fa-link highlight-htb"></i> TCP Connect Scan (<code style="color: var(--htb-green);">-sT</code>)</h2>
+  <p class="slide-subtitle">
+    The standard full-connection scan used when raw socket privileges are unavailable.
+  </p>
+
+  <div class="grid-2" style="align-items: center; gap: 1.5rem;">
+    
+    <!-- Left Column: Core Characteristics -->
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      <div class="cyber-card">
+        <div class="card-title">
+          <span class="cyber-badge badge-htb">FULL HANDSHAKE</span> Key Characteristics
+        </div>
+        <ul style="margin-bottom: 0.6rem;">
+          <li><strong>Full Handshake:</strong> Completes the complete TCP 3-way handshake (<code style="color: var(--htb-green);">SYN</code> &rarr; <code style="color: var(--htb-green);">SYN-ACK</code> &rarr; <code style="color: var(--htb-green);">ACK</code>).</li>
+          <li><strong>Unprivileged Execution:</strong> Used automatically when raw packets are unavailable (running Nmap without <code style="color: var(--htb-green);">sudo</code>) or scanning IPv6 networks.</li>
+          <li><strong>Berkeley Sockets API:</strong> Issues standard OS system calls (<code style="color: var(--accent-cyan);">connect()</code>), identical to web browsers.</li>
+        </ul>
+      </div>
+
+      <div class="cyber-card threat">
+        <div class="card-title">
+          <span class="cyber-badge badge-red">LOGGING & IDS</span> Stealth Trade-off
+        </div>
+        <ul class="threat-list" style="margin-bottom: 0;">
+          <li><strong>Application Logging:</strong> Because a full TCP session is established, target applications are highly likely to log the connection event.</li>
+          <li><strong>IDS / IPS Detection:</strong> Intrusion Detection Systems easily detect both SYN and Connect scans due to high-rate connection attempts.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Right Column: Diagram Showcase & Command -->
+    <div style="display: flex; flex-direction: column; gap: 1rem; text-align: center;">
+      
+      <!-- Diagram Frame -->
+      <div style="background: #ffffff; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--htb-border); box-shadow: 0 0 20px var(--htb-green-glow);">
+        <img src="media/nmap_tcp_connect_scan.png" alt="TCP Connect Scan Diagram" style="max-height: 220px; width: 100%; display: block; object-fit: contain;">
+        <div style="font-family: var(--font-mono); font-size: 0.73rem; color: #333333; font-weight: 600; margin-top: 6px;">
+          <i class="fa-solid fa-network-wired" style="color: #2e7d32;"></i> Full Handshake Exchange & Session Teardown
+        </div>
+      </div>
+
+      <!-- Terminal Output Example -->
+      <div>
+        <div class="terminal-header" style="padding: 0.35rem 0.8rem;">
+          <span class="terminal-dot dot-red"></span>
+          <span class="terminal-dot dot-yellow"></span>
+          <span class="terminal-dot dot-green"></span>
+          <span class="terminal-title">nmap -sT target.htb (Unprivileged user)</span>
+        </div>
+        <pre style="margin: 0;"><code class="language-bash" style="padding: 0.75rem 1rem; font-size: 0.8em;">PORT   STATE SERVICE
+22/tcp open  ssh</code></pre>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+      <!-- Loaded from slides/04e_udp_scan_overview.html -->
+<!-- SLIDE: UDP Scan Overview (-sU) -->
+<section>
+  <h2><i class="fa-solid fa-bolt highlight-htb"></i> UDP Scan (<code style="color: var(--htb-green);">-sU</code>)</h2>
+  <p class="slide-subtitle">
+    Stateless UDP scanning mechanics, probe response mapping, and state determination.
+  </p>
+
+  <div class="grid-2" style="align-items: stretch; gap: 1.4rem;">
+    
+    <!-- Left Column: Response Mapping Table -->
+    <div class="cyber-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title">
+          <span class="cyber-badge badge-htb">STATE MAPPING</span> Probe Response Rules
+        </div>
+        
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.82em; margin-top: 0.6rem; color: var(--text-main);">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--htb-border); text-align: left;">
+              <th style="padding: 6px 8px; color: var(--text-white); font-family: var(--font-heading);">Probe Response</th>
+              <th style="padding: 6px 8px; color: var(--text-white); font-family: var(--font-heading); text-align: right;">Assigned State</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+              <td style="padding: 8px;">Any UDP response from target port</td>
+              <td style="padding: 8px; text-align: right;"><span class="cyber-badge badge-htb" style="font-size: 0.72rem;">open</span></td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+              <td style="padding: 8px;">No response received (after retries)</td>
+              <td style="padding: 8px; text-align: right;"><span class="cyber-badge badge-yellow" style="font-size: 0.72rem;">open | filtered</span></td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+              <td style="padding: 8px;">ICMP Port Unreachable (Type 3, Code 3)</td>
+              <td style="padding: 8px; text-align: right;"><span class="cyber-badge badge-red" style="font-size: 0.72rem;">closed</span></td>
+            </tr>
+            <tr>
+              <td style="padding: 8px;">Other ICMP Unreachable (Code 1, 2, 9, 10, 13)</td>
+              <td style="padding: 8px; text-align: right;"><span class="cyber-badge badge-purple" style="font-size: 0.72rem;">filtered</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top: 0.8rem; font-size: 0.82em; color: var(--text-muted); padding: 0.5rem 0.8rem; background: rgba(7, 14, 27, 0.6); border-radius: 4px;">
+        <i class="fa-solid fa-circle-info highlight-cyan"></i> Because UDP is connectionless, open ports rarely send back confirmations to empty probes.
+      </div>
+    </div>
+
+    <!-- Right Column: Mechanics & Terminal -->
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      <div class="cyber-card">
+        <div class="card-title">
+          <span class="cyber-badge badge-cyan">UDP MECHANICS</span> Empty Probes & Ambiguity
+        </div>
+        <ul style="margin-bottom: 0;">
+          <li><strong>Stateless Protocol:</strong> UDP has no TCP-like handshakes or SYN/ACK packet confirmations.</li>
+          <li><strong>Default Probes:</strong> Nmap sends empty UDP packets to most ports. If no error comes back, Nmap cannot distinguish an open port from a firewall drop $\rightarrow$ <span class="cyber-badge badge-yellow" style="font-size: 0.72rem;">open | filtered</span>.</li>
+        </ul>
+      </div>
+
+      <!-- Terminal Output Example -->
+      <div>
+        <div class="terminal-header" style="padding: 0.35rem 0.8rem;">
+          <span class="terminal-dot dot-red"></span>
+          <span class="terminal-dot dot-yellow"></span>
+          <span class="terminal-dot dot-green"></span>
+          <span class="terminal-title">sudo nmap -sU -v 192.168.0.42</span>
+        </div>
+        <pre style="margin: 0;"><code class="language-bash" style="padding: 0.75rem 1rem; font-size: 0.78em;">PORT    STATE         SERVICE
+53/udp  open|filtered domain
+67/udp  open|filtered dhcpserver
+111/udp open|filtered rpcbind
+MAC Address: 00:02:E3:14:11:02 (Lite-on)</code></pre>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+      <!-- Loaded from slides/04f_udp_scan_challenges.html -->
+<!-- SLIDE: UDP Scan Challenges & Verification -->
+<section>
+  <h2><i class="fa-solid fa-triangle-exclamation highlight-htb"></i> UDP Challenges & Verification Tricks</h2>
+  <p class="slide-subtitle">
+    Overcoming ICMP rate limiting, resolving open|filtered ambiguity, and manual hop-count analysis.
+  </p>
+
+  <div class="grid-2" style="align-items: stretch; gap: 1.4rem;">
+    
+    <!-- Left Column: ICMP Rate Limiting & Service Probes -->
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      
+      <!-- ICMP Rate Limiting Threat Card -->
+      <div class="cyber-card threat">
+        <div class="card-title">
+          <span class="cyber-badge badge-red">ICMP RATE LIMITING</span> The Speed Pitfall
+        </div>
+        <ul class="threat-list" style="margin-bottom: 0.5rem;">
+          <li><strong>Kernel Caps:</strong> Operating systems limit ICMP error generation rate (e.g., Linux caps ICMP unreachable at ~1/sec).</li>
+          <li><strong>High Scan Rates Backfire:</strong> Forcing fast scans with <code style="color: var(--accent-red);">--min-rate 1000</code> causes targets to drop ICMP error packets, turning <span class="cyber-badge badge-red" style="font-size: 0.7rem;">closed</span> ports into false <span class="cyber-badge badge-yellow" style="font-size: 0.7rem;">open|filtered</span> results.</li>
+        </ul>
+      </div>
+
+      <!-- Service Probes Solution Card -->
+      <div class="cyber-card secure">
+        <div class="card-title">
+          <span class="cyber-badge badge-htb">SOLUTIONS</span> Service Probes (<code style="color: var(--htb-green);">-sV</code>)
+        </div>
+        <ul class="secure-list" style="margin-bottom: 0;">
+          <li><strong>Payload-Based Probing:</strong> Enabling <code style="color: var(--htb-green);">-sV</code> (or <code style="color: var(--htb-green);">-A</code>) loads <code style="color: var(--accent-cyan);">nmap-service-probes</code>.</li>
+          <li><strong>Payload Trigger:</strong> Sends real protocol payloads (e.g. DNS queries, SNMP requests) instead of empty packets, triggering real UDP replies to confirm <span class="cyber-badge badge-htb" style="font-size: 0.7rem;">open</span> ports.</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Right Column: Nping Hop-Count Trick -->
+    <div class="cyber-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title">
+          <span class="cyber-badge badge-purple">MANUAL TRICK</span> Nping Hop-Count Analysis
+        </div>
+        <p style="font-size: 0.88em; color: var(--text-muted); margin-bottom: 0.6rem;">
+          Use <code style="color: var(--accent-cyan);">nping</code> to disambiguate <span class="cyber-badge badge-yellow" style="font-size: 0.7rem;">open|filtered</span> ports by comparing traceroute hop counts against a known closed port:
+        </p>
+
+        <!-- Code Snippet -->
+        <div class="terminal-header" style="padding: 0.35rem 0.8rem; margin-top: 0.4rem;">
+          <span class="terminal-dot dot-red"></span>
+          <span class="terminal-dot dot-yellow"></span>
+          <span class="terminal-dot dot-green"></span>
+          <span class="terminal-title">Compare Hop Counts on Target</span>
+        </div>
+        <pre style="margin: 0;"><code class="language-bash" style="padding: 0.7rem; font-size: 0.75em;"># Test suspected open|filtered port
+nping --udp --traceroute -c 13 -p 53 target.htb
+
+# Test known closed port
+nping --udp --traceroute -c 13 -p 54 target.htb</code></pre>
+
+        <ul style="margin-top: 0.8rem; margin-bottom: 0; font-size: 0.88em;">
+          <li><strong>Analysis:</strong> If the hop count on port 53 matches the closed port (54), the target received the probe and dropped the ICMP reply $\rightarrow$ port 53 is actually <strong>closed</strong>.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+      <!-- Loaded from slides/04g_udp_scan_optimization.html -->
+<!-- SLIDE: UDP Scan Speed & Optimization Tactics -->
+<section>
+  <h2><i class="fa-solid fa-gauge-high highlight-htb"></i> UDP Scan Optimization Tactics</h2>
+  <p class="slide-subtitle">
+    Overcoming UDP timeouts and ICMP rate limiting bottlenecks with targeted optimization flags.
+  </p>
+
+  <div class="grid-2" style="gap: 1.2rem;">
+    
+    <!-- Flag 1: Parallel Host Scans -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">PARALLELISM</span> <code style="color: var(--htb-green); font-size: 0.95em;">--min-hostgroup 100</code>
+      </div>
+      <p style="color: var(--text-muted); font-size: 0.88em; margin-bottom: 0.5rem;">
+        Increases parallel host group scanning sizes.
+      </p>
+      <ul style="margin-bottom: 0; font-size: 0.88em;">
+        <li>Scans 100 targets simultaneously rather than waiting sequentially.</li>
+        <li>Bypasses single-host ICMP rate limiting bottlenecks by distributing probes.</li>
+      </ul>
+    </div>
+
+    <!-- Flag 2: Probe Intensity -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-cyan">FAST PROBES</span> <code style="color: var(--accent-cyan); font-size: 0.95em;">--version-intensity 0</code>
+      </div>
+      <p style="color: var(--text-muted); font-size: 0.88em; margin-bottom: 0.5rem;">
+        Restricts service probes during version scans (<code style="color: var(--htb-green);">-sV</code>).
+      </p>
+      <ul style="margin-bottom: 0; font-size: 0.88em;">
+        <li>Only fires the most likely, high-probability service probes (intensity scale 0 to 9).</li>
+        <li>Dramatically reduces scan duration while maintaining key service identification.</li>
+      </ul>
+    </div>
+
+    <!-- Flag 3: Host Timeout -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-purple">TIMEOUT CONTROL</span> <code style="color: var(--accent-purple); font-size: 0.95em;">--host-timeout &lt;time&gt;</code>
+      </div>
+      <p style="color: var(--text-muted); font-size: 0.88em; margin-bottom: 0.5rem;">
+        Prevents single slow hosts from stalling entire scans.
+      </p>
+      <ul style="margin-bottom: 0; font-size: 0.88em;">
+        <li>Gives up on unresponsive targets after a set threshold (e.g., <code style="color: var(--accent-purple);">--host-timeout 30m</code>).</li>
+        <li>Frees up scanner bandwidth for remaining network targets.</li>
+      </ul>
+    </div>
+
+    <!-- Flag 4: Scan Verbosity & Progress -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-yellow">REAL-TIME ETA</span> <code style="color: var(--accent-yellow); font-size: 0.95em;">-v</code> / <code style="color: var(--accent-yellow); font-size: 0.95em;">-v2</code>
+      </div>
+      <p style="color: var(--text-muted); font-size: 0.88em; margin-bottom: 0.5rem;">
+        Enables verbosity and scan progress tracking.
+      </p>
+      <ul style="margin-bottom: 0; font-size: 0.88em;">
+        <li>Prints real-time host status updates and completion ETAs.</li>
+        <li>Allows pressing <code style="color: var(--accent-yellow);">&lt;Space&gt;</code> during scans to inspect live completion percentage.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+      <!-- Loaded from slides/05_discovery_flags.html -->
+<!-- SLIDE: Host Discovery Flags -->
+<section>
+  <h2><i class="fa-solid fa-binoculars highlight-htb"></i> Host Discovery & Ping Flags</h2>
+  <p class="slide-subtitle">
+    Controlling how Nmap discovers active hosts, handles ARP, and manages DNS resolution:
+  </p>
+
+  <div style="display: flex; flex-direction: column; gap: 0.85rem; text-align: left; max-width: 1050px; margin: 0 auto;">
+    
+    <!-- -Pn -->
+    <div style="display: grid; grid-template-columns: 220px 1fr; gap: 1.2rem; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.6rem;">
+      <div><code style="color: var(--htb-green); font-size: 1rem; font-weight: 700;">-Pn</code></div>
+      <div style="font-size: 0.95em; color: var(--text-main);">
+        Disables host discovery and assumes the host is alive.
+      </div>
+    </div>
+
+    <!-- -sn -->
+    <div style="display: grid; grid-template-columns: 220px 1fr; gap: 1.2rem; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.6rem;">
+      <div><code style="color: var(--htb-green); font-size: 1rem; font-weight: 700;">-sn</code></div>
+      <div style="font-size: 0.95em; color: var(--text-main);">
+        Skips port scan; only checks if target host is alive or not (ping sweep).
+      </div>
+    </div>
+
+    <!-- -PR -->
+    <div style="display: grid; grid-template-columns: 220px 1fr; gap: 1.2rem; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.6rem;">
+      <div><code style="color: var(--htb-green); font-size: 1rem; font-weight: 700;">-PR</code></div>
+      <div style="font-size: 0.95em; color: var(--text-main);">
+        Performs ARP ping discovery for local subnet scanning.
+      </div>
+    </div>
+
+    <!-- -n -->
+    <div style="display: grid; grid-template-columns: 220px 1fr; gap: 1.2rem; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.6rem;">
+      <div><code style="color: var(--htb-green); font-size: 1rem; font-weight: 700;">-n</code></div>
+      <div style="font-size: 0.95em; color: var(--text-main);">
+        Disables reverse DNS resolution to speed up scanning.
+      </div>
+    </div>
+
+    <!-- --disable-arp-ping -->
+    <div style="display: grid; grid-template-columns: 220px 1fr; gap: 1.2rem; align-items: center; padding-bottom: 0.2rem;">
+      <div><code style="color: var(--htb-green); font-size: 0.9rem; font-weight: 700;">--disable-arp-ping</code></div>
+      <div style="font-size: 0.95em; color: var(--text-main);">
+        Disables default ARP ping probes on local Ethernet networks.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+      <!-- Loaded from slides/06_debug_flags.html -->
+<!-- SLIDE: Debug & Trace Flags -->
+<section>
+  <h2><i class="fa-solid fa-bug highlight-htb"></i> Debug & Trace Flags</h2>
+  <p class="slide-subtitle">
+    Inspecting packet exchanges, scan decisions, and real-time progress:
+  </p>
+
+  <div style="display: flex; flex-direction: column; gap: 1rem; text-align: left; max-width: 1050px; margin: 0 auto;">
+    
+    <!-- --packet-trace -->
+    <div style="display: grid; grid-template-columns: 220px 1fr; gap: 1.2rem; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.8rem;">
+      <div><code style="color: var(--accent-cyan); font-size: 0.95rem; font-weight: 700;">--packet-trace</code></div>
+      <div style="font-size: 0.95em; color: var(--text-main);">
+        Shows a detailed trace of every packet sent and received by Nmap.
+      </div>
+    </div>
+
+    <!-- --reason -->
+    <div style="display: grid; grid-template-columns: 220px 1fr; gap: 1.2rem; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.8rem;">
+      <div><code style="color: var(--accent-cyan); font-size: 0.95rem; font-weight: 700;">--reason</code></div>
+      <div style="font-size: 0.95em; color: var(--text-main);">
+        Displays the precise reason (e.g. <code style="color: var(--accent-red);">syn-ack</code>, <code style="color: var(--accent-red);">rst</code>, or <code style="color: var(--accent-red);">no-response</code>) why Nmap assigned a specific port state.
+      </div>
+    </div>
+
+    <!-- --stats-every=5s -->
+    <div style="display: grid; grid-template-columns: 220px 1fr; gap: 1.2rem; align-items: center; padding-bottom: 0.2rem;">
+      <div><code style="color: var(--accent-cyan); font-size: 0.95rem; font-weight: 700;">--stats-every=5s</code></div>
+      <div style="font-size: 0.95em; color: var(--text-main);">
+        Prints scan status and progress metrics periodically every 5 seconds.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+      <!-- Loaded from slides/07_evasion_flags.html -->
+<!-- SLIDE: Firewall Evasion & Spoofing Flags -->
+<section>
+  <h2><i class="fa-solid fa-user-secret highlight-htb"></i> Firewall Evasion & Spoofing</h2>
+  <p class="slide-subtitle">
+    Bypassing firewall packet filters and masking source origins:
+  </p>
+
+  <div style="display: flex; flex-direction: column; gap: 1.2rem; text-align: left; max-width: 1050px; margin: 0 auto;">
+    
+    <!-- --source-port -->
+    <div style="display: grid; grid-template-columns: 220px 1fr; gap: 1.2rem; align-items: start; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 1rem;">
+      <div><code style="color: var(--accent-red); font-size: 0.95rem; font-weight: 700;">--source-port</code></div>
+      <div style="font-size: 0.95em; color: var(--text-main);">
+        Changes the source port to bypass firewall rules (e.g. <code style="color: var(--htb-green);">--source-port 53</code>).
+        <p style="margin-top: 0.5rem; color: var(--text-muted); font-style: italic; font-size: 0.92em;">
+          "If the traffic is coming FROM port 53 (DNS), it must be legitimate DNS traffic. Let it through."
+        </p>
+      </div>
+    </div>
+
+    <!-- -S -->
+    <div style="display: grid; grid-template-columns: 220px 1fr; gap: 1.2rem; align-items: start; padding-bottom: 0.2rem;">
+      <div><code style="color: var(--accent-red); font-size: 0.95rem; font-weight: 700;">-S</code></div>
+      <div style="font-size: 0.95em; color: var(--text-main);">
+        Spoofs the source IP address of scan packets to conceal the true scanner identity.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+      <!-- Loaded from slides/08_nse_overview.html -->
+<!-- SLIDE: NSE Overview & Syntax -->
+<section>
+  <h2><i class="fa-solid fa-code highlight-htb"></i> Nmap Scripting Engine (NSE)</h2>
+  <p class="slide-subtitle">
+    Automating vulnerability detection, service enumeration, and exploitation with Lua scripts:
+  </p>
+
+  <div class="grid-2" style="align-items: start; gap: 1.5rem;">
+    <!-- Key Concepts -->
+    <div style="display: flex; flex-direction: column; gap: 0.8rem; text-align: left;">
+      <div style="border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.6rem;">
+        <strong style="color: var(--htb-green); font-size: 1.05em;">What is NSE?</strong>
+        <p style="margin-top: 0.3rem; font-size: 0.92em; color: var(--text-main);">
+          NSE allows users to write and share Lua scripts to automate complex network tasks, vulnerability scanning, and advanced service discovery.
+        </p>
+      </div>
+
+      <div style="border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.6rem;">
+        <strong style="color: var(--accent-cyan); font-size: 1.05em;">14 Total Categories</strong>
+        <p style="margin-top: 0.3rem; font-size: 0.92em; color: var(--text-main);">
+          Over 600+ scripts organized into 14 distinct functional categories ranging from passive discovery to active exploitation.
+        </p>
+      </div>
+
+      <div>
+        <strong style="color: var(--accent-purple); font-size: 1.05em;">Default Script Execution</strong>
+        <p style="margin-top: 0.3rem; font-size: 0.92em; color: var(--text-main);">
+          The <code style="color: var(--htb-green);">-sC</code> flag runs the standard set of safe, fast default scripts against open ports.
+        </p>
+      </div>
+    </div>
+
+    <!-- Terminal Code Window -->
+    <div>
+      <div class="terminal-header">
+        <span class="terminal-dot dot-red"></span>
+        <span class="terminal-dot dot-yellow"></span>
+        <span class="terminal-dot dot-green"></span>
+        <span class="terminal-title">root@htb:~# NSE Command Syntax</span>
+      </div>
+      <pre><code class="language-bash"># Run default scripts (-sC)
+sudo nmap 10.10.11.20 -sC
+
+# Run all scripts in a category (e.g. vuln)
+sudo nmap 10.10.11.20 --script vuln
+
+# Run specific scripts by name
+sudo nmap 10.10.11.20 --script http-enum,smb-os-discovery</code></pre>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/09_nse_categories.html -->
+<!-- SLIDE: NSE Script Categories -->
+<section>
+  <h2><i class="fa-solid fa-layer-group highlight-htb"></i> NSE Script Categories</h2>
+  <p class="slide-subtitle" style="margin-bottom: 1rem; font-size: 0.88em; line-height: 1.45;">
+    Nmap Scripting Engine (NSE) is another handy feature of Nmap. It provides us with the possibility to create scripts in Lua for interaction with certain services. There are a total of 14 categories into which these scripts can be divided:
+  </p>
+
+  <div class="grid-2" style="gap: 1.2rem; align-items: start; max-width: 1150px; margin: 0 auto; text-align: left;">
+    <!-- Column 1 (Categories 1-7) -->
+    <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+      <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
+        <div><code style="color: var(--htb-green); font-weight: 700; font-size: 0.85rem;">auth</code></div>
+        <div style="font-size: 0.78em; color: var(--text-main);">Determination of authentication credentials.</div>
+      </div>
+
+      <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
+        <div><code style="color: var(--htb-green); font-weight: 700; font-size: 0.85rem;">broadcast</code></div>
+        <div style="font-size: 0.78em; color: var(--text-main);">Scripts, which are used for host discovery by broadcasting and the discovered hosts, can be automatically added to the remaining scans.</div>
+      </div>
+
+      <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
+        <div><code style="color: var(--htb-green); font-weight: 700; font-size: 0.85rem;">brute</code></div>
+        <div style="font-size: 0.78em; color: var(--text-main);">Executes scripts that try to log in to the respective service by brute-forcing with credentials.</div>
+      </div>
+
+      <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
+        <div><code style="color: var(--htb-green); font-weight: 700; font-size: 0.85rem;">default</code></div>
+        <div style="font-size: 0.78em; color: var(--text-main);">Default scripts executed by using the <code style="color: var(--htb-green);">-sC</code> option.</div>
+      </div>
+
+      <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
+        <div><code style="color: var(--htb-green); font-weight: 700; font-size: 0.85rem;">discovery</code></div>
+        <div style="font-size: 0.78em; color: var(--text-main);">Evaluation of accessible services.</div>
+      </div>
+
+      <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
+        <div><code style="color: var(--accent-red); font-weight: 700; font-size: 0.85rem;">dos</code></div>
+        <div style="font-size: 0.78em; color: var(--text-main);">These scripts are used to check services for denial of service vulnerabilities and are used less as it harms the services.</div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start; padding-bottom: 0.2rem;">
+        <div><code style="color: var(--accent-red); font-weight: 700; font-size: 0.85rem;">exploit</code></div>
+        <div style="font-size: 0.78em; color: var(--text-main);">This category of scripts tries to exploit known vulnerabilities for the scanned port.</div>
+      </div>
+    </div>
+
+    <!-- Column 2 (Categories 8-14) -->
+    <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+      <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
+        <div><code style="color: var(--accent-cyan); font-weight: 700; font-size: 0.85rem;">external</code></div>
+        <div style="font-size: 0.78em; color: var(--text-main);">Scripts that use external services for further processing.</div>
+      </div>
+
+      <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
+        <div><code style="color: var(--accent-cyan); font-weight: 700; font-size: 0.85rem;">fuzzer</code></div>
+        <div style="font-size: 0.78em; color: var(--text-main);">This uses scripts to identify vulnerabilities and unexpected packet handling by sending different fields, which can take much time.</div>
+      </div>
+
+      <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
+        <div><code style="color: var(--accent-yellow); font-weight: 700; font-size: 0.85rem;">intrusive</code></div>
+        <div style="font-size: 0.78em; color: var(--text-main);">Intrusive scripts that could negatively affect the target system.</div>
+      </div>
+
+      <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
+        <div><code style="color: var(--accent-purple); font-weight: 700; font-size: 0.85rem;">malware</code></div>
+        <div style="font-size: 0.78em; color: var(--text-main);">Checks if some malware infects the target system.</div>
+      </div>
+
+      <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
+        <div><code style="color: var(--htb-green); font-weight: 700; font-size: 0.85rem;">safe</code></div>
+        <div style="font-size: 0.78em; color: var(--text-main);">Defensive scripts that do not perform intrusive and destructive access.</div>
+      </div>
+
+      <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
+        <div><code style="color: var(--accent-cyan); font-weight: 700; font-size: 0.85rem;">version</code></div>
+        <div style="font-size: 0.78em; color: var(--text-main);">Extension for service detection.</div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start; padding-bottom: 0.2rem;">
+        <div><code style="color: var(--accent-red); font-weight: 700; font-size: 0.85rem;">vuln</code></div>
+        <div style="font-size: 0.78em; color: var(--text-main);">Identification of specific vulnerabilities.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/summary.html -->
+<!-- SLIDE: Module Summary -->
+<section data-background-gradient="radial-gradient(circle, rgba(159,239,0,0.15) 0%, rgba(11,18,31,1) 100%)">
+  <div style="text-align: center;">
+    <span class="cyber-badge badge-htb" style="margin-bottom: 1.2rem;"><i class="fa-solid fa-cube"></i> SUMMARY COMPLETED</span>
+    <h1 style="font-size: 3em;">Module Summary</h1>
+    <p style="color: var(--text-muted); font-size: 1.1em; margin-bottom: 2.5rem;">
+      Key Takeaways & Core Concepts Overview
+    </p>
+
+    <div class="cyber-card" style="display: inline-block; padding: 1.2rem 2.5rem; text-align: center;">
+      <div style="font-family: var(--font-mono); font-size: 0.9em; color: var(--htb-green);">
+        <i class="fa-solid fa-terminal"></i> Press <strong>'ESC'</strong> or <strong>'O'</strong> for Grid Overview | <strong>'F'</strong> for Fullscreen Mode
+      </div>
+    </div>
+  </div>
+</section>
+    </div>
+  </div>
+
+  <!-- Custom Navigation Overlay -->
+  <div class="cyber-controls">
+    <button onclick="Reveal.prev()"><i class="fa-solid fa-chevron-left"></i> Prev</button>
+    <button onclick="Reveal.toggleOverview()"><i class="fa-solid fa-grid-2"></i> Grid</button>
+    <button onclick="Reveal.next()">Next <i class="fa-solid fa-chevron-right"></i></button>
+  </div>
+
+  <!-- Reveal.js & Plugins JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.0/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.0/plugin/highlight/highlight.min.js"></script>
+  <script src="js/cyber-bg.js"></script>
+  <script>
+    // Initialize Reveal.js
+    Reveal.initialize({
+      width: 1200,
+      height: 700,
+      margin: 0.04,
+      hash: true,
+      controls: false,
+      progress: true,
+      center: true,
+      transition: 'slide',
+      backgroundTransition: 'fade',
+      plugins: [ RevealHighlight ]
+    });
+  </script>
+</body>
+</html>

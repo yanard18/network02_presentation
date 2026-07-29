@@ -1,0 +1,85 @@
+<!-- SLIDE: NSE Script Categories -->
+<section>
+  <h2><i class="fa-solid fa-layer-group highlight-htb"></i> NSE Script Categories</h2>
+  <p class="slide-subtitle" style="margin-bottom: 1rem; font-size: 0.88em; line-height: 1.45;">
+    Nmap Scripting Engine (NSE) is another handy feature of Nmap. It provides us with the possibility to create scripts in Lua for interaction with certain services. There are a total of 14 categories into which these scripts can be divided:
+  </p>
+
+  <div class="grid-2" style="gap: 1.2rem; align-items: start; max-width: 1150px; margin: 0 auto; text-align: left;">
+    <!-- Column 1 (Categories 1-7) -->
+    <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+      <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
+        <div><code style="color: var(--htb-green); font-weight: 700; font-size: 0.85rem;">auth</code></div>
+        <div style="font-size: 0.78em; color: var(--text-main);">Determination of authentication credentials.</div>
+      </div>
+
+      <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
+        <div><code style="color: var(--htb-green); font-weight: 700; font-size: 0.85rem;">broadcast</code></div>
+        <div style="font-size: 0.78em; color: var(--text-main);">Scripts, which are used for host discovery by broadcasting and the discovered hosts, can be automatically added to the remaining scans.</div>
+      </div>
+
+      <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
+        <div><code style="color: var(--htb-green); font-weight: 700; font-size: 0.85rem;">brute</code></div>
+        <div style="font-size: 0.78em; color: var(--text-main);">Executes scripts that try to log in to the respective service by brute-forcing with credentials.</div>
+      </div>
+
+      <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
+        <div><code style="color: var(--htb-green); font-weight: 700; font-size: 0.85rem;">default</code></div>
+        <div style="font-size: 0.78em; color: var(--text-main);">Default scripts executed by using the <code style="color: var(--htb-green);">-sC</code> option.</div>
+      </div>
+
+      <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
+        <div><code style="color: var(--htb-green); font-weight: 700; font-size: 0.85rem;">discovery</code></div>
+        <div style="font-size: 0.78em; color: var(--text-main);">Evaluation of accessible services.</div>
+      </div>
+
+      <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
+        <div><code style="color: var(--accent-red); font-weight: 700; font-size: 0.85rem;">dos</code></div>
+        <div style="font-size: 0.78em; color: var(--text-main);">These scripts are used to check services for denial of service vulnerabilities and are used less as it harms the services.</div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start; padding-bottom: 0.2rem;">
+        <div><code style="color: var(--accent-red); font-weight: 700; font-size: 0.85rem;">exploit</code></div>
+        <div style="font-size: 0.78em; color: var(--text-main);">This category of scripts tries to exploit known vulnerabilities for the scanned port.</div>
+      </div>
+    </div>
+
+    <!-- Column 2 (Categories 8-14) -->
+    <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+      <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
+        <div><code style="color: var(--accent-cyan); font-weight: 700; font-size: 0.85rem;">external</code></div>
+        <div style="font-size: 0.78em; color: var(--text-main);">Scripts that use external services for further processing.</div>
+      </div>
+
+      <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
+        <div><code style="color: var(--accent-cyan); font-weight: 700; font-size: 0.85rem;">fuzzer</code></div>
+        <div style="font-size: 0.78em; color: var(--text-main);">This uses scripts to identify vulnerabilities and unexpected packet handling by sending different fields, which can take much time.</div>
+      </div>
+
+      <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
+        <div><code style="color: var(--accent-yellow); font-weight: 700; font-size: 0.85rem;">intrusive</code></div>
+        <div style="font-size: 0.78em; color: var(--text-main);">Intrusive scripts that could negatively affect the target system.</div>
+      </div>
+
+      <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
+        <div><code style="color: var(--accent-purple); font-weight: 700; font-size: 0.85rem;">malware</code></div>
+        <div style="font-size: 0.78em; color: var(--text-main);">Checks if some malware infects the target system.</div>
+      </div>
+
+      <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
+        <div><code style="color: var(--htb-green); font-weight: 700; font-size: 0.85rem;">safe</code></div>
+        <div style="font-size: 0.78em; color: var(--text-main);">Defensive scripts that do not perform intrusive and destructive access.</div>
+      </div>
+
+      <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
+        <div><code style="color: var(--accent-cyan); font-weight: 700; font-size: 0.85rem;">version</code></div>
+        <div style="font-size: 0.78em; color: var(--text-main);">Extension for service detection.</div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start; padding-bottom: 0.2rem;">
+        <div><code style="color: var(--accent-red); font-weight: 700; font-size: 0.85rem;">vuln</code></div>
+        <div style="font-size: 0.78em; color: var(--text-main);">Identification of specific vulnerabilities.</div>
+      </div>
+    </div>
+  </div>
+</section>
