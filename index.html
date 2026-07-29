@@ -1377,6 +1377,295 @@ sudo nmap 10.10.11.20 --script http-enum,smb-os-discovery</code></pre>
   </div>
 </section>
 
+      <!-- Loaded from slides/10_masscan_overview.html -->
+<!-- SLIDE 10: Introduction to Masscan -->
+<section>
+  <h2><i class="fa-solid fa-gauge-simple-high highlight-htb"></i> Introduction to Masscan</h2>
+  <p class="slide-subtitle">
+    The fastest Internet-scale port scanner: scanning the entire IPv4 Internet in under 6 minutes.
+  </p>
+
+  <div class="grid-2" style="align-items: stretch; gap: 1.4rem;">
+    
+    <!-- Left Column: The Scale Problem & Need -->
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      <div class="cyber-card threat">
+        <div class="card-title">
+          <span class="cyber-badge badge-red">THE SCALE PROBLEM</span> Why Nmap Struggles at Scale
+        </div>
+        <ul class="threat-list" style="margin-bottom: 0.5rem;">
+          <li><strong>Nmap Bottlenecks:</strong> Nmap relies on synchronous tracking and OS kernel socket stacks. Scanning large subnets (<code style="color: var(--accent-red);">/16</code> or <code style="color: var(--accent-red);">/8</code>) takes days or weeks.</li>
+          <li><strong>Resource Limits:</strong> OS network stacks overhead caps packet rates and causes memory limits when scanning millions of targets simultaneously.</li>
+        </ul>
+      </div>
+
+      <div class="cyber-card secure">
+        <div class="card-title">
+          <span class="cyber-badge badge-htb">MASSCAN SOLUTION</span> Custom Asynchronous Engine
+        </div>
+        <ul class="secure-list" style="margin-bottom: 0;">
+          <li><strong>10 Million pps:</strong> Capable of transmitting 10,000,000 packets per second (`10 Mpps`).</li>
+          <li><strong>Internet-Wide Scanning:</strong> Scans the entire IPv4 address space (<code style="color: var(--htb-green);">0.0.0.0/0</code>) for open ports in under 6 minutes.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Right Column: Architecture & Features -->
+    <div class="cyber-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title">
+          <span class="cyber-badge badge-cyan">ARCHITECTURE</span> How Masscan Achieves Speed
+        </div>
+        
+        <ul style="margin-bottom: 0.8rem; font-size: 0.9em;">
+          <li><strong>Custom TCP/IP Stack:</strong> Bypasses the OS kernel networking stack completely using raw socket drivers (<code style="color: var(--accent-cyan);">PF_RING</code> / <code style="color: var(--accent-cyan);">libpcap</code>).</li>
+          <li><strong>Asynchronous Transmit/Receive:</strong> Transmits raw SYN probes continuously on a dedicated thread without waiting for replies. Responses are handled independently by a receiver thread.</li>
+          <li><strong>Lockless Ring Buffers:</strong> Eliminates thread lock contention and memory allocation bottlenecks.</li>
+        </ul>
+      </div>
+
+      <!-- Key Highlight Banner -->
+      <div style="padding: 0.65rem 0.9rem; background: rgba(45, 226, 230, 0.1); border-left: 3px solid var(--accent-cyan); border-radius: 4px; font-size: 0.84em; color: var(--text-main);">
+        <i class="fa-solid fa-bolt highlight-cyan"></i> <strong>Masscan Syntax:</strong> Designed intentionally with Nmap-like CLI options for instant familiarity.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+      <!-- Loaded from slides/11_nmap_vs_masscan.html -->
+<!-- SLIDE 11: Nmap vs Masscan Comparison -->
+<section>
+  <h2><i class="fa-solid fa-scale-balanced highlight-htb"></i> Nmap vs. Masscan Comparison</h2>
+  <p class="slide-subtitle">
+    Architectural differences, feature tradeoffs, and the optimal combined reconnaissance workflow.
+  </p>
+
+  <div class="grid-2" style="align-items: stretch; gap: 1.4rem;">
+    
+    <!-- Left Column: Feature Comparison Table -->
+    <div class="cyber-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title">
+          <span class="cyber-badge badge-htb">ARCHITECTURAL DIFFERENCES</span> Feature Matrix
+        </div>
+        
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.8em; margin-top: 0.5rem; color: var(--text-main);">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--htb-border); text-align: left;">
+              <th style="padding: 6px 8px; color: var(--text-white); font-family: var(--font-heading);">Feature</th>
+              <th style="padding: 6px 8px; color: var(--accent-cyan); font-family: var(--font-heading);">Nmap</th>
+              <th style="padding: 6px 8px; color: var(--htb-green); font-family: var(--font-heading);">Masscan</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+              <td style="padding: 7px 8px;"><strong>Architecture</strong></td>
+              <td style="padding: 7px 8px;">Synchronous / OS Sockets</td>
+              <td style="padding: 7px 8px;">Asynchronous Raw Stack</td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+              <td style="padding: 7px 8px;"><strong>Max Scan Rate</strong></td>
+              <td style="padding: 7px 8px;">~1k – 10k pps</td>
+              <td style="padding: 7px 8px; color: var(--htb-green); font-weight: 700;">Up to 10M pps</td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+              <td style="padding: 7px 8px;"><strong>Primary Purpose</strong></td>
+              <td style="padding: 7px 8px;">Deep auditing & fingerprinting</td>
+              <td style="padding: 7px 8px;">Rapid internet-scale discovery</td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+              <td style="padding: 7px 8px;"><strong>Service Detection</strong></td>
+              <td style="padding: 7px 8px; color: var(--htb-green); font-weight: 700;">Full Engine (<code style="color: var(--htb-green);">-sV</code>)</td>
+              <td style="padding: 7px 8px;">Basic Banners (<code style="color: var(--accent-cyan);">--banners</code>)</td>
+            </tr>
+            <tr>
+              <td style="padding: 7px 8px;"><strong>Scripting & OS</strong></td>
+              <td style="padding: 7px 8px;">NSE Scripts & OS Detection</td>
+              <td style="padding: 7px 8px;">None (Port discovery only)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top: 0.8rem; font-size: 0.8em; color: var(--text-muted); padding: 0.45rem 0.75rem; background: rgba(7, 14, 27, 0.6); border-radius: 4px;">
+        <i class="fa-solid fa-circle-info highlight-cyan"></i> Masscan trades script depth for raw speed; Nmap trades speed for exhaustive analytical depth.
+      </div>
+    </div>
+
+    <!-- Right Column: Optimal Recce Workflow -->
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      <div class="cyber-card secure">
+        <div class="card-title">
+          <span class="cyber-badge badge-htb">BEST PRACTICE</span> Hybrid Reconnaissance Workflow
+        </div>
+        <p style="font-size: 0.88em; color: var(--text-muted); margin-bottom: 0.6rem;">
+          Combine both tools for maximum efficiency when auditing large enterprise networks:
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 0.7rem; font-size: 0.86em;">
+          <div style="border-left: 3px solid var(--htb-green); padding-left: 0.8rem;">
+            <strong style="color: var(--htb-green);">Phase 1: Rapid Masscan Enumeration</strong>
+            <div style="color: var(--text-main);">Run Masscan at high rate across large CIDR blocks (<code style="color: var(--htb-green);">/16</code>) to instantly identify live hosts & open ports.</div>
+          </div>
+          <div style="border-left: 3px solid var(--accent-cyan); padding-left: 0.8rem;">
+            <strong style="color: var(--accent-cyan);">Phase 2: Targeted Nmap Auditing</strong>
+            <div style="color: var(--text-main);">Feed Masscan open IP/port output directly into Nmap (<code style="color: var(--accent-cyan);">nmap -iL targets.txt -sV -sC</code>) for deep vulnerability analysis.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Command Pipe Example -->
+      <div>
+        <div class="terminal-header" style="padding: 0.35rem 0.8rem;">
+          <span class="terminal-dot dot-red"></span>
+          <span class="terminal-dot dot-yellow"></span>
+          <span class="terminal-dot dot-green"></span>
+          <span class="terminal-title">Phase 1 & Phase 2 Recon Workflow</span>
+        </div>
+        <pre style="margin: 0;"><code class="language-bash" style="padding: 0.75rem 1rem; font-size: 0.78em;"># Step 1: Rapid discovery with Masscan
+masscan -p80,443,8080 10.0.0.0/16 --rate 50000 -oG masscan.gnmap
+
+# Step 2: Feed discovered hosts into Nmap
+nmap -iL live_targets.txt -sV -sC -oA target_audit</code></pre>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+      <!-- Loaded from slides/12_masscan_usage.html -->
+<!-- SLIDE 12: Masscan Commands & Rate Control -->
+<section>
+  <h2><i class="fa-solid fa-terminal highlight-htb"></i> Masscan Commands & Rate Control</h2>
+  <p class="slide-subtitle">
+    Essential CLI syntax, key configuration flags, and packet rate tuning best practices.
+  </p>
+
+  <div class="grid-2" style="align-items: stretch; gap: 1.4rem;">
+    
+    <!-- Left Column: Core Flags & Options -->
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      <div class="cyber-card">
+        <div class="card-title">
+          <span class="cyber-badge badge-htb">CLI OPTIONS</span> Essential Configuration Flags
+        </div>
+        <ul style="margin-bottom: 0.6rem; font-size: 0.88em;">
+          <li><code style="color: var(--htb-green);">--rate &lt;pps&gt;</code> Specifies transmit rate in packets per second (e.g. <code style="color: var(--htb-green);">--rate 100000</code>).</li>
+          <li><code style="color: var(--accent-cyan);">--banners</code> Enables TCP banner grabbing (grabs HTTP Server headers, SSH version strings, etc.).</li>
+          <li><code style="color: var(--accent-purple);">--exclude &lt;ip&gt;</code> Excludes sensitive IP addresses or subnets from the scan range.</li>
+          <li><code style="color: var(--accent-yellow);">-oJ &lt;filename&gt;</code> Saves scan results in structured JSON format for automated parsing.</li>
+        </ul>
+      </div>
+
+      <div class="cyber-card threat">
+        <div class="card-title">
+          <span class="cyber-badge badge-red">RATE TUNING PITFALL</span> Bandwidth Oversaturation Risk
+        </div>
+        <ul class="threat-list" style="margin-bottom: 0; font-size: 0.86em;">
+          <li><strong>Local Router Saturation:</strong> Setting <code style="color: var(--accent-red);">--rate</code> higher than your local connection or ISP uplink can handle causes dropped packets.</li>
+          <li><strong>False Negatives:</strong> Dropped incoming <code style="color: var(--htb-green);">SYN-ACK</code> packets lead to missed open ports. Always benchmark bandwidth before setting rates over <code style="color: var(--accent-red);">100,000 pps</code>.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Right Column: Command Examples & Terminal -->
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      
+      <!-- Subnet & Port Range Scan -->
+      <div>
+        <div class="terminal-header" style="padding: 0.35rem 0.8rem;">
+          <span class="terminal-dot dot-red"></span>
+          <span class="terminal-dot dot-yellow"></span>
+          <span class="terminal-dot dot-green"></span>
+          <span class="terminal-title">Full Port Range Subnet Scan</span>
+        </div>
+        <pre style="margin: 0;"><code class="language-bash" style="padding: 0.75rem 1rem; font-size: 0.76em;"># Scan top web ports across a /16 subnet at 100,000 pps
+sudo masscan -p80,443 10.10.0.0/16 --rate 100000 -oJ web_scan.json
+
+# Full 65,535 port scan with banner grabbing
+sudo masscan -p1-65535 10.10.20.0/24 --banners --rate 25000</code></pre>
+      </div>
+
+      <!-- Exclusion Example -->
+      <div>
+        <div class="terminal-header" style="padding: 0.35rem 0.8rem;">
+          <span class="terminal-dot dot-red"></span>
+          <span class="terminal-dot dot-yellow"></span>
+          <span class="terminal-dot dot-green"></span>
+          <span class="terminal-title">Scanning with Exclusion File</span>
+        </div>
+        <pre style="margin: 0;"><code class="language-bash" style="padding: 0.75rem 1rem; font-size: 0.76em;"># Exclude sensitive domain controllers & gateways
+sudo masscan 10.0.0.0/8 -p80 --excludefile exclude.txt --rate 50000</code></pre>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+      <!-- Loaded from slides/13_masscan_simulator.html -->
+<!-- SLIDE 13: Interactive Masscan Speed Simulator -->
+<section>
+  <h2><i class="fa-solid fa-bolt-lightning highlight-cyan"></i> Interactive Masscan Rate Simulator</h2>
+  <p class="slide-subtitle">
+    Simulate packet transmission speed, host discovery rates, and packet drop trade-offs across scan engines.
+  </p>
+
+  <div class="sim-container" style="max-width: 1050px; margin: 0 auto;">
+    
+    <!-- Top Control Bar & Rate Selection -->
+    <div style="display: flex; gap: 0.8rem; justify-content: center; align-items: center; flex-wrap: wrap; margin-bottom: 0.6rem;">
+      <button class="sim-btn" onclick="window.masscanSim.runScan(1000, 'Nmap Standard')">
+        <i class="fa-solid fa-turtle"></i> 1,000 pps (Nmap)
+      </button>
+      <button class="sim-btn" style="border-color: var(--htb-green); color: var(--htb-green);" onclick="window.masscanSim.runScan(50000, 'Masscan Optimal')">
+        <i class="fa-solid fa-gauge-high"></i> 50,000 pps (Masscan)
+      </button>
+      <button class="sim-btn btn-red" onclick="window.masscanSim.runScan(1000000, 'Overclocked Flood')">
+        <i class="fa-solid fa-fire-flame-curved"></i> 1,000,000 pps (Overclocked)
+      </button>
+      <button class="sim-btn" style="border-color: var(--text-muted); color: var(--text-muted);" onclick="window.masscanSim.resetSim()">
+        <i class="fa-solid fa-rotate-left"></i> Reset
+      </button>
+    </div>
+
+    <!-- Live Performance Metrics Cards -->
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.8rem; margin-bottom: 0.6rem;">
+      <div style="background: var(--htb-bg-terminal); border: 1px solid var(--htb-border); padding: 0.6rem 0.8rem; border-radius: 6px; text-align: center;">
+        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">TRANSMIT RATE</div>
+        <div id="sim-rate-val" style="font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700; color: var(--htb-green); margin-top: 2px;">0 pps</div>
+      </div>
+      <div style="background: var(--htb-bg-terminal); border: 1px solid var(--htb-border); padding: 0.6rem 0.8rem; border-radius: 6px; text-align: center;">
+        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">PROGRESS</div>
+        <div id="sim-progress-val" style="font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700; color: var(--accent-cyan); margin-top: 2px;">0 / 65,536</div>
+      </div>
+      <div style="background: var(--htb-bg-terminal); border: 1px solid var(--htb-border); padding: 0.6rem 0.8rem; border-radius: 6px; text-align: center;">
+        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">ACCURACY RATE</div>
+        <div id="sim-accuracy-val" style="font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700; color: var(--text-white); margin-top: 2px;">100%</div>
+      </div>
+      <div style="background: var(--htb-bg-terminal); border: 1px solid var(--htb-border); padding: 0.6rem 0.8rem; border-radius: 6px; text-align: center;">
+        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">ESTIMATED TIME</div>
+        <div id="sim-time-val" style="font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700; color: var(--accent-yellow); margin-top: 2px;">0.0s</div>
+      </div>
+    </div>
+
+    <!-- Packet Stream Track Animation -->
+    <div class="sim-track" style="height: 50px; background: #050b16; padding: 0 1rem; justify-content: space-between; overflow: hidden; position: relative;">
+      <div class="sim-endpoint"><i class="fa-solid fa-laptop-code highlight-cyan"></i> Scanner</div>
+      <div id="sim-packet-lane" style="position: absolute; left: 100px; right: 100px; top: 0; bottom: 0; pointer-events: none;"></div>
+      <div class="sim-endpoint"><i class="fa-solid fa-network-wired highlight-htb"></i> /16 Network (65,536 IPs)</div>
+    </div>
+
+    <!-- Real-time Console Log Box -->
+    <div id="masscan-sim-log" style="background: var(--htb-bg-terminal); border: 1px solid var(--htb-border); border-radius: 6px; padding: 0.7rem 1rem; min-height: 90px; max-height: 110px; overflow-y: auto; font-family: var(--font-mono); font-size: 0.76rem; color: #e2e8f0; margin-top: 0.6rem; text-align: left;">
+      <div style="color: var(--text-muted);">&gt; Click a rate button above to launch live Masscan vs Nmap transmission simulation...</div>
+    </div>
+
+  </div>
+</section>
+
       <!-- Loaded from slides/summary.html -->
 <!-- SLIDE: Module Summary -->
 <section data-background-gradient="radial-gradient(circle, rgba(159,239,0,0.15) 0%, rgba(11,18,31,1) 100%)">
@@ -1408,6 +1697,7 @@ sudo nmap 10.10.11.20 --script http-enum,smb-os-discovery</code></pre>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.0/reveal.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.0/plugin/highlight/highlight.min.js"></script>
   <script src="js/cyber-bg.js"></script>
+  <script src="js/masscan-sim.js"></script>
   <script>
     // Initialize Reveal.js
     Reveal.initialize({

@@ -1,0 +1,54 @@
+<!-- SLIDE 10: Introduction to Masscan -->
+<section>
+  <h2><i class="fa-solid fa-gauge-simple-high highlight-htb"></i> Introduction to Masscan</h2>
+  <p class="slide-subtitle">
+    The fastest Internet-scale port scanner: scanning the entire IPv4 Internet in under 6 minutes.
+  </p>
+
+  <div class="grid-2" style="align-items: stretch; gap: 1.4rem;">
+    
+    <!-- Left Column: The Scale Problem & Need -->
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      <div class="cyber-card threat">
+        <div class="card-title">
+          <span class="cyber-badge badge-red">THE SCALE PROBLEM</span> Why Nmap Struggles at Scale
+        </div>
+        <ul class="threat-list" style="margin-bottom: 0.5rem;">
+          <li><strong>Nmap Bottlenecks:</strong> Nmap relies on synchronous tracking and OS kernel socket stacks. Scanning large subnets (<code style="color: var(--accent-red);">/16</code> or <code style="color: var(--accent-red);">/8</code>) takes days or weeks.</li>
+          <li><strong>Resource Limits:</strong> OS network stacks overhead caps packet rates and causes memory limits when scanning millions of targets simultaneously.</li>
+        </ul>
+      </div>
+
+      <div class="cyber-card secure">
+        <div class="card-title">
+          <span class="cyber-badge badge-htb">MASSCAN SOLUTION</span> Custom Asynchronous Engine
+        </div>
+        <ul class="secure-list" style="margin-bottom: 0;">
+          <li><strong>10 Million pps:</strong> Capable of transmitting 10,000,000 packets per second (`10 Mpps`).</li>
+          <li><strong>Internet-Wide Scanning:</strong> Scans the entire IPv4 address space (<code style="color: var(--htb-green);">0.0.0.0/0</code>) for open ports in under 6 minutes.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Right Column: Architecture & Features -->
+    <div class="cyber-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title">
+          <span class="cyber-badge badge-cyan">ARCHITECTURE</span> How Masscan Achieves Speed
+        </div>
+        
+        <ul style="margin-bottom: 0.8rem; font-size: 0.9em;">
+          <li><strong>Custom TCP/IP Stack:</strong> Bypasses the OS kernel networking stack completely using raw socket drivers (<code style="color: var(--accent-cyan);">PF_RING</code> / <code style="color: var(--accent-cyan);">libpcap</code>).</li>
+          <li><strong>Asynchronous Transmit/Receive:</strong> Transmits raw SYN probes continuously on a dedicated thread without waiting for replies. Responses are handled independently by a receiver thread.</li>
+          <li><strong>Lockless Ring Buffers:</strong> Eliminates thread lock contention and memory allocation bottlenecks.</li>
+        </ul>
+      </div>
+
+      <!-- Key Highlight Banner -->
+      <div style="padding: 0.65rem 0.9rem; background: rgba(45, 226, 230, 0.1); border-left: 3px solid var(--accent-cyan); border-radius: 4px; font-size: 0.84em; color: var(--text-main);">
+        <i class="fa-solid fa-bolt highlight-cyan"></i> <strong>Masscan Syntax:</strong> Designed intentionally with Nmap-like CLI options for instant familiarity.
+      </div>
+    </div>
+
+  </div>
+</section>

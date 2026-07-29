@@ -1,0 +1,100 @@
+<!-- SLIDE 11: Nmap vs Masscan Comparison -->
+<section>
+  <h2><i class="fa-solid fa-scale-balanced highlight-htb"></i> Nmap vs. Masscan Comparison</h2>
+  <p class="slide-subtitle">
+    Architectural differences, feature tradeoffs, and the optimal combined reconnaissance workflow.
+  </p>
+
+  <div class="grid-2" style="align-items: stretch; gap: 1.4rem;">
+    
+    <!-- Left Column: Feature Comparison Table -->
+    <div class="cyber-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title">
+          <span class="cyber-badge badge-htb">ARCHITECTURAL DIFFERENCES</span> Feature Matrix
+        </div>
+        
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.8em; margin-top: 0.5rem; color: var(--text-main);">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--htb-border); text-align: left;">
+              <th style="padding: 6px 8px; color: var(--text-white); font-family: var(--font-heading);">Feature</th>
+              <th style="padding: 6px 8px; color: var(--accent-cyan); font-family: var(--font-heading);">Nmap</th>
+              <th style="padding: 6px 8px; color: var(--htb-green); font-family: var(--font-heading);">Masscan</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+              <td style="padding: 7px 8px;"><strong>Architecture</strong></td>
+              <td style="padding: 7px 8px;">Synchronous / OS Sockets</td>
+              <td style="padding: 7px 8px;">Asynchronous Raw Stack</td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+              <td style="padding: 7px 8px;"><strong>Max Scan Rate</strong></td>
+              <td style="padding: 7px 8px;">~1k – 10k pps</td>
+              <td style="padding: 7px 8px; color: var(--htb-green); font-weight: 700;">Up to 10M pps</td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+              <td style="padding: 7px 8px;"><strong>Primary Purpose</strong></td>
+              <td style="padding: 7px 8px;">Deep auditing & fingerprinting</td>
+              <td style="padding: 7px 8px;">Rapid internet-scale discovery</td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+              <td style="padding: 7px 8px;"><strong>Service Detection</strong></td>
+              <td style="padding: 7px 8px; color: var(--htb-green); font-weight: 700;">Full Engine (<code style="color: var(--htb-green);">-sV</code>)</td>
+              <td style="padding: 7px 8px;">Basic Banners (<code style="color: var(--accent-cyan);">--banners</code>)</td>
+            </tr>
+            <tr>
+              <td style="padding: 7px 8px;"><strong>Scripting & OS</strong></td>
+              <td style="padding: 7px 8px;">NSE Scripts & OS Detection</td>
+              <td style="padding: 7px 8px;">None (Port discovery only)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top: 0.8rem; font-size: 0.8em; color: var(--text-muted); padding: 0.45rem 0.75rem; background: rgba(7, 14, 27, 0.6); border-radius: 4px;">
+        <i class="fa-solid fa-circle-info highlight-cyan"></i> Masscan trades script depth for raw speed; Nmap trades speed for exhaustive analytical depth.
+      </div>
+    </div>
+
+    <!-- Right Column: Optimal Recce Workflow -->
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      <div class="cyber-card secure">
+        <div class="card-title">
+          <span class="cyber-badge badge-htb">BEST PRACTICE</span> Hybrid Reconnaissance Workflow
+        </div>
+        <p style="font-size: 0.88em; color: var(--text-muted); margin-bottom: 0.6rem;">
+          Combine both tools for maximum efficiency when auditing large enterprise networks:
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 0.7rem; font-size: 0.86em;">
+          <div style="border-left: 3px solid var(--htb-green); padding-left: 0.8rem;">
+            <strong style="color: var(--htb-green);">Phase 1: Rapid Masscan Enumeration</strong>
+            <div style="color: var(--text-main);">Run Masscan at high rate across large CIDR blocks (<code style="color: var(--htb-green);">/16</code>) to instantly identify live hosts & open ports.</div>
+          </div>
+          <div style="border-left: 3px solid var(--accent-cyan); padding-left: 0.8rem;">
+            <strong style="color: var(--accent-cyan);">Phase 2: Targeted Nmap Auditing</strong>
+            <div style="color: var(--text-main);">Feed Masscan open IP/port output directly into Nmap (<code style="color: var(--accent-cyan);">nmap -iL targets.txt -sV -sC</code>) for deep vulnerability analysis.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Command Pipe Example -->
+      <div>
+        <div class="terminal-header" style="padding: 0.35rem 0.8rem;">
+          <span class="terminal-dot dot-red"></span>
+          <span class="terminal-dot dot-yellow"></span>
+          <span class="terminal-dot dot-green"></span>
+          <span class="terminal-title">Phase 1 & Phase 2 Recon Workflow</span>
+        </div>
+        <pre style="margin: 0;"><code class="language-bash" style="padding: 0.75rem 1rem; font-size: 0.78em;"># Step 1: Rapid discovery with Masscan
+masscan -p80,443,8080 10.0.0.0/16 --rate 50000 -oG masscan.gnmap
+
+# Step 2: Feed discovered hosts into Nmap
+nmap -iL live_targets.txt -sV -sC -oA target_audit</code></pre>
+      </div>
+
+    </div>
+
+  </div>
+</section>

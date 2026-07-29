@@ -1,0 +1,59 @@
+<!-- SLIDE 13: Interactive Masscan Speed Simulator -->
+<section>
+  <h2><i class="fa-solid fa-bolt-lightning highlight-cyan"></i> Interactive Masscan Rate Simulator</h2>
+  <p class="slide-subtitle">
+    Simulate packet transmission speed, host discovery rates, and packet drop trade-offs across scan engines.
+  </p>
+
+  <div class="sim-container" style="max-width: 1050px; margin: 0 auto;">
+    
+    <!-- Top Control Bar & Rate Selection -->
+    <div style="display: flex; gap: 0.8rem; justify-content: center; align-items: center; flex-wrap: wrap; margin-bottom: 0.6rem;">
+      <button class="sim-btn" onclick="window.masscanSim.runScan(1000, 'Nmap Standard')">
+        <i class="fa-solid fa-turtle"></i> 1,000 pps (Nmap)
+      </button>
+      <button class="sim-btn" style="border-color: var(--htb-green); color: var(--htb-green);" onclick="window.masscanSim.runScan(50000, 'Masscan Optimal')">
+        <i class="fa-solid fa-gauge-high"></i> 50,000 pps (Masscan)
+      </button>
+      <button class="sim-btn btn-red" onclick="window.masscanSim.runScan(1000000, 'Overclocked Flood')">
+        <i class="fa-solid fa-fire-flame-curved"></i> 1,000,000 pps (Overclocked)
+      </button>
+      <button class="sim-btn" style="border-color: var(--text-muted); color: var(--text-muted);" onclick="window.masscanSim.resetSim()">
+        <i class="fa-solid fa-rotate-left"></i> Reset
+      </button>
+    </div>
+
+    <!-- Live Performance Metrics Cards -->
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.8rem; margin-bottom: 0.6rem;">
+      <div style="background: var(--htb-bg-terminal); border: 1px solid var(--htb-border); padding: 0.6rem 0.8rem; border-radius: 6px; text-align: center;">
+        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">TRANSMIT RATE</div>
+        <div id="sim-rate-val" style="font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700; color: var(--htb-green); margin-top: 2px;">0 pps</div>
+      </div>
+      <div style="background: var(--htb-bg-terminal); border: 1px solid var(--htb-border); padding: 0.6rem 0.8rem; border-radius: 6px; text-align: center;">
+        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">PROGRESS</div>
+        <div id="sim-progress-val" style="font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700; color: var(--accent-cyan); margin-top: 2px;">0 / 65,536</div>
+      </div>
+      <div style="background: var(--htb-bg-terminal); border: 1px solid var(--htb-border); padding: 0.6rem 0.8rem; border-radius: 6px; text-align: center;">
+        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">ACCURACY RATE</div>
+        <div id="sim-accuracy-val" style="font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700; color: var(--text-white); margin-top: 2px;">100%</div>
+      </div>
+      <div style="background: var(--htb-bg-terminal); border: 1px solid var(--htb-border); padding: 0.6rem 0.8rem; border-radius: 6px; text-align: center;">
+        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">ESTIMATED TIME</div>
+        <div id="sim-time-val" style="font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700; color: var(--accent-yellow); margin-top: 2px;">0.0s</div>
+      </div>
+    </div>
+
+    <!-- Packet Stream Track Animation -->
+    <div class="sim-track" style="height: 50px; background: #050b16; padding: 0 1rem; justify-content: space-between; overflow: hidden; position: relative;">
+      <div class="sim-endpoint"><i class="fa-solid fa-laptop-code highlight-cyan"></i> Scanner</div>
+      <div id="sim-packet-lane" style="position: absolute; left: 100px; right: 100px; top: 0; bottom: 0; pointer-events: none;"></div>
+      <div class="sim-endpoint"><i class="fa-solid fa-network-wired highlight-htb"></i> /16 Network (65,536 IPs)</div>
+    </div>
+
+    <!-- Real-time Console Log Box -->
+    <div id="masscan-sim-log" style="background: var(--htb-bg-terminal); border: 1px solid var(--htb-border); border-radius: 6px; padding: 0.7rem 1rem; min-height: 90px; max-height: 110px; overflow-y: auto; font-family: var(--font-mono); font-size: 0.76rem; color: #e2e8f0; margin-top: 0.6rem; text-align: left;">
+      <div style="color: var(--text-muted);">&gt; Click a rate button above to launch live Masscan vs Nmap transmission simulation...</div>
+    </div>
+
+  </div>
+</section>

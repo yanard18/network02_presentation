@@ -23,5 +23,9 @@
   "07_evasion_flags.html",
   "08_nse_overview.html",
   "09_nse_categories.html",
+  "10_masscan_overview.html",
+  "11_nmap_vs_masscan.html",
+  "12_masscan_usage.html",
+  "13_masscan_simulator.html",
   "summary.html"
 ]
