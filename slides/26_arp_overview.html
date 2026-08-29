@@ -1,0 +1,29 @@
+<!-- SLIDE 26: What is ARP & The Trust Assumption -->
+<section>
+  <h2><i class="fa-solid fa-network-wired highlight-htb"></i> ARP Protokolü & Temel Güven Zaafiyeti</h2>
+  <p class="slide-subtitle">
+    IP adreslerini fiziksel MAC adreslerine eşleyen Katman 2/3 köprüsü ve doğasında var olan tasarım açığı.
+  </p>
+
+  <div class="grid-2" style="align-items: center;">
+    <!-- Left: ARP İşleyiş Şeması -->
+    <div style="text-align: center;">
+      <img src="media/How-Does-ARP-Work.png" alt="How ARP Works" style="max-height: 400px; width: 100%; object-fit: contain; display: block; margin: 0 auto; border-radius: 8px;">
+    </div>
+
+    <!-- Card 2: Ölümcül Tasarım Zaafiyeti -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">ZAFİYET</span> Güvensiz Tasarım (Fatal Flaw)
+      </div>
+      <p style="margin-bottom: 0.6rem; color: var(--text-muted); font-size: 0.88em;">
+        1982'de (RFC 826) dostane kapalı ağlar için tasarlandığından güvenlik mekanizması yoktur:
+      </p>
+      <ul class="threat-list">
+        <li><strong>Doğrulama Yok (Unauthenticated):</strong> Gelen cevabın gerçekten o IP sahibinden gelip gelmediği kontrol edilmez.</li>
+        <li><strong>Durumsuz (Stateless):</strong> Cihaz bir ARP isteği göndermemiş olsa bile gelen yanıtları kabul eder (<span class="highlight-red">Unsolicited Reply</span>).</li>
+        <li><strong>Kör Güven (Blind Trust):</strong> Son gelen ARP cevabı, tablodaki önceki doğru kaydın üzerine doğrudan yazılır.</li>
+      </ul>
+    </div>
+  </div>
+</section>

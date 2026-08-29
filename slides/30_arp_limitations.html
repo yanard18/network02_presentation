@@ -1,0 +1,50 @@
+<!-- SLIDE 30: Operational Limitations of ARP Attacks -->
+<section>
+  <h2><i class="fa-solid fa-triangle-exclamation highlight-yellow"></i> Operasyonel Sınırlar & Kısıtlamalar</h2>
+  <p class="slide-subtitle">
+    ARP tabanlı saldırıların teknik engelleri, etki alanı ve karşılaştığı savunma kalkanları.
+  </p>
+
+  <div class="grid-3">
+    <!-- Kısıtlama 1: L2 Sınırı -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">L2 SINIRI</span> Yalnızca Yerel Ağ
+      </div>
+      <p style="margin-bottom: 0.5rem; color: var(--text-muted); font-size: 0.88em;">
+        Broadcast etki alanıyla sınırlıdır:
+      </p>
+      <ul>
+        <li>Yalnızca aynı alt ağdaki (<strong>Subnet / VLAN</strong>) cihazları hedef alabilir.</li>
+        <li>ARP yönlendirilemez (non-routable); <strong>L3 Router</strong> sınırlarını aşamaz.</li>
+      </ul>
+    </div>
+
+    <!-- Kısıtlama 2: Şifreleme -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-cyan">KRİPTO</span> Şifreleme Kalkanı
+      </div>
+      <p style="margin-bottom: 0.5rem; color: var(--text-muted); font-size: 0.88em;">
+        MITM olsa bile içerik gizlidir:
+      </p>
+      <ul>
+        <li><span class="highlight-cyan">HTTPS, SSH, VPN</span> gibi uçtan uca şifreli protokollerde veriler okunamaz.</li>
+        <li><span class="highlight-htb">HSTS</span> mekanizması SSL Stripping girişimlerini engeller.</li>
+      </ul>
+    </div>
+
+    <!-- Kısıtlama 3: Gürültü & Tespit -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">GÜRÜLTÜ</span> Kolay Tespit
+      </div>
+      <p style="margin-bottom: 0.5rem; color: var(--text-muted); font-size: 0.88em;">
+        Ağda belirgin izler bırakır:
+      </p>
+      <ul class="threat-list">
+        <li>Aşırı ARP trafiği ve çift MAC uyarıları <span class="highlight-red">IDS/IPS</span> ve Arpwatch tarafından anında yakalanır.</li>
+      </ul>
+    </div>
+  </div>
+</section>

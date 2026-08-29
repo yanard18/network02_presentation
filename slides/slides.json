@@ -42,5 +42,11 @@
   "23b_ftp_bounce_attack.html",
   "24_tftp_overview.html",
   "25_ftp_enumeration.html",
+  "26_arp_overview.html",
+  "27_arp_cache_poisoning.html",
+  "28_arp_flooding.html",
+  "29_arp_brainstorm_impacts.html",
+  "30_arp_limitations.html",
+  "31_arp_tryhackme_lab.html",
   "summary.html"
 ]

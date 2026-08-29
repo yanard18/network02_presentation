@@ -2296,6 +2296,222 @@ tftp> quit</code></pre>
   </div>
 </section>
 
+      <!-- Loaded from slides/26_arp_overview.html -->
+<!-- SLIDE 26: What is ARP & The Trust Assumption -->
+<section>
+  <h2><i class="fa-solid fa-network-wired highlight-htb"></i> ARP Protokolü & Temel Güven Zaafiyeti</h2>
+  <p class="slide-subtitle">
+    IP adreslerini fiziksel MAC adreslerine eşleyen Katman 2/3 köprüsü ve doğasında var olan tasarım açığı.
+  </p>
+
+  <div class="grid-2" style="align-items: center;">
+    <!-- Left: ARP İşleyiş Şeması -->
+    <div style="text-align: center;">
+      <img src="media/How-Does-ARP-Work.png" alt="How ARP Works" style="max-height: 400px; width: 100%; object-fit: contain; display: block; margin: 0 auto; border-radius: 8px;">
+    </div>
+
+    <!-- Card 2: Ölümcül Tasarım Zaafiyeti -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">ZAFİYET</span> Güvensiz Tasarım (Fatal Flaw)
+      </div>
+      <p style="margin-bottom: 0.6rem; color: var(--text-muted); font-size: 0.88em;">
+        1982'de (RFC 826) dostane kapalı ağlar için tasarlandığından güvenlik mekanizması yoktur:
+      </p>
+      <ul class="threat-list">
+        <li><strong>Doğrulama Yok (Unauthenticated):</strong> Gelen cevabın gerçekten o IP sahibinden gelip gelmediği kontrol edilmez.</li>
+        <li><strong>Durumsuz (Stateless):</strong> Cihaz bir ARP isteği göndermemiş olsa bile gelen yanıtları kabul eder (<span class="highlight-red">Unsolicited Reply</span>).</li>
+        <li><strong>Kör Güven (Blind Trust):</strong> Son gelen ARP cevabı, tablodaki önceki doğru kaydın üzerine doğrudan yazılır.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/27_arp_cache_poisoning.html -->
+<!-- SLIDE 27: Attack A - ARP Cache Poisoning -->
+<section>
+  <h2><i class="fa-solid fa-user-ninja highlight-htb"></i> ARP Cache Poisoning (Spoofing)</h2>
+  <p class="slide-subtitle" style="font-size: 1.05em; color: var(--text-main); margin-bottom: 1.2rem;">
+    Sahte ARP yanıtlarıyla hedef ve ağ geçidinin önbelleklerini zehirleyerek <span class="highlight-htb">MITM saldırısı</span> gerçekleştirir.
+  </p>
+
+  <div style="text-align: center; margin-top: 0.5rem;">
+    <img src="media/arp_cache_poisoning_mitm.png" alt="ARP Cache Poisoning MITM" style="max-height: 500px; width: auto; max-width: 100%; display: block; margin: 0 auto; object-fit: contain;">
+  </div>
+</section>
+
+      <!-- Loaded from slides/28_arp_flooding.html -->
+<!-- SLIDE 28: Attack B - ARP / MAC Flooding -->
+<section>
+  <h2><i class="fa-solid fa-water-ladder highlight-htb"></i> Saldırı Yöntemi B: ARP / MAC Flooding</h2>
+  <p class="slide-subtitle">
+    Switch'in CAM tablosunu tüketerek cihazı bir Hub gibi davranmaya (<span class="highlight-red">Fail-Open</span>) zorlama tekniği.
+  </p>
+
+  <div class="grid-2" style="align-items: center; gap: 2rem; margin-top: 0.5rem;">
+    <!-- Sol: Ana CAM Tablosu Şeması -->
+    <div style="text-align: center;">
+      <img src="media/switch_cam_table.webp" alt="Switch CAM Table Diagram" style="max-height: 400px; width: 100%; object-fit: contain; display: block; margin: 0 auto; border-radius: 8px;">
+      <div style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-muted); margin-top: 0.4rem;">
+        <i class="fa-solid fa-diagram-project highlight-htb"></i> Switch Mimarisi: Port &harr; MAC Eşleşmesi
+      </div>
+    </div>
+
+    <!-- Sağ: Gerçek Cisco CAM Tablosu -->
+    <div style="text-align: center;">
+      <img src="media/cam_table_real.png" alt="Gerçek CAM Tablosu (Cisco CLI)" style="max-height: 350px; width: auto; max-width: 100%; display: block; margin: 0 auto; object-fit: contain; border-radius: 6px;">
+      <div style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-muted); margin-top: 0.4rem;">
+        <i class="fa-solid fa-terminal highlight-cyan"></i> Cisco Switch: <code style="color: var(--htb-green);">show mac address-table</code>
+      </div>
+    </div>
+  </div>
+
+  <p style="font-size: 0.95em; color: var(--text-main); margin-top: 1rem; text-align: center;">
+    <strong>Fail-Open (Hub Modu):</strong> Tablo dolunca switch tüm paketleri bütün portlara basar (<em>Broadcast</em>); saldırgan tüm ağı pasif dinler (<span class="highlight-cyan">Sniffing</span>).
+  </p>
+</section>
+
+      <!-- Loaded from slides/29_arp_brainstorm_impacts.html -->
+<!-- SLIDE 29: Brainstorming & Weaponization -->
+<section>
+  <h2><i class="fa-solid fa-comments highlight-htb"></i> Beyin Fırtınası: Ortadaki Adam (MITM) Olduk, Ya Sonra?</h2>
+  <p class="slide-subtitle" style="font-size: 1.1em; color: var(--htb-green);">
+    <i class="fa-solid fa-question-circle"></i> Soru: <em>"Tüm yerel ağ trafiği artık üzerimizden akıyor. Bir saldırgan bu güçle neler yapabilir?"</em>
+  </p>
+
+  <div class="grid-3" style="margin-top: 1rem;">
+    <!-- Sömürü 1: Düz Metin Koklama -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">SNIFFING</span> Düz Metin Avı
+      </div>
+      <ul class="threat-list" style="margin-bottom: 0;">
+        <li>Şifresiz protokollerdeki (<code style="color: var(--htb-green);">HTTP</code>, <code style="color: var(--htb-green);">FTP</code>, <code style="color: var(--htb-green);">Telnet</code>) kullanıcı adı ve parolaları yakalama.</li>
+      </ul>
+    </div>
+
+    <!-- Sömürü 2: DNS Spoofing & Phishing -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">SPOOFING</span> DNS Yönlendirme
+      </div>
+      <ul class="threat-list" style="margin-bottom: 0;">
+        <li>DNS sorgularına sahte IP yanıtları vererek kurbanı sahte kimlik avı (phishing) sayfalarına yönlendirme.</li>
+      </ul>
+    </div>
+
+    <!-- Sömürü 3: Oturum Çalma & DoS -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">HIJACKING</span> Oturum & DoS
+      </div>
+      <ul class="threat-list" style="margin-bottom: 0;">
+        <li><strong>Session Hijacking:</strong> Çerez ve token çalma.</li>
+        <li><strong>SSL Stripping:</strong> HTTPS &rarr; HTTP düşürme.</li>
+        <li><strong>DoS:</strong> Paketleri yönlendirmeyip düşürme.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/30_arp_limitations.html -->
+<!-- SLIDE 30: Operational Limitations of ARP Attacks -->
+<section>
+  <h2><i class="fa-solid fa-triangle-exclamation highlight-yellow"></i> Operasyonel Sınırlar & Kısıtlamalar</h2>
+  <p class="slide-subtitle">
+    ARP tabanlı saldırıların teknik engelleri, etki alanı ve karşılaştığı savunma kalkanları.
+  </p>
+
+  <div class="grid-3">
+    <!-- Kısıtlama 1: L2 Sınırı -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">L2 SINIRI</span> Yalnızca Yerel Ağ
+      </div>
+      <p style="margin-bottom: 0.5rem; color: var(--text-muted); font-size: 0.88em;">
+        Broadcast etki alanıyla sınırlıdır:
+      </p>
+      <ul>
+        <li>Yalnızca aynı alt ağdaki (<strong>Subnet / VLAN</strong>) cihazları hedef alabilir.</li>
+        <li>ARP yönlendirilemez (non-routable); <strong>L3 Router</strong> sınırlarını aşamaz.</li>
+      </ul>
+    </div>
+
+    <!-- Kısıtlama 2: Şifreleme -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-cyan">KRİPTO</span> Şifreleme Kalkanı
+      </div>
+      <p style="margin-bottom: 0.5rem; color: var(--text-muted); font-size: 0.88em;">
+        MITM olsa bile içerik gizlidir:
+      </p>
+      <ul>
+        <li><span class="highlight-cyan">HTTPS, SSH, VPN</span> gibi uçtan uca şifreli protokollerde veriler okunamaz.</li>
+        <li><span class="highlight-htb">HSTS</span> mekanizması SSL Stripping girişimlerini engeller.</li>
+      </ul>
+    </div>
+
+    <!-- Kısıtlama 3: Gürültü & Tespit -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">GÜRÜLTÜ</span> Kolay Tespit
+      </div>
+      <p style="margin-bottom: 0.5rem; color: var(--text-muted); font-size: 0.88em;">
+        Ağda belirgin izler bırakır:
+      </p>
+      <ul class="threat-list">
+        <li>Aşırı ARP trafiği ve çift MAC uyarıları <span class="highlight-red">IDS/IPS</span> ve Arpwatch tarafından anında yakalanır.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/31_arp_tryhackme_lab.html -->
+<!-- SLIDE 31: Unified Interactive TryHackMe Lab -->
+<section>
+  <h2><i class="fa-solid fa-laptop-code highlight-htb"></i> İnteraktif Lab: TryHackMe ile Canlı Uygulama</h2>
+  <p class="slide-subtitle">
+    Laboratuvar ortamını başlatıp hedef ve ağ geçidi arasındaki trafiği hep birlikte ele geçiriyoruz.
+  </p>
+
+  <div class="grid-2">
+    <!-- Card 1: Adım Adım Akış -->
+    <div class="cyber-card secure">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">TALİMATLAR</span> 4 Adımda Lab Akışı
+      </div>
+      <ul class="secure-list" style="margin-bottom: 0;">
+        <li><strong>1. Odaya Bağlanın:</strong> THM VPN veya AttackBox ile laboratuvar hedefini başlatın.</li>
+        <li><strong>2. İlk Durumu Gözlemleyin:</strong> Kurban terminalinde mevcut tabloyu listeleyin: <code style="color: var(--htb-green);">arp -a</code></li>
+        <li><strong>3. Zehirlemeyi Başlatın:</strong> Saldırgan makinede yönlendirmeyi açıp arpspoof aracını çalıştırın.</li>
+        <li><strong>4. Wireshark ile Analiz Edin:</strong> Kurbanda tablonun değişimini ve geçen HTTP trafiğini izleyin.</li>
+      </ul>
+    </div>
+
+    <!-- Card 2: Terminal Komutları -->
+    <div>
+      <div class="terminal-header">
+        <span class="terminal-dot dot-red"></span>
+        <span class="terminal-dot dot-yellow"></span>
+        <span class="terminal-dot dot-green"></span>
+        <span class="terminal-title">user@attackbox:~# lab-commands</span>
+      </div>
+      <pre><code class="language-bash"># 1. IP Yönlendirmeyi Etkinleştir
+sudo sysctl -w net.ipv4.ip_forward=1
+
+# 2. Kurban ve Gateway Arasına Gir
+sudo arpspoof -i eth0 -t &lt;TARGET_IP&gt; &lt;GATEWAY_IP&gt;
+sudo arpspoof -i eth0 -t &lt;GATEWAY_IP&gt; &lt;TARGET_IP&gt;
+
+# 3. Paketleri Dinle & Filtrele
+wireshark &  # Filtre: arp || http</code></pre>
+      <div style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-muted); margin-top: 0.4rem; text-align: center;">
+        <i class="fa-solid fa-lightbulb highlight-yellow"></i> <strong>İpucu:</strong> Wireshark'ta <code style="color: var(--accent-cyan);">arp.duplicate-address-detected</code> uyarısını arayın.
+      </div>
+    </div>
+  </div>
+</section>
+
       <!-- Loaded from slides/summary.html -->
 <!-- SLIDE: Module Summary -->
 <section data-background-gradient="radial-gradient(circle, rgba(159,239,0,0.15) 0%, rgba(11,18,31,1) 100%)">

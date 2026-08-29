@@ -1,0 +1,41 @@
+<!-- SLIDE 29: Brainstorming & Weaponization -->
+<section>
+  <h2><i class="fa-solid fa-comments highlight-htb"></i> Beyin Fırtınası: Ortadaki Adam (MITM) Olduk, Ya Sonra?</h2>
+  <p class="slide-subtitle" style="font-size: 1.1em; color: var(--htb-green);">
+    <i class="fa-solid fa-question-circle"></i> Soru: <em>"Tüm yerel ağ trafiği artık üzerimizden akıyor. Bir saldırgan bu güçle neler yapabilir?"</em>
+  </p>
+
+  <div class="grid-3" style="margin-top: 1rem;">
+    <!-- Sömürü 1: Düz Metin Koklama -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">SNIFFING</span> Düz Metin Avı
+      </div>
+      <ul class="threat-list" style="margin-bottom: 0;">
+        <li>Şifresiz protokollerdeki (<code style="color: var(--htb-green);">HTTP</code>, <code style="color: var(--htb-green);">FTP</code>, <code style="color: var(--htb-green);">Telnet</code>) kullanıcı adı ve parolaları yakalama.</li>
+      </ul>
+    </div>
+
+    <!-- Sömürü 2: DNS Spoofing & Phishing -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">SPOOFING</span> DNS Yönlendirme
+      </div>
+      <ul class="threat-list" style="margin-bottom: 0;">
+        <li>DNS sorgularına sahte IP yanıtları vererek kurbanı sahte kimlik avı (phishing) sayfalarına yönlendirme.</li>
+      </ul>
+    </div>
+
+    <!-- Sömürü 3: Oturum Çalma & DoS -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">HIJACKING</span> Oturum & DoS
+      </div>
+      <ul class="threat-list" style="margin-bottom: 0;">
+        <li><strong>Session Hijacking:</strong> Çerez ve token çalma.</li>
+        <li><strong>SSL Stripping:</strong> HTTPS &rarr; HTTP düşürme.</li>
+        <li><strong>DoS:</strong> Paketleri yönlendirmeyip düşürme.</li>
+      </ul>
+    </div>
+  </div>
+</section>
