@@ -1605,64 +1605,694 @@ sudo masscan 10.0.0.0/8 -p80 --excludefile exclude.txt --rate 50000</code></pre>
   </div>
 </section>
 
-      <!-- Loaded from slides/13_masscan_simulator.html -->
-<!-- SLIDE 13: Interactive Masscan Speed Simulator -->
+      <!-- Loaded from slides/14_telnet_overview.html -->
+<!-- SLIDE 14: Telnet Protocol Overview -->
 <section>
-  <h2><i class="fa-solid fa-bolt-lightning highlight-cyan"></i> Interactive Masscan Rate Simulator</h2>
+  <h2><i class="fa-solid fa-terminal highlight-htb"></i> Legacy Remote Access: Telnet</h2>
   <p class="slide-subtitle">
-    Simulate packet transmission speed, host discovery rates, and packet drop trade-offs across scan engines.
+    ARPANET virtual terminal protocol providing unencrypted remote CLI shell access.
   </p>
 
-  <div class="sim-container" style="max-width: 1050px; margin: 0 auto;">
-    
-    <!-- Top Control Bar & Rate Selection -->
-    <div style="display: flex; gap: 0.8rem; justify-content: center; align-items: center; flex-wrap: wrap; margin-bottom: 0.6rem;">
-      <button class="sim-btn" onclick="window.masscanSim.runScan(1000, 'Nmap Standard')">
-        <i class="fa-solid fa-turtle"></i> 1,000 pps (Nmap)
-      </button>
-      <button class="sim-btn" style="border-color: var(--htb-green); color: var(--htb-green);" onclick="window.masscanSim.runScan(50000, 'Masscan Optimal')">
-        <i class="fa-solid fa-gauge-high"></i> 50,000 pps (Masscan)
-      </button>
-      <button class="sim-btn btn-red" onclick="window.masscanSim.runScan(1000000, 'Overclocked Flood')">
-        <i class="fa-solid fa-fire-flame-curved"></i> 1,000,000 pps (Overclocked)
-      </button>
-      <button class="sim-btn" style="border-color: var(--text-muted); color: var(--text-muted);" onclick="window.masscanSim.resetSim()">
-        <i class="fa-solid fa-rotate-left"></i> Reset
-      </button>
+  <div class="grid-2">
+    <!-- Card 1: Core Specs -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">ARCHITECTURE</span> Protocol Basics
+      </div>
+      <ul>
+        <li><strong>Origin:</strong> Created in 1969 for text-based remote shell access.</li>
+        <li><strong>Architecture:</strong> Client connects to remote daemon (<code style="color: var(--htb-green);">telnetd</code>).</li>
+        <li><strong>Ports:</strong> <span class="highlight-htb">TCP 23</span> (default) & <span class="highlight-cyan">TCP 2323</span> (embedded IoT).</li>
+        <li><strong>Transport:</strong> Raw 8-bit ASCII stream over unencrypted TCP.</li>
+      </ul>
     </div>
 
-    <!-- Live Performance Metrics Cards -->
-    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.8rem; margin-bottom: 0.6rem;">
-      <div style="background: var(--htb-bg-terminal); border: 1px solid var(--htb-border); padding: 0.6rem 0.8rem; border-radius: 6px; text-align: center;">
-        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">TRANSMIT RATE</div>
-        <div id="sim-rate-val" style="font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700; color: var(--htb-green); margin-top: 2px;">0 pps</div>
+    <!-- Terminal Output -->
+    <div>
+      <div class="terminal-header">
+        <span class="terminal-dot dot-red"></span>
+        <span class="terminal-dot dot-yellow"></span>
+        <span class="terminal-dot dot-green"></span>
+        <span class="terminal-title">root@htb:~# telnet 10.10.11.20 23</span>
       </div>
-      <div style="background: var(--htb-bg-terminal); border: 1px solid var(--htb-border); padding: 0.6rem 0.8rem; border-radius: 6px; text-align: center;">
-        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">PROGRESS</div>
-        <div id="sim-progress-val" style="font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700; color: var(--accent-cyan); margin-top: 2px;">0 / 65,536</div>
+      <pre><code class="language-bash">Trying 10.10.11.20...
+Connected to target.htb.
+target login: admin
+Password: Password123!
+
+admin@target:~$ id
+uid=1000(admin) gid=1000(admin)</code></pre>
+      <p style="font-size: 0.8em; color: var(--text-muted); text-align: center; margin-top: -0.4rem;">
+        <i class="fa-solid fa-triangle-exclamation highlight-yellow"></i> <strong>Cleartext Stream:</strong> Credentials & commands transmitted in plaintext.
+      </p>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/14a_telnet_authentication.html -->
+<!-- SLIDE 14a: Telnet Authentication Architecture -->
+<section>
+  <h2><i class="fa-solid fa-key highlight-htb"></i> Telnet Authentication Architecture</h2>
+  <p class="slide-subtitle">
+    How Telnet delegates user authentication to the host operating system.
+  </p>
+
+  <div class="grid-2">
+    <!-- Card 1: Protocol Limitation -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">PROTOCOL LIMITATION</span> Zero Native Auth
       </div>
-      <div style="background: var(--htb-bg-terminal); border: 1px solid var(--htb-border); padding: 0.6rem 0.8rem; border-radius: 6px; text-align: center;">
-        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">ACCURACY RATE</div>
-        <div id="sim-accuracy-val" style="font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700; color: var(--text-white); margin-top: 2px;">100%</div>
+      <ul class="threat-list">
+        <li><strong>No Built-in Auth:</strong> RFC 854 has <span class="highlight-red">no cryptographic handshake</span> or authentication layer.</li>
+        <li><strong>Post-Handshake Trigger:</strong> Authentication begins <em>after</em> completing TCP 3-way handshake on Port 23.</li>
+        <li><strong>PTY Allocation:</strong> Receiving daemon (<code style="color: var(--htb-green);">telnetd</code>) initializes a Pseudo-Terminal interface.</li>
+        <li><strong>OS Delegation:</strong> <code style="color: var(--htb-green);">telnetd</code> hands off login prompt directly to host <code style="color: var(--accent-cyan);">'/bin/login'</code>.</li>
+      </ul>
+    </div>
+
+    <!-- Card 2: Execution Flow -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-cyan">EXECUTION FLOW</span> Telnet Session Lifecycle
       </div>
-      <div style="background: var(--htb-bg-terminal); border: 1px solid var(--htb-border); padding: 0.6rem 0.8rem; border-radius: 6px; text-align: center;">
-        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">ESTIMATED TIME</div>
-        <div id="sim-time-val" style="font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700; color: var(--accent-yellow); margin-top: 2px;">0.0s</div>
+
+      <div class="diagram-box-cyan" style="padding: 1rem; text-align: left; margin-top: 0.4rem; background: var(--htb-bg-terminal); border: 1px solid var(--accent-cyan); border-radius: 8px;">
+        <!-- Step 1 -->
+        <div style="display: flex; align-items: center; margin-bottom: 0.65rem; gap: 0.8rem; background: rgba(255, 255, 255, 0.04); padding: 0.5rem 0.8rem; border-radius: 6px; border-left: 3px solid var(--htb-green);">
+          <span style="background: var(--htb-green); color: var(--htb-bg-dark); font-weight: 700; font-family: var(--font-mono); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85em; flex-shrink: 0;">1</span>
+          <div style="font-size: 0.85em; line-height: 1.3; color: var(--text-main);">
+            <strong style="color: var(--text-white);">TCP Connect:</strong> 3-way handshake to <span class="highlight-htb">TCP/23</span>.
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div style="display: flex; align-items: center; margin-bottom: 0.65rem; gap: 0.8rem; background: rgba(255, 255, 255, 0.04); padding: 0.5rem 0.8rem; border-radius: 6px; border-left: 3px solid var(--accent-cyan);">
+          <span style="background: var(--accent-cyan); color: var(--htb-bg-dark); font-weight: 700; font-family: var(--font-mono); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85em; flex-shrink: 0;">2</span>
+          <div style="font-size: 0.85em; line-height: 1.3; color: var(--text-main);">
+            <strong style="color: var(--text-white);">PTY Allocation:</strong> Server <code style="color: var(--htb-green);">telnetd</code> spawns virtual terminal.
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div style="display: flex; align-items: center; margin-bottom: 0.65rem; gap: 0.8rem; background: rgba(255, 255, 255, 0.04); padding: 0.5rem 0.8rem; border-radius: 6px; border-left: 3px solid var(--accent-purple);">
+          <span style="background: var(--accent-purple); color: var(--text-white); font-weight: 700; font-family: var(--font-mono); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85em; flex-shrink: 0;">3</span>
+          <div style="font-size: 0.85em; line-height: 1.3; color: var(--text-main);">
+            <strong style="color: var(--text-white);">OS Handoff:</strong> Invokes host <code style="color: var(--accent-cyan);">'/bin/login'</code> process.
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div style="display: flex; align-items: center; gap: 0.8rem; background: rgba(255, 255, 255, 0.04); padding: 0.5rem 0.8rem; border-radius: 6px; border-left: 3px solid var(--accent-red);">
+          <span style="background: var(--accent-red); color: var(--text-white); font-weight: 700; font-family: var(--font-mono); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85em; flex-shrink: 0;">4</span>
+          <div style="font-size: 0.85em; line-height: 1.3; color: var(--text-main);">
+            <strong style="color: var(--text-white);">Cleartext Auth:</strong> User creds passed unencrypted to OS PAM.
+          </div>
+        </div>
+      </div>
+      <p style="font-size: 0.8em; color: var(--text-muted); text-align: center; margin-top: 0.5rem; margin-bottom: 0;">
+        <i class="fa-solid fa-triangle-exclamation highlight-yellow"></i> Authentication occurs outside the protocol payload scope.
+      </p>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/14b_telnet_commands_iac.html -->
+<!-- SLIDE 14b: TELNET In-Band Control Commands & IAC Protocol -->
+<section>
+  <h2><i class="fa-solid fa-code highlight-htb"></i> Protocol Signaling: TELNET Commands & IAC</h2>
+  <p class="slide-subtitle">
+    In-band session negotiation using the Interpret As Command (IAC) byte prefix.
+  </p>
+
+  <div class="grid-2">
+    <!-- Card 1: IAC Concept -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">IN-BAND SIGNALING</span> The IAC Prefix
+      </div>
+      <ul>
+        <li><strong>Shared Data Channel:</strong> Commands share the active terminal byte stream.</li>
+        <li><strong>IAC Prefix:</strong> Escaped by <span class="highlight-htb">IAC</span> byte (decimal <code style="color: var(--htb-green);">255</code> / hex <code style="color: var(--htb-green);">0xFF</code>).</li>
+        <li><strong>User Transparency:</strong> Intercepted silently without rendering control characters.</li>
+        <li><strong>Option Negotiation:</strong> Dynamic handshake for echo, terminal type, & window size.</li>
+      </ul>
+    </div>
+
+    <!-- Command Syntax & Codes -->
+    <div>
+      <div class="terminal-header">
+        <span class="terminal-dot dot-red"></span>
+        <span class="terminal-dot dot-yellow"></span>
+        <span class="terminal-dot dot-green"></span>
+        <span class="terminal-title">TELNET Byte Sequence Syntax</span>
+      </div>
+      <pre><code class="language-bash"># Command Structure:
+[IAC (255)] [Command Code] [Option Code]
+
+# Server Request (Enable Echo):
+IAC (255) + DO (253) + ECHO (1)   --> \xff\xfd\x01
+
+# Client Agree Response:
+IAC (255) + WILL (251) + ECHO (1) --> \xff\xfb\x01</code></pre>
+
+      <div class="diagram-box-cyan" style="margin-top: 0.6rem; padding: 0.75rem; text-align: left;">
+        <div style="font-size: 0.82em; line-height: 1.4; color: var(--text-main);">
+          <strong style="color: var(--accent-cyan); font-size: 0.9em;"><i class="fa-solid fa-sliders"></i> Key Verbs:</strong>
+          <span style="color: var(--htb-green);">WILL</span> (251) / <span style="color: var(--accent-red);">WONT</span> (252) offer/refuse; <span style="color: var(--accent-cyan);">DO</span> (253) / <span style="color: var(--accent-yellow);">DONT</span> (254) request/forbid.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/15_telnet_threats_botnets.html -->
+<!-- SLIDE 15: Telnet Threats & IoT Botnets -->
+<section>
+  <h2><i class="fa-solid fa-bug highlight-red"></i> Insecure Design & IoT Botnets</h2>
+  <p class="slide-subtitle">
+    Unencrypted traffic makes Telnet a prime target for credential sniffing and botnet hijacking.
+  </p>
+
+  <div class="grid-2">
+    <!-- Card 1: Security Weaknesses -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">PROTOCOL RISKS</span> Severe Flaws
+      </div>
+      <ul class="threat-list">
+        <li><strong>Plaintext Traffic:</strong> Unencrypted passwords, keystrokes, & CLI outputs.</li>
+        <li><strong>Easy Sniffing:</strong> Intercepted via Wireshark or <code style="color: var(--accent-red);">tcpdump</code>.</li>
+        <li><strong>No Server Identity:</strong> Lacks digital certificates or host verification.</li>
+        <li><strong>MitM Risk:</strong> Susceptible to ARP spoofing & credential harvesting.</li>
+      </ul>
+    </div>
+
+    <!-- Card 2: Mirai Botnet -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">BOTNET VECTOR</span> Mirai Exploitation
+      </div>
+      <ul class="threat-list">
+        <li><strong>IoT Exposure:</strong> Active by default on IP cameras, routers, & DVRs.</li>
+        <li><strong>Default Creds:</strong> Weak factory logins (<code style="color: var(--accent-red);">admin/admin</code>, <code style="color: var(--accent-red);">root/123456</code>).</li>
+        <li><strong>Mirai Botnet:</strong> Scans <span class="highlight-red">TCP/23 & 2323</span> to brute-force & infect devices.</li>
+        <li><strong>DDoS Impact:</strong> Recruited millions of IoT nodes for record terabit attacks.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/16_telnet_vs_ssh.html -->
+<!-- SLIDE 16: Telnet vs SSH & Protocol Hardening -->
+<section>
+  <h2><i class="fa-solid fa-shield-halved highlight-htb"></i> Secure Alternative: Telnet vs. SSH</h2>
+  <p class="slide-subtitle">
+    Hardening steps to eliminate cleartext remote access.
+  </p>
+
+  <div class="slide-center" style="max-width: 840px; text-align: left; margin-top: 1.8rem;">
+    <ul class="secure-list" style="font-size: 1.1em; line-height: 1.7;">
+      <li style="margin-bottom: 1.1rem;">
+        <strong>Decommission Daemons:</strong> Stop and purge <code style="color: var(--htb-green);">telnetd</code> across servers, switches, & IoT nodes.
+      </li>
+      <li style="margin-bottom: 1.1rem;">
+        <strong>Firewall Filtering:</strong> Block inbound traffic on <span class="highlight-htb">TCP 23</span> & <span class="highlight-cyan">TCP 2323</span>.
+      </li>
+      <li style="margin-bottom: 1.1rem;">
+        <strong>Deploy SSH Keys:</strong> Mandate SSH key pairs (<code style="color: var(--htb-green);">ed25519</code>) and disable password auth.
+      </li>
+      <li style="margin-bottom: 1.1rem;">
+        <strong>VLAN Isolation:</strong> Isolate legacy management interfaces on dedicated, restricted VLANs.
+      </li>
+    </ul>
+  </div>
+</section>
+
+      <!-- Loaded from slides/17_snmp_overview.html -->
+<!-- SLIDE 17: SNMP Protocol Fundamentals & Architecture -->
+<section>
+  <h2><i class="fa-solid fa-network-wired highlight-htb"></i> SNMP Protocol Fundamentals</h2>
+  <p class="slide-subtitle">
+    Remote telemetry, device health monitoring, and administrative configuration.
+  </p>
+
+  <div class="grid-2">
+    <!-- Card 1: Core Fundamentals -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">ARCHITECTURE</span> Core Concepts
+      </div>
+      <ul>
+        <li><strong>Purpose:</strong> Monitors hardware health & configures network nodes.</li>
+        <li><strong>Architecture:</strong> <span class="highlight-htb">SNMP Manager</span> (NMS) polls <span class="highlight-cyan">SNMP Agents</span>.</li>
+        <li><strong>UDP 161:</strong> Active queries (<code style="color: var(--htb-green);">GET</code> / <code style="color: var(--htb-green);">SET</code>) & responses.</li>
+        <li><strong>UDP 162:</strong> Unprompted event alerts (<span class="highlight-purple">SNMP Traps</span>).</li>
+        <li><strong>Ecosystem:</strong> Routers, switches, firewalls, servers, & modems.</li>
+      </ul>
+    </div>
+
+    <!-- Card 2: Workflow Diagram -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-cyan">TELEMETRY FLOW</span> Manager &leftrightarrow; Agent Model
+      </div>
+
+      <div class="diagram-box-cyan" style="padding: 1rem; text-align: center; margin-top: 0.4rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; gap: 0.4rem;">
+          <!-- SNMP Manager -->
+          <div style="background: var(--htb-bg-dark); border: 1px solid var(--htb-green); padding: 0.7rem 0.8rem; border-radius: 6px; flex: 1; text-align: center;">
+            <i class="fa-solid fa-desktop highlight-htb" style="font-size: 1.5rem; display: block; margin-bottom: 0.3rem;"></i>
+            <strong style="font-size: 0.85em; display: block;">SNMP Manager</strong>
+            <span style="font-size: 0.7em; color: var(--text-muted);">(NMS Client)</span>
+          </div>
+
+          <!-- Flow Labels -->
+          <div style="flex: 1.3; padding: 0 0.2rem; font-family: var(--font-mono); font-size: 0.7em;">
+            <div style="color: var(--htb-green); margin-bottom: 0.25rem; white-space: nowrap;">
+              UDP 161: GET/SET &rarr;
+            </div>
+            <div style="color: var(--accent-cyan); margin-bottom: 0.25rem; white-space: nowrap;">
+              &leftarrow; UDP 161: Response
+            </div>
+            <div style="color: var(--accent-purple); white-space: nowrap;">
+              &leftarrow; UDP 162: TRAP
+            </div>
+          </div>
+
+          <!-- SNMP Agent -->
+          <div style="background: var(--htb-bg-dark); border: 1px solid var(--accent-cyan); padding: 0.7rem 0.8rem; border-radius: 6px; flex: 1; text-align: center;">
+            <i class="fa-solid fa-server highlight-cyan" style="font-size: 1.5rem; display: block; margin-bottom: 0.3rem;"></i>
+            <strong style="font-size: 0.85em; display: block;">SNMP Agent</strong>
+            <span style="font-size: 0.7em; color: var(--text-muted);">(Router / Switch)</span>
+          </div>
+        </div>
+
+        <div class="diagram-caption" style="font-size: 0.8em; line-height: 1.3;">
+          <i class="fa-solid fa-circle-info highlight-cyan"></i> <strong>Traps vs. Polling:</strong> Requests are active/synchronous; Traps are unprompted agent event notifications.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/18_snmp_mib_oid.html -->
+<!-- SLIDE 18: Core Concepts - MIB & OID Tree Architecture -->
+<section>
+  <h2><i class="fa-solid fa-sitemap highlight-htb"></i> Data Structuring: MIB & OID</h2>
+  <p class="slide-subtitle">
+    Management Information Base (MIB) translation and Object Identifier (OID) hierarchy.
+  </p>
+
+  <div class="grid-2">
+    <!-- Card 1: MIB & OID -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">DATA SCHEMA</span> MIB & OID Concepts
+      </div>
+      <ul>
+        <li><strong>MIB (Data Dictionary):</strong> Maps numeric OIDs to human-readable names.</li>
+        <li><strong>OID (Tree Path):</strong> Dot-separated integers marking position in global namespace tree.</li>
+        <li><strong>Path Depth:</strong> Longer chain = more specific hardware attribute.</li>
+        <li><strong>Standardization:</strong> Universal schema across Cisco, Linux, & Windows devices.</li>
+      </ul>
+    </div>
+
+    <!-- Terminal & Translation Showcase -->
+    <div>
+      <div class="terminal-header">
+        <span class="terminal-dot dot-red"></span>
+        <span class="terminal-dot dot-yellow"></span>
+        <span class="terminal-dot dot-green"></span>
+        <span class="terminal-title">MIB Translation Output</span>
+      </div>
+      <pre><code class="language-bash"># WITHOUT MIB (Raw Numeric Chain):
+1.3.6.1.2.1.1.1.0 = STRING: Linux target 5.15.0
+
+# WITH MIB (Human-Readable Symbol):
+SNMPv2-MIB::sysDescr.0 = STRING: Linux target 5.15.0</code></pre>
+
+      <div class="diagram-box-purple" style="margin-top: 0.6rem; padding: 0.75rem; text-align: left;">
+        <div style="font-size: 0.82em; line-height: 1.4; color: var(--text-main);">
+          <strong style="color: var(--accent-purple); font-size: 0.9em;"><i class="fa-solid fa-folder-tree"></i> OID Tree Resolution:</strong><br>
+          <code style="color: var(--htb-green); font-size: 0.95em;">.1.3.6.1.2.1.1.1.0</code><br>
+          <span style="color: var(--text-muted); font-size: 0.85em;">
+            iso(1) &rarr; org(3) &rarr; dod(6) &rarr; internet(1) &rarr; mgmt(2) &rarr; mib-2(1) &rarr; system(1) &rarr; sysDescr(1) &rarr; 0
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/19_snmp_versions.html -->
+<!-- SLIDE 19: Protocol Versions - SNMPv1 vs SNMPv2c vs SNMPv3 -->
+<section>
+  <h2><i class="fa-solid fa-layer-group highlight-htb"></i> SNMP Protocol Evolution</h2>
+  <p class="slide-subtitle">
+    Security & capability differences across protocol generations.
+  </p>
+
+  <div class="grid-3">
+    <!-- Card 1: SNMPv1 -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">LEGACY</span> SNMPv1
+      </div>
+      <ul class="threat-list">
+        <li><strong>Auth:</strong> Plaintext <span class="highlight-red">Community Strings</span>.</li>
+        <li><strong>Encryption:</strong> <span class="highlight-red">None</span> (cleartext payload).</li>
+        <li><strong>Features:</strong> Basic <code style="color: var(--htb-green);">GET</code>/<code style="color: var(--htb-green);">SET</code> (32-bit counters).</li>
+        <li><strong>Risk:</strong> Vulnerable to network sniffing.</li>
+      </ul>
+    </div>
+
+    <!-- Card 2: SNMPv2c -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-yellow">COMMUNITY</span> SNMPv2c
+      </div>
+      <ul>
+        <li><strong>Auth:</strong> Community-based (<code style="color: var(--accent-yellow);">v2c</code>).</li>
+        <li><strong>Encryption:</strong> <span class="highlight-red">None</span> (plain text strings).</li>
+        <li><strong>Features:</strong> Added <code style="color: var(--htb-green);">GETBULK</code> & 64-bit counters.</li>
+        <li><strong>Status:</strong> Prevalent in internal LANs.</li>
+      </ul>
+    </div>
+
+    <!-- Card 3: SNMPv3 -->
+    <div class="cyber-card secure">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">HARDENED</span> SNMPv3
+      </div>
+      <ul class="secure-list">
+        <li><strong>Auth:</strong> Cryptographic USM (MD5/SHA).</li>
+        <li><strong>Encryption:</strong> Full payload <span class="highlight-htb">AES</span> / DES.</li>
+        <li><strong>Control:</strong> Granular VACM OID scoping.</li>
+        <li><strong>Status:</strong> Modern enterprise standard.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/21_snmp_enumeration.html -->
+<!-- SLIDE 21: Reconnaissance & Active SNMP Enumeration -->
+<section>
+  <h2><i class="fa-solid fa-magnifying-glass-location highlight-htb"></i> Active Reconnaissance: SNMP Enumeration</h2>
+  <p class="slide-subtitle">
+    Querying target SNMP agents using <code style="color: var(--htb-green);">snmpwalk</code> to extract system telemetry.
+  </p>
+
+  <div class="grid-2">
+    <!-- Terminal Code Showcase -->
+    <div>
+      <div class="terminal-header">
+        <span class="terminal-dot dot-red"></span>
+        <span class="terminal-dot dot-yellow"></span>
+        <span class="terminal-dot dot-green"></span>
+        <span class="terminal-title">root@htb:~# snmpwalk -v2c -c public 10.129.14.128</span>
+      </div>
+      <pre><code class="language-bash">SNMPv2-MIB::sysDescr.0 = STRING: Linux target 5.15.0 #98-Ubuntu SMP
+SNMPv2-MIB::sysObjectID.0 = OID: NET-SNMP-MIB::netSnmpAgentOIDs.10
+SNMPv2-MIB::sysContact.0 = STRING: Admin &lt;admin@target.htb&gt;
+SNMPv2-MIB::sysName.0 = STRING: enterprise-core-router
+IF-MIB::ifDescr.1 = STRING: eth0
+IF-MIB::ifDescr.2 = STRING: eth1 (Internal 10.10.10.0/24)</code></pre>
+      <div style="background: var(--htb-bg-card); border: 1px solid var(--htb-border); border-radius: 6px; padding: 0.5rem 0.7rem; margin-top: 0.4rem; text-align: left;">
+        <span style="font-size: 0.78em; color: var(--text-muted);">
+          <i class="fa-solid fa-server highlight-htb"></i> <strong>Recon Role:</strong> When running <code style="color: var(--htb-green);">snmpwalk</code>, your host acts as the <strong>SNMP Manager</strong> querying the target <strong>Agent</strong>.
+        </span>
       </div>
     </div>
 
-    <!-- Packet Stream Track Animation -->
-    <div class="sim-track" style="height: 50px; background: #050b16; padding: 0 1rem; justify-content: space-between; overflow: hidden; position: relative;">
-      <div class="sim-endpoint"><i class="fa-solid fa-laptop-code highlight-cyan"></i> Scanner</div>
-      <div id="sim-packet-lane" style="position: absolute; left: 100px; right: 100px; top: 0; bottom: 0; pointer-events: none;"></div>
-      <div class="sim-endpoint"><i class="fa-solid fa-network-wired highlight-htb"></i> /16 Network (65,536 IPs)</div>
+    <!-- Card: High-Value Discovery OIDs -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">RECON CHECKLIST</span> High-Value Discovery OIDs
+      </div>
+      <ul>
+        <li><strong>System Info:</strong> <code style="color: var(--htb-green);">sysDescr</code> &rarr; OS distribution & kernel version.</li>
+        <li><strong>Admin Contacts:</strong> <code style="color: var(--htb-green);">sysContact</code> / <code style="color: var(--htb-green);">sysName</code> &rarr; Admin emails & hostnames.</li>
+        <li><strong>Interfaces:</strong> <code style="color: var(--htb-green);">ifDescr</code> / <code style="color: var(--htb-green);">ifPhysAddress</code> &rarr; Maps internal NICs & subnets.</li>
+        <li><strong>Processes & Software:</strong> <code style="color: var(--htb-green);">hrSWRunName</code> &rarr; Active daemons & packages.</li>
+        <li><strong>Routing Tables:</strong> <code style="color: var(--htb-green);">ipRouteDest</code> &rarr; Internal network topology.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/22_ftp_overview.html -->
+<!-- SLIDE 22: FTP Protocol Overview & Global Footprint -->
+<section>
+  <h2><i class="fa-solid fa-folder-open highlight-htb"></i> FTP Protocol Overview</h2>
+  <p class="slide-subtitle">
+    1970s legacy protocol for remote file management and directory operations.
+  </p>
+
+  <div class="grid-2" style="align-items: center;">
+    <!-- Key Points Card -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">SPECS</span> Core Architecture
+      </div>
+      <ul>
+        <li><strong>Origin:</strong> RFC 114 (1971); foundational TCP/IP file protocol.</li>
+        <li><strong>Client-Server Model:</strong> Client initiates; server hosts files.</li>
+        <li><strong>Operations:</strong> File transfer, directory listings, & file management.</li>
+        <li><strong>Persistence:</strong> <span class="highlight-htb">1.6M+ devices</span> exposed globally on Port 21.</li>
+      </ul>
     </div>
 
-    <!-- Real-time Console Log Box -->
-    <div id="masscan-sim-log" style="background: var(--htb-bg-terminal); border: 1px solid var(--htb-border); border-radius: 6px; padding: 0.7rem 1rem; min-height: 90px; max-height: 110px; overflow-y: auto; font-family: var(--font-mono); font-size: 0.76rem; color: #e2e8f0; margin-top: 0.6rem; text-align: left;">
-      <div style="color: var(--text-muted);">&gt; Click a rate button above to launch live Masscan vs Nmap transmission simulation...</div>
+    <!-- Shodan Image Frame -->
+    <div style="text-align: center;">
+      <div style="background: var(--htb-bg-card); padding: 8px; border-radius: 8px; border: 1px solid var(--htb-green); box-shadow: 0 0 15px rgba(159, 239, 0, 0.2); display: inline-block;">
+        <img src="media/shodan_ftp.png" alt="Shodan FTP Search" style="max-height: 350px; width: 100%; display: block; border-radius: 4px; object-fit: contain;">
+      </div>
+      <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">
+        <i class="fa-solid fa-globe highlight-htb"></i> <strong>Shodan Telemetry:</strong> Over 1.6 Million FTP daemons reachable worldwide.
+      </div>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/22a_ftp_architecture.html -->
+<!-- SLIDE 22a: FTP Dual-Channel Architecture -->
+<section>
+  <h2><i class="fa-solid fa-network-wired highlight-htb"></i> FTP Control Connection</h2>
+  <p class="slide-subtitle">
+    Persistent TCP control channel for command exchange and session management.
+  </p>
+
+  <div class="grid-2" style="align-items: center;">
+    <!-- Key Points Card -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-cyan">CONTROL STREAM</span> TCP Port 21
+      </div>
+      <ul>
+        <li><strong>Connection:</strong> Client opens TCP handshake to <span class="highlight-htb">Port 21</span>.</li>
+        <li><strong>Command Exchange:</strong> Carries ASCII commands (<code style="color: var(--htb-green);">USER</code>, <code style="color: var(--htb-green);">PASS</code>, <code style="color: var(--htb-green);">LIST</code>).</li>
+        <li><strong>Persistent Channel:</strong> Remains open throughout the entire FTP session.</li>
+        <li><strong>Separation:</strong> Control and actual file data streams are completely decoupled.</li>
+      </ul>
     </div>
 
+    <!-- FTP Connection Image Frame -->
+    <div style="text-align: center;">
+      <div style="background: #ffffff; padding: 10px; border-radius: 8px; border: 1px solid var(--accent-cyan); box-shadow: 0 0 15px rgba(45, 226, 230, 0.2); display: inline-block;">
+        <img src="media/ftp_connection.png" alt="FTP Control Connection" style="max-height: 350px; width: 100%; display: block; object-fit: contain;">
+      </div>
+      <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">
+        <i class="fa-solid fa-diagram-project highlight-cyan"></i> <strong>TCP Control Connection:</strong> Handshake & Command Pipe.
+      </div>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/23_ftp_active_mode.html -->
+<!-- SLIDE 23: Active FTP Mode -->
+<section>
+  <h2><i class="fa-solid fa-arrow-left-long highlight-htb"></i> Active FTP Mode</h2>
+  <p class="slide-subtitle">
+    Server-initiated data stream and perimeter firewall obstacles.
+  </p>
+
+  <div class="grid-2" style="align-items: center;">
+    <!-- Active Mode Threat Card -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">ACTIVE MODE</span> Server &rarr; Client Connection
+      </div>
+      <ul>
+        <li><strong>Mechanism:</strong> Server connects from <span class="highlight-htb">TCP 20</span> back to client's ephemeral port.</li>
+        <li><strong>Firewall Block:</strong> Internet firewalls block unprompted inbound client connections (<span class="highlight-red">bind shell risk</span>).</li>
+        <li><strong>Network Constraint:</strong> Only viable when client & server share the <span class="highlight-yellow">same flat local network</span>.</li>
+      </ul>
+    </div>
+
+    <!-- Active FTP Diagram -->
+    <div style="text-align: center;">
+      <div style="background: #ffffff; padding: 10px; border-radius: 8px; border: 1px solid var(--accent-red); box-shadow: 0 0 15px rgba(255, 46, 99, 0.2); display: inline-block;">
+        <img src="media/ftp_active.png" alt="Active FTP Mode" style="max-height: 350px; width: 100%; display: block; object-fit: contain;">
+      </div>
+      <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">
+        <i class="fa-solid fa-shield-cat highlight-red"></i> <strong>Firewall Block:</strong> Incoming TCP 20 data stream rejected at client perimeter.
+      </div>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/23a_ftp_passive_mode.html -->
+<!-- SLIDE 23a: Passive FTP Mode -->
+<section>
+  <h2><i class="fa-solid fa-arrow-right-long highlight-htb"></i> Passive FTP Mode</h2>
+  <p class="slide-subtitle">
+    Client-initiated data stream designed for firewall evasion.
+  </p>
+
+  <div class="grid-2" style="align-items: center;">
+    <!-- Passive Mode Secure Card -->
+    <div class="cyber-card secure">
+      <div class="card-title">
+        <span class="cyber-badge badge-cyan">PASSIVE MODE</span> Client &rarr; Server Connection
+      </div>
+      <ul>
+        <li><strong>Mechanism:</strong> Client issues <code style="color: var(--htb-green);">PASV</code>; server assigns high-port for client-initiated data stream.</li>
+        <li><strong>Firewall Evasion:</strong> Outbound client connection bypasses perimeter filters (<span class="highlight-cyan">reverse shell concept</span>).</li>
+        <li><strong>Modern Challenge:</strong> <span class="highlight-purple">Zero-Trust</span> internal segmentation increasingly filters high-port traffic.</li>
+      </ul>
+    </div>
+
+    <!-- Passive FTP Diagram -->
+    <div style="text-align: center;">
+      <div style="background: #ffffff; padding: 10px; border-radius: 8px; border: 1px solid var(--accent-cyan); box-shadow: 0 0 15px rgba(45, 226, 230, 0.2); display: inline-block;">
+        <img src="media/ftp_passive.png" alt="Passive FTP Mode" style="max-height: 350px; width: 100%; display: block; object-fit: contain;">
+      </div>
+      <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">
+        <i class="fa-solid fa-unlock highlight-cyan"></i> <strong>Firewall Solution:</strong> Client initiates both Control & Data channels outbound.
+      </div>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/23b_ftp_bounce_attack.html -->
+<!-- SLIDE 23b: FTP Bounce Attack Threat -->
+<section>
+  <h2><i class="fa-solid fa-user-ninja highlight-htb"></i> FTP Bounce Attack</h2>
+  <p class="slide-subtitle">
+    Abusing FTP PORT commands to proxy malicious traffic through vulnerable FTP servers.
+  </p>
+
+  <div class="grid-2" style="align-items: center;">
+    <!-- Threat Card -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">PROTOCOL ABUSE</span> Indirect Proxying
+      </div>
+      <ul>
+        <li><strong>Vector:</strong> Attacker issues <code style="color: var(--htb-green);">PORT</code> command instructing FTP server to connect to a third-party target.</li>
+        <li><strong>Impact:</strong> Bypasses internal firewalls, masks attacker IP, and enables internal port scanning.</li>
+        <li><strong>Mitigation:</strong> Disable proxying in daemon config & enforce passive mode only.</li>
+      </ul>
+    </div>
+
+    <!-- Bounce Attack Diagram -->
+    <div style="text-align: center;">
+      <div style="background: #ffffff; padding: 10px; border-radius: 8px; border: 1px solid var(--accent-red); box-shadow: 0 0 15px rgba(255, 46, 99, 0.2); display: inline-block;">
+        <img src="media/ftp_bounce_attack.png" alt="FTP Bounce Attack" style="max-height: 350px; width: 100%; display: block; object-fit: contain;">
+      </div>
+      <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">
+        <i class="fa-solid fa-bug highlight-red"></i> <strong>Bounce Relay:</strong> Intermediate FTP server relays commands to victim host.
+      </div>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/24_tftp_overview.html -->
+<!-- SLIDE 24: Trivial File Transfer Protocol (TFTP) -->
+<section>
+  <h2><i class="fa-solid fa-bolt highlight-htb"></i> Lightweight Transfer: TFTP Protocol</h2>
+  <p class="slide-subtitle">
+    Connectionless, stripped-down file transfer for network device configuration and bootstrapping.
+  </p>
+
+  <div class="grid-2">
+    <!-- Card 1: TFTP Specs -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">ARCHITECTURE</span> TFTP vs. FTP
+      </div>
+      <ul>
+        <li><strong>Purpose:</strong> Lightweight transfer for firmware, router configs, & PXE boot images.</li>
+        <li><strong>Transport Protocol:</strong> Operates over <span class="highlight-htb">UDP 69</span> (initial handshake) + dynamic UDP data ports.</li>
+        <li><strong>Connectionless:</strong> No delivery guarantees or error control &rarr; <span class="highlight-yellow">faster but less reliable</span>.</li>
+        <li><strong>Security Risk:</strong> <span class="highlight-red">Inherently insecure</span> — zero authentication or encryption capabilities.</li>
+      </ul>
+    </div>
+
+    <!-- Terminal Code Showcase -->
+    <div>
+      <div class="terminal-header">
+        <span class="terminal-dot dot-red"></span>
+        <span class="terminal-dot dot-yellow"></span>
+        <span class="terminal-dot dot-green"></span>
+        <span class="terminal-title">root@htb:~# tftp 10.129.14.150 69</span>
+      </div>
+      <pre><code class="language-bash">tftp> status
+Connected to 10.129.14.150.
+Mode: netascii Verbose: off Tracing: off
+tftp> get router-running.cfg
+Received 4096 bytes in 0.1 seconds
+tftp> quit</code></pre>
+      <p style="font-size: 0.8em; color: var(--text-muted); text-align: center; margin-top: -0.4rem;">
+        <i class="fa-solid fa-triangle-exclamation highlight-yellow"></i> <strong>Unauthenticated:</strong> Direct file retrieval without login prompt.
+      </p>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/25_ftp_enumeration.html -->
+<!-- SLIDE 25: Reconnaissance & Active Enumeration -->
+<section>
+  <h2><i class="fa-solid fa-magnifying-glass-location highlight-htb"></i> Reconnaissance: FTP & TFTP Enumeration</h2>
+  <p class="slide-subtitle">
+    Discovering service configurations, anonymous access, and unauthenticated file shares.
+  </p>
+
+  <div class="grid-2">
+    <!-- Terminal Code Showcase -->
+    <div>
+      <div class="terminal-header">
+        <span class="terminal-dot dot-red"></span>
+        <span class="terminal-dot dot-yellow"></span>
+        <span class="terminal-dot dot-green"></span>
+        <span class="terminal-title">root@htb:~# nmap -sV -sC -p 21,69 10.129.14.150</span>
+      </div>
+      <pre><code class="language-bash">PORT   STATE SERVICE VERSION
+21/tcp open  ftp     vsftpd 3.0.3
+|_ftp-anon: Anonymous FTP login allowed (FTP code 230)
+| ftp-syst: 
+|_  STAT: UNIX Type: L8
+69/udp open  tftp    tftp-hpa 5.2</code></pre>
+      <div style="background: var(--htb-bg-card); border: 1px solid var(--htb-border); border-radius: 6px; padding: 0.5rem 0.7rem; margin-top: 0.4rem; text-align: left;">
+        <span style="font-size: 0.78em; color: var(--text-muted);">
+          <i class="fa-solid fa-shield-halved highlight-htb"></i> <strong>Recon Strategy:</strong> Probe port 21 (TCP) for FTP daemons and port 69 (UDP) for TFTP servers.
+        </span>
+      </div>
+    </div>
+
+    <!-- Card: Reconnaissance Checklist -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">RECON CHECKLIST</span> Enumeration Vectors
+      </div>
+      <ul>
+        <li><strong>Service Banners:</strong> Extract daemon type & version info (<code style="color: var(--htb-green);">vsftpd</code>, <code style="color: var(--htb-green);">ProFTPD</code>).</li>
+        <li><strong>Anonymous Login:</strong> Test default <code style="color: var(--htb-green);">anonymous:anonymous</code> credentials.</li>
+        <li><strong>Directory Audit:</strong> Check read/write access with <code style="color: var(--htb-green);">LIST</code>, <code style="color: var(--htb-green);">PWD</code>, and <code style="color: var(--htb-green);">CWD</code> commands.</li>
+        <li><strong>TFTP File Harvesting:</strong> Probe UDP 69 for sensitive backup configs (<code style="color: var(--htb-green);">startup-config</code>, <code style="color: var(--htb-green);">id_rsa</code>).</li>
+      </ul>
+    </div>
   </div>
 </section>
 

@@ -1,0 +1,41 @@
+<!-- SLIDE 24: Trivial File Transfer Protocol (TFTP) -->
+<section>
+  <h2><i class="fa-solid fa-bolt highlight-htb"></i> Lightweight Transfer: TFTP Protocol</h2>
+  <p class="slide-subtitle">
+    Connectionless, stripped-down file transfer for network device configuration and bootstrapping.
+  </p>
+
+  <div class="grid-2">
+    <!-- Card 1: TFTP Specs -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">ARCHITECTURE</span> TFTP vs. FTP
+      </div>
+      <ul>
+        <li><strong>Purpose:</strong> Lightweight transfer for firmware, router configs, & PXE boot images.</li>
+        <li><strong>Transport Protocol:</strong> Operates over <span class="highlight-htb">UDP 69</span> (initial handshake) + dynamic UDP data ports.</li>
+        <li><strong>Connectionless:</strong> No delivery guarantees or error control &rarr; <span class="highlight-yellow">faster but less reliable</span>.</li>
+        <li><strong>Security Risk:</strong> <span class="highlight-red">Inherently insecure</span> — zero authentication or encryption capabilities.</li>
+      </ul>
+    </div>
+
+    <!-- Terminal Code Showcase -->
+    <div>
+      <div class="terminal-header">
+        <span class="terminal-dot dot-red"></span>
+        <span class="terminal-dot dot-yellow"></span>
+        <span class="terminal-dot dot-green"></span>
+        <span class="terminal-title">root@htb:~# tftp 10.129.14.150 69</span>
+      </div>
+      <pre><code class="language-bash">tftp> status
+Connected to 10.129.14.150.
+Mode: netascii Verbose: off Tracing: off
+tftp> get router-running.cfg
+Received 4096 bytes in 0.1 seconds
+tftp> quit</code></pre>
+      <p style="font-size: 0.8em; color: var(--text-muted); text-align: center; margin-top: -0.4rem;">
+        <i class="fa-solid fa-triangle-exclamation highlight-yellow"></i> <strong>Unauthenticated:</strong> Direct file retrieval without login prompt.
+      </p>
+    </div>
+  </div>
+</section>

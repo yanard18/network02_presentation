@@ -1,0 +1,35 @@
+<!-- SLIDE 15: Telnet Threats & IoT Botnets -->
+<section>
+  <h2><i class="fa-solid fa-bug highlight-red"></i> Insecure Design & IoT Botnets</h2>
+  <p class="slide-subtitle">
+    Unencrypted traffic makes Telnet a prime target for credential sniffing and botnet hijacking.
+  </p>
+
+  <div class="grid-2">
+    <!-- Card 1: Security Weaknesses -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">PROTOCOL RISKS</span> Severe Flaws
+      </div>
+      <ul class="threat-list">
+        <li><strong>Plaintext Traffic:</strong> Unencrypted passwords, keystrokes, & CLI outputs.</li>
+        <li><strong>Easy Sniffing:</strong> Intercepted via Wireshark or <code style="color: var(--accent-red);">tcpdump</code>.</li>
+        <li><strong>No Server Identity:</strong> Lacks digital certificates or host verification.</li>
+        <li><strong>MitM Risk:</strong> Susceptible to ARP spoofing & credential harvesting.</li>
+      </ul>
+    </div>
+
+    <!-- Card 2: Mirai Botnet -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">BOTNET VECTOR</span> Mirai Exploitation
+      </div>
+      <ul class="threat-list">
+        <li><strong>IoT Exposure:</strong> Active by default on IP cameras, routers, & DVRs.</li>
+        <li><strong>Default Creds:</strong> Weak factory logins (<code style="color: var(--accent-red);">admin/admin</code>, <code style="color: var(--accent-red);">root/123456</code>).</li>
+        <li><strong>Mirai Botnet:</strong> Scans <span class="highlight-red">TCP/23 & 2323</span> to brute-force & infect devices.</li>
+        <li><strong>DDoS Impact:</strong> Recruited millions of IoT nodes for record terabit attacks.</li>
+      </ul>
+    </div>
+  </div>
+</section>

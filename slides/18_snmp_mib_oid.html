@@ -1,0 +1,47 @@
+<!-- SLIDE 18: Core Concepts - MIB & OID Tree Architecture -->
+<section>
+  <h2><i class="fa-solid fa-sitemap highlight-htb"></i> Data Structuring: MIB & OID</h2>
+  <p class="slide-subtitle">
+    Management Information Base (MIB) translation and Object Identifier (OID) hierarchy.
+  </p>
+
+  <div class="grid-2">
+    <!-- Card 1: MIB & OID -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">DATA SCHEMA</span> MIB & OID Concepts
+      </div>
+      <ul>
+        <li><strong>MIB (Data Dictionary):</strong> Maps numeric OIDs to human-readable names.</li>
+        <li><strong>OID (Tree Path):</strong> Dot-separated integers marking position in global namespace tree.</li>
+        <li><strong>Path Depth:</strong> Longer chain = more specific hardware attribute.</li>
+        <li><strong>Standardization:</strong> Universal schema across Cisco, Linux, & Windows devices.</li>
+      </ul>
+    </div>
+
+    <!-- Terminal & Translation Showcase -->
+    <div>
+      <div class="terminal-header">
+        <span class="terminal-dot dot-red"></span>
+        <span class="terminal-dot dot-yellow"></span>
+        <span class="terminal-dot dot-green"></span>
+        <span class="terminal-title">MIB Translation Output</span>
+      </div>
+      <pre><code class="language-bash"># WITHOUT MIB (Raw Numeric Chain):
+1.3.6.1.2.1.1.1.0 = STRING: Linux target 5.15.0
+
+# WITH MIB (Human-Readable Symbol):
+SNMPv2-MIB::sysDescr.0 = STRING: Linux target 5.15.0</code></pre>
+
+      <div class="diagram-box-purple" style="margin-top: 0.6rem; padding: 0.75rem; text-align: left;">
+        <div style="font-size: 0.82em; line-height: 1.4; color: var(--text-main);">
+          <strong style="color: var(--accent-purple); font-size: 0.9em;"><i class="fa-solid fa-folder-tree"></i> OID Tree Resolution:</strong><br>
+          <code style="color: var(--htb-green); font-size: 0.95em;">.1.3.6.1.2.1.1.1.0</code><br>
+          <span style="color: var(--text-muted); font-size: 0.85em;">
+            iso(1) &rarr; org(3) &rarr; dod(6) &rarr; internet(1) &rarr; mgmt(2) &rarr; mib-2(1) &rarr; system(1) &rarr; sysDescr(1) &rarr; 0
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

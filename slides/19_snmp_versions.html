@@ -1,0 +1,48 @@
+<!-- SLIDE 19: Protocol Versions - SNMPv1 vs SNMPv2c vs SNMPv3 -->
+<section>
+  <h2><i class="fa-solid fa-layer-group highlight-htb"></i> SNMP Protocol Evolution</h2>
+  <p class="slide-subtitle">
+    Security & capability differences across protocol generations.
+  </p>
+
+  <div class="grid-3">
+    <!-- Card 1: SNMPv1 -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">LEGACY</span> SNMPv1
+      </div>
+      <ul class="threat-list">
+        <li><strong>Auth:</strong> Plaintext <span class="highlight-red">Community Strings</span>.</li>
+        <li><strong>Encryption:</strong> <span class="highlight-red">None</span> (cleartext payload).</li>
+        <li><strong>Features:</strong> Basic <code style="color: var(--htb-green);">GET</code>/<code style="color: var(--htb-green);">SET</code> (32-bit counters).</li>
+        <li><strong>Risk:</strong> Vulnerable to network sniffing.</li>
+      </ul>
+    </div>
+
+    <!-- Card 2: SNMPv2c -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-yellow">COMMUNITY</span> SNMPv2c
+      </div>
+      <ul>
+        <li><strong>Auth:</strong> Community-based (<code style="color: var(--accent-yellow);">v2c</code>).</li>
+        <li><strong>Encryption:</strong> <span class="highlight-red">None</span> (plain text strings).</li>
+        <li><strong>Features:</strong> Added <code style="color: var(--htb-green);">GETBULK</code> & 64-bit counters.</li>
+        <li><strong>Status:</strong> Prevalent in internal LANs.</li>
+      </ul>
+    </div>
+
+    <!-- Card 3: SNMPv3 -->
+    <div class="cyber-card secure">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">HARDENED</span> SNMPv3
+      </div>
+      <ul class="secure-list">
+        <li><strong>Auth:</strong> Cryptographic USM (MD5/SHA).</li>
+        <li><strong>Encryption:</strong> Full payload <span class="highlight-htb">AES</span> / DES.</li>
+        <li><strong>Control:</strong> Granular VACM OID scoping.</li>
+        <li><strong>Status:</strong> Modern enterprise standard.</li>
+      </ul>
+    </div>
+  </div>
+</section>

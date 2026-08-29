@@ -1,0 +1,31 @@
+<!-- SLIDE 23a: Passive FTP Mode -->
+<section>
+  <h2><i class="fa-solid fa-arrow-right-long highlight-htb"></i> Passive FTP Mode</h2>
+  <p class="slide-subtitle">
+    Client-initiated data stream designed for firewall evasion.
+  </p>
+
+  <div class="grid-2" style="align-items: center;">
+    <!-- Passive Mode Secure Card -->
+    <div class="cyber-card secure">
+      <div class="card-title">
+        <span class="cyber-badge badge-cyan">PASSIVE MODE</span> Client &rarr; Server Connection
+      </div>
+      <ul>
+        <li><strong>Mechanism:</strong> Client issues <code style="color: var(--htb-green);">PASV</code>; server assigns high-port for client-initiated data stream.</li>
+        <li><strong>Firewall Evasion:</strong> Outbound client connection bypasses perimeter filters (<span class="highlight-cyan">reverse shell concept</span>).</li>
+        <li><strong>Modern Challenge:</strong> <span class="highlight-purple">Zero-Trust</span> internal segmentation increasingly filters high-port traffic.</li>
+      </ul>
+    </div>
+
+    <!-- Passive FTP Diagram -->
+    <div style="text-align: center;">
+      <div style="background: #ffffff; padding: 10px; border-radius: 8px; border: 1px solid var(--accent-cyan); box-shadow: 0 0 15px rgba(45, 226, 230, 0.2); display: inline-block;">
+        <img src="media/ftp_passive.png" alt="Passive FTP Mode" style="max-height: 350px; width: 100%; display: block; object-fit: contain;">
+      </div>
+      <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">
+        <i class="fa-solid fa-unlock highlight-cyan"></i> <strong>Firewall Solution:</strong> Client initiates both Control & Data channels outbound.
+      </div>
+    </div>
+  </div>
+</section>

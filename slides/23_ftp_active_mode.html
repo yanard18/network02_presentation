@@ -1,0 +1,31 @@
+<!-- SLIDE 23: Active FTP Mode -->
+<section>
+  <h2><i class="fa-solid fa-arrow-left-long highlight-htb"></i> Active FTP Mode</h2>
+  <p class="slide-subtitle">
+    Server-initiated data stream and perimeter firewall obstacles.
+  </p>
+
+  <div class="grid-2" style="align-items: center;">
+    <!-- Active Mode Threat Card -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">ACTIVE MODE</span> Server &rarr; Client Connection
+      </div>
+      <ul>
+        <li><strong>Mechanism:</strong> Server connects from <span class="highlight-htb">TCP 20</span> back to client's ephemeral port.</li>
+        <li><strong>Firewall Block:</strong> Internet firewalls block unprompted inbound client connections (<span class="highlight-red">bind shell risk</span>).</li>
+        <li><strong>Network Constraint:</strong> Only viable when client & server share the <span class="highlight-yellow">same flat local network</span>.</li>
+      </ul>
+    </div>
+
+    <!-- Active FTP Diagram -->
+    <div style="text-align: center;">
+      <div style="background: #ffffff; padding: 10px; border-radius: 8px; border: 1px solid var(--accent-red); box-shadow: 0 0 15px rgba(255, 46, 99, 0.2); display: inline-block;">
+        <img src="media/ftp_active.png" alt="Active FTP Mode" style="max-height: 350px; width: 100%; display: block; object-fit: contain;">
+      </div>
+      <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">
+        <i class="fa-solid fa-shield-cat highlight-red"></i> <strong>Firewall Block:</strong> Incoming TCP 20 data stream rejected at client perimeter.
+      </div>
+    </div>
+  </div>
+</section>

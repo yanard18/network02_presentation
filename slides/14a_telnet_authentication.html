@@ -1,0 +1,66 @@
+<!-- SLIDE 14a: Telnet Authentication Architecture -->
+<section>
+  <h2><i class="fa-solid fa-key highlight-htb"></i> Telnet Authentication Architecture</h2>
+  <p class="slide-subtitle">
+    How Telnet delegates user authentication to the host operating system.
+  </p>
+
+  <div class="grid-2">
+    <!-- Card 1: Protocol Limitation -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">PROTOCOL LIMITATION</span> Zero Native Auth
+      </div>
+      <ul class="threat-list">
+        <li><strong>No Built-in Auth:</strong> RFC 854 has <span class="highlight-red">no cryptographic handshake</span> or authentication layer.</li>
+        <li><strong>Post-Handshake Trigger:</strong> Authentication begins <em>after</em> completing TCP 3-way handshake on Port 23.</li>
+        <li><strong>PTY Allocation:</strong> Receiving daemon (<code style="color: var(--htb-green);">telnetd</code>) initializes a Pseudo-Terminal interface.</li>
+        <li><strong>OS Delegation:</strong> <code style="color: var(--htb-green);">telnetd</code> hands off login prompt directly to host <code style="color: var(--accent-cyan);">'/bin/login'</code>.</li>
+      </ul>
+    </div>
+
+    <!-- Card 2: Execution Flow -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-cyan">EXECUTION FLOW</span> Telnet Session Lifecycle
+      </div>
+
+      <div class="diagram-box-cyan" style="padding: 1rem; text-align: left; margin-top: 0.4rem; background: var(--htb-bg-terminal); border: 1px solid var(--accent-cyan); border-radius: 8px;">
+        <!-- Step 1 -->
+        <div style="display: flex; align-items: center; margin-bottom: 0.65rem; gap: 0.8rem; background: rgba(255, 255, 255, 0.04); padding: 0.5rem 0.8rem; border-radius: 6px; border-left: 3px solid var(--htb-green);">
+          <span style="background: var(--htb-green); color: var(--htb-bg-dark); font-weight: 700; font-family: var(--font-mono); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85em; flex-shrink: 0;">1</span>
+          <div style="font-size: 0.85em; line-height: 1.3; color: var(--text-main);">
+            <strong style="color: var(--text-white);">TCP Connect:</strong> 3-way handshake to <span class="highlight-htb">TCP/23</span>.
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div style="display: flex; align-items: center; margin-bottom: 0.65rem; gap: 0.8rem; background: rgba(255, 255, 255, 0.04); padding: 0.5rem 0.8rem; border-radius: 6px; border-left: 3px solid var(--accent-cyan);">
+          <span style="background: var(--accent-cyan); color: var(--htb-bg-dark); font-weight: 700; font-family: var(--font-mono); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85em; flex-shrink: 0;">2</span>
+          <div style="font-size: 0.85em; line-height: 1.3; color: var(--text-main);">
+            <strong style="color: var(--text-white);">PTY Allocation:</strong> Server <code style="color: var(--htb-green);">telnetd</code> spawns virtual terminal.
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div style="display: flex; align-items: center; margin-bottom: 0.65rem; gap: 0.8rem; background: rgba(255, 255, 255, 0.04); padding: 0.5rem 0.8rem; border-radius: 6px; border-left: 3px solid var(--accent-purple);">
+          <span style="background: var(--accent-purple); color: var(--text-white); font-weight: 700; font-family: var(--font-mono); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85em; flex-shrink: 0;">3</span>
+          <div style="font-size: 0.85em; line-height: 1.3; color: var(--text-main);">
+            <strong style="color: var(--text-white);">OS Handoff:</strong> Invokes host <code style="color: var(--accent-cyan);">'/bin/login'</code> process.
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div style="display: flex; align-items: center; gap: 0.8rem; background: rgba(255, 255, 255, 0.04); padding: 0.5rem 0.8rem; border-radius: 6px; border-left: 3px solid var(--accent-red);">
+          <span style="background: var(--accent-red); color: var(--text-white); font-weight: 700; font-family: var(--font-mono); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85em; flex-shrink: 0;">4</span>
+          <div style="font-size: 0.85em; line-height: 1.3; color: var(--text-main);">
+            <strong style="color: var(--text-white);">Cleartext Auth:</strong> User creds passed unencrypted to OS PAM.
+          </div>
+        </div>
+      </div>
+      <p style="font-size: 0.8em; color: var(--text-muted); text-align: center; margin-top: 0.5rem; margin-bottom: 0;">
+        <i class="fa-solid fa-triangle-exclamation highlight-yellow"></i> Authentication occurs outside the protocol payload scope.
+      </p>
+    </div>
+  </div>
+</section>

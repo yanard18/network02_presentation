@@ -1,0 +1,32 @@
+<!-- SLIDE 22: FTP Protocol Overview & Global Footprint -->
+<section>
+  <h2><i class="fa-solid fa-folder-open highlight-htb"></i> FTP Protocol Overview</h2>
+  <p class="slide-subtitle">
+    1970s legacy protocol for remote file management and directory operations.
+  </p>
+
+  <div class="grid-2" style="align-items: center;">
+    <!-- Key Points Card -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">SPECS</span> Core Architecture
+      </div>
+      <ul>
+        <li><strong>Origin:</strong> RFC 114 (1971); foundational TCP/IP file protocol.</li>
+        <li><strong>Client-Server Model:</strong> Client initiates; server hosts files.</li>
+        <li><strong>Operations:</strong> File transfer, directory listings, & file management.</li>
+        <li><strong>Persistence:</strong> <span class="highlight-htb">1.6M+ devices</span> exposed globally on Port 21.</li>
+      </ul>
+    </div>
+
+    <!-- Shodan Image Frame -->
+    <div style="text-align: center;">
+      <div style="background: var(--htb-bg-card); padding: 8px; border-radius: 8px; border: 1px solid var(--htb-green); box-shadow: 0 0 15px rgba(159, 239, 0, 0.2); display: inline-block;">
+        <img src="media/shodan_ftp.png" alt="Shodan FTP Search" style="max-height: 350px; width: 100%; display: block; border-radius: 4px; object-fit: contain;">
+      </div>
+      <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">
+        <i class="fa-solid fa-globe highlight-htb"></i> <strong>Shodan Telemetry:</strong> Over 1.6 Million FTP daemons reachable worldwide.
+      </div>
+    </div>
+  </div>
+</section>

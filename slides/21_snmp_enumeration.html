@@ -1,0 +1,44 @@
+<!-- SLIDE 21: Reconnaissance & Active SNMP Enumeration -->
+<section>
+  <h2><i class="fa-solid fa-magnifying-glass-location highlight-htb"></i> Active Reconnaissance: SNMP Enumeration</h2>
+  <p class="slide-subtitle">
+    Querying target SNMP agents using <code style="color: var(--htb-green);">snmpwalk</code> to extract system telemetry.
+  </p>
+
+  <div class="grid-2">
+    <!-- Terminal Code Showcase -->
+    <div>
+      <div class="terminal-header">
+        <span class="terminal-dot dot-red"></span>
+        <span class="terminal-dot dot-yellow"></span>
+        <span class="terminal-dot dot-green"></span>
+        <span class="terminal-title">root@htb:~# snmpwalk -v2c -c public 10.129.14.128</span>
+      </div>
+      <pre><code class="language-bash">SNMPv2-MIB::sysDescr.0 = STRING: Linux target 5.15.0 #98-Ubuntu SMP
+SNMPv2-MIB::sysObjectID.0 = OID: NET-SNMP-MIB::netSnmpAgentOIDs.10
+SNMPv2-MIB::sysContact.0 = STRING: Admin &lt;admin@target.htb&gt;
+SNMPv2-MIB::sysName.0 = STRING: enterprise-core-router
+IF-MIB::ifDescr.1 = STRING: eth0
+IF-MIB::ifDescr.2 = STRING: eth1 (Internal 10.10.10.0/24)</code></pre>
+      <div style="background: var(--htb-bg-card); border: 1px solid var(--htb-border); border-radius: 6px; padding: 0.5rem 0.7rem; margin-top: 0.4rem; text-align: left;">
+        <span style="font-size: 0.78em; color: var(--text-muted);">
+          <i class="fa-solid fa-server highlight-htb"></i> <strong>Recon Role:</strong> When running <code style="color: var(--htb-green);">snmpwalk</code>, your host acts as the <strong>SNMP Manager</strong> querying the target <strong>Agent</strong>.
+        </span>
+      </div>
+    </div>
+
+    <!-- Card: High-Value Discovery OIDs -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">RECON CHECKLIST</span> High-Value Discovery OIDs
+      </div>
+      <ul>
+        <li><strong>System Info:</strong> <code style="color: var(--htb-green);">sysDescr</code> &rarr; OS distribution & kernel version.</li>
+        <li><strong>Admin Contacts:</strong> <code style="color: var(--htb-green);">sysContact</code> / <code style="color: var(--htb-green);">sysName</code> &rarr; Admin emails & hostnames.</li>
+        <li><strong>Interfaces:</strong> <code style="color: var(--htb-green);">ifDescr</code> / <code style="color: var(--htb-green);">ifPhysAddress</code> &rarr; Maps internal NICs & subnets.</li>
+        <li><strong>Processes & Software:</strong> <code style="color: var(--htb-green);">hrSWRunName</code> &rarr; Active daemons & packages.</li>
+        <li><strong>Routing Tables:</strong> <code style="color: var(--htb-green);">ipRouteDest</code> &rarr; Internal network topology.</li>
+      </ul>
+    </div>
+  </div>
+</section>

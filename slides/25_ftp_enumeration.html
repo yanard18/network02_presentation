@@ -1,0 +1,43 @@
+<!-- SLIDE 25: Reconnaissance & Active Enumeration -->
+<section>
+  <h2><i class="fa-solid fa-magnifying-glass-location highlight-htb"></i> Reconnaissance: FTP & TFTP Enumeration</h2>
+  <p class="slide-subtitle">
+    Discovering service configurations, anonymous access, and unauthenticated file shares.
+  </p>
+
+  <div class="grid-2">
+    <!-- Terminal Code Showcase -->
+    <div>
+      <div class="terminal-header">
+        <span class="terminal-dot dot-red"></span>
+        <span class="terminal-dot dot-yellow"></span>
+        <span class="terminal-dot dot-green"></span>
+        <span class="terminal-title">root@htb:~# nmap -sV -sC -p 21,69 10.129.14.150</span>
+      </div>
+      <pre><code class="language-bash">PORT   STATE SERVICE VERSION
+21/tcp open  ftp     vsftpd 3.0.3
+|_ftp-anon: Anonymous FTP login allowed (FTP code 230)
+| ftp-syst: 
+|_  STAT: UNIX Type: L8
+69/udp open  tftp    tftp-hpa 5.2</code></pre>
+      <div style="background: var(--htb-bg-card); border: 1px solid var(--htb-border); border-radius: 6px; padding: 0.5rem 0.7rem; margin-top: 0.4rem; text-align: left;">
+        <span style="font-size: 0.78em; color: var(--text-muted);">
+          <i class="fa-solid fa-shield-halved highlight-htb"></i> <strong>Recon Strategy:</strong> Probe port 21 (TCP) for FTP daemons and port 69 (UDP) for TFTP servers.
+        </span>
+      </div>
+    </div>
+
+    <!-- Card: Reconnaissance Checklist -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">RECON CHECKLIST</span> Enumeration Vectors
+      </div>
+      <ul>
+        <li><strong>Service Banners:</strong> Extract daemon type & version info (<code style="color: var(--htb-green);">vsftpd</code>, <code style="color: var(--htb-green);">ProFTPD</code>).</li>
+        <li><strong>Anonymous Login:</strong> Test default <code style="color: var(--htb-green);">anonymous:anonymous</code> credentials.</li>
+        <li><strong>Directory Audit:</strong> Check read/write access with <code style="color: var(--htb-green);">LIST</code>, <code style="color: var(--htb-green);">PWD</code>, and <code style="color: var(--htb-green);">CWD</code> commands.</li>
+        <li><strong>TFTP File Harvesting:</strong> Probe UDP 69 for sensitive backup configs (<code style="color: var(--htb-green);">startup-config</code>, <code style="color: var(--htb-green);">id_rsa</code>).</li>
+      </ul>
+    </div>
+  </div>
+</section>

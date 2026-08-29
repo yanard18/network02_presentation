@@ -1,0 +1,65 @@
+<!-- SLIDE 17: SNMP Protocol Fundamentals & Architecture -->
+<section>
+  <h2><i class="fa-solid fa-network-wired highlight-htb"></i> SNMP Protocol Fundamentals</h2>
+  <p class="slide-subtitle">
+    Remote telemetry, device health monitoring, and administrative configuration.
+  </p>
+
+  <div class="grid-2">
+    <!-- Card 1: Core Fundamentals -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">ARCHITECTURE</span> Core Concepts
+      </div>
+      <ul>
+        <li><strong>Purpose:</strong> Monitors hardware health & configures network nodes.</li>
+        <li><strong>Architecture:</strong> <span class="highlight-htb">SNMP Manager</span> (NMS) polls <span class="highlight-cyan">SNMP Agents</span>.</li>
+        <li><strong>UDP 161:</strong> Active queries (<code style="color: var(--htb-green);">GET</code> / <code style="color: var(--htb-green);">SET</code>) & responses.</li>
+        <li><strong>UDP 162:</strong> Unprompted event alerts (<span class="highlight-purple">SNMP Traps</span>).</li>
+        <li><strong>Ecosystem:</strong> Routers, switches, firewalls, servers, & modems.</li>
+      </ul>
+    </div>
+
+    <!-- Card 2: Workflow Diagram -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-cyan">TELEMETRY FLOW</span> Manager &leftrightarrow; Agent Model
+      </div>
+
+      <div class="diagram-box-cyan" style="padding: 1rem; text-align: center; margin-top: 0.4rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; gap: 0.4rem;">
+          <!-- SNMP Manager -->
+          <div style="background: var(--htb-bg-dark); border: 1px solid var(--htb-green); padding: 0.7rem 0.8rem; border-radius: 6px; flex: 1; text-align: center;">
+            <i class="fa-solid fa-desktop highlight-htb" style="font-size: 1.5rem; display: block; margin-bottom: 0.3rem;"></i>
+            <strong style="font-size: 0.85em; display: block;">SNMP Manager</strong>
+            <span style="font-size: 0.7em; color: var(--text-muted);">(NMS Client)</span>
+          </div>
+
+          <!-- Flow Labels -->
+          <div style="flex: 1.3; padding: 0 0.2rem; font-family: var(--font-mono); font-size: 0.7em;">
+            <div style="color: var(--htb-green); margin-bottom: 0.25rem; white-space: nowrap;">
+              UDP 161: GET/SET &rarr;
+            </div>
+            <div style="color: var(--accent-cyan); margin-bottom: 0.25rem; white-space: nowrap;">
+              &leftarrow; UDP 161: Response
+            </div>
+            <div style="color: var(--accent-purple); white-space: nowrap;">
+              &leftarrow; UDP 162: TRAP
+            </div>
+          </div>
+
+          <!-- SNMP Agent -->
+          <div style="background: var(--htb-bg-dark); border: 1px solid var(--accent-cyan); padding: 0.7rem 0.8rem; border-radius: 6px; flex: 1; text-align: center;">
+            <i class="fa-solid fa-server highlight-cyan" style="font-size: 1.5rem; display: block; margin-bottom: 0.3rem;"></i>
+            <strong style="font-size: 0.85em; display: block;">SNMP Agent</strong>
+            <span style="font-size: 0.7em; color: var(--text-muted);">(Router / Switch)</span>
+          </div>
+        </div>
+
+        <div class="diagram-caption" style="font-size: 0.8em; line-height: 1.3;">
+          <i class="fa-solid fa-circle-info highlight-cyan"></i> <strong>Traps vs. Polling:</strong> Requests are active/synchronous; Traps are unprompted agent event notifications.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

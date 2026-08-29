@@ -1,0 +1,24 @@
+<!-- SLIDE 16: Telnet vs SSH & Protocol Hardening -->
+<section>
+  <h2><i class="fa-solid fa-shield-halved highlight-htb"></i> Secure Alternative: Telnet vs. SSH</h2>
+  <p class="slide-subtitle">
+    Hardening steps to eliminate cleartext remote access.
+  </p>
+
+  <div class="slide-center" style="max-width: 840px; text-align: left; margin-top: 1.8rem;">
+    <ul class="secure-list" style="font-size: 1.1em; line-height: 1.7;">
+      <li style="margin-bottom: 1.1rem;">
+        <strong>Decommission Daemons:</strong> Stop and purge <code style="color: var(--htb-green);">telnetd</code> across servers, switches, & IoT nodes.
+      </li>
+      <li style="margin-bottom: 1.1rem;">
+        <strong>Firewall Filtering:</strong> Block inbound traffic on <span class="highlight-htb">TCP 23</span> & <span class="highlight-cyan">TCP 2323</span>.
+      </li>
+      <li style="margin-bottom: 1.1rem;">
+        <strong>Deploy SSH Keys:</strong> Mandate SSH key pairs (<code style="color: var(--htb-green);">ed25519</code>) and disable password auth.
+      </li>
+      <li style="margin-bottom: 1.1rem;">
+        <strong>VLAN Isolation:</strong> Isolate legacy management interfaces on dedicated, restricted VLANs.
+      </li>
+    </ul>
+  </div>
+</section>

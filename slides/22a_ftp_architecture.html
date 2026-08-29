@@ -1,0 +1,32 @@
+<!-- SLIDE 22a: FTP Dual-Channel Architecture -->
+<section>
+  <h2><i class="fa-solid fa-network-wired highlight-htb"></i> FTP Control Connection</h2>
+  <p class="slide-subtitle">
+    Persistent TCP control channel for command exchange and session management.
+  </p>
+
+  <div class="grid-2" style="align-items: center;">
+    <!-- Key Points Card -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-cyan">CONTROL STREAM</span> TCP Port 21
+      </div>
+      <ul>
+        <li><strong>Connection:</strong> Client opens TCP handshake to <span class="highlight-htb">Port 21</span>.</li>
+        <li><strong>Command Exchange:</strong> Carries ASCII commands (<code style="color: var(--htb-green);">USER</code>, <code style="color: var(--htb-green);">PASS</code>, <code style="color: var(--htb-green);">LIST</code>).</li>
+        <li><strong>Persistent Channel:</strong> Remains open throughout the entire FTP session.</li>
+        <li><strong>Separation:</strong> Control and actual file data streams are completely decoupled.</li>
+      </ul>
+    </div>
+
+    <!-- FTP Connection Image Frame -->
+    <div style="text-align: center;">
+      <div style="background: #ffffff; padding: 10px; border-radius: 8px; border: 1px solid var(--accent-cyan); box-shadow: 0 0 15px rgba(45, 226, 230, 0.2); display: inline-block;">
+        <img src="media/ftp_connection.png" alt="FTP Control Connection" style="max-height: 350px; width: 100%; display: block; object-fit: contain;">
+      </div>
+      <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">
+        <i class="fa-solid fa-diagram-project highlight-cyan"></i> <strong>TCP Control Connection:</strong> Handshake & Command Pipe.
+      </div>
+    </div>
+  </div>
+</section>

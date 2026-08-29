@@ -1,0 +1,47 @@
+<!-- SLIDE 14b: TELNET In-Band Control Commands & IAC Protocol -->
+<section>
+  <h2><i class="fa-solid fa-code highlight-htb"></i> Protocol Signaling: TELNET Commands & IAC</h2>
+  <p class="slide-subtitle">
+    In-band session negotiation using the Interpret As Command (IAC) byte prefix.
+  </p>
+
+  <div class="grid-2">
+    <!-- Card 1: IAC Concept -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">IN-BAND SIGNALING</span> The IAC Prefix
+      </div>
+      <ul>
+        <li><strong>Shared Data Channel:</strong> Commands share the active terminal byte stream.</li>
+        <li><strong>IAC Prefix:</strong> Escaped by <span class="highlight-htb">IAC</span> byte (decimal <code style="color: var(--htb-green);">255</code> / hex <code style="color: var(--htb-green);">0xFF</code>).</li>
+        <li><strong>User Transparency:</strong> Intercepted silently without rendering control characters.</li>
+        <li><strong>Option Negotiation:</strong> Dynamic handshake for echo, terminal type, & window size.</li>
+      </ul>
+    </div>
+
+    <!-- Command Syntax & Codes -->
+    <div>
+      <div class="terminal-header">
+        <span class="terminal-dot dot-red"></span>
+        <span class="terminal-dot dot-yellow"></span>
+        <span class="terminal-dot dot-green"></span>
+        <span class="terminal-title">TELNET Byte Sequence Syntax</span>
+      </div>
+      <pre><code class="language-bash"># Command Structure:
+[IAC (255)] [Command Code] [Option Code]
+
+# Server Request (Enable Echo):
+IAC (255) + DO (253) + ECHO (1)   --> \xff\xfd\x01
+
+# Client Agree Response:
+IAC (255) + WILL (251) + ECHO (1) --> \xff\xfb\x01</code></pre>
+
+      <div class="diagram-box-cyan" style="margin-top: 0.6rem; padding: 0.75rem; text-align: left;">
+        <div style="font-size: 0.82em; line-height: 1.4; color: var(--text-main);">
+          <strong style="color: var(--accent-cyan); font-size: 0.9em;"><i class="fa-solid fa-sliders"></i> Key Verbs:</strong>
+          <span style="color: var(--htb-green);">WILL</span> (251) / <span style="color: var(--accent-red);">WONT</span> (252) offer/refuse; <span style="color: var(--accent-cyan);">DO</span> (253) / <span style="color: var(--accent-yellow);">DONT</span> (254) request/forbid.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
