@@ -83,22 +83,22 @@
       <!-- Loaded from slides/01_what_is_nmap.html -->
 <!-- SLIDE: What is Nmap? -->
 <section>
-  <h2><i class="fa-solid fa-crosshairs highlight-htb"></i> What is Nmap?</h2>
+  <h2><i class="fa-solid fa-crosshairs highlight-htb"></i> Nmap Nedir?</h2>
   <p class="slide-subtitle">
-    Network Mapper (Nmap) is the industry-standard, open-source tool for network discovery & security auditing.
+    Network Mapper (Nmap), ağ keşfi ve güvenlik denetimi için endüstri standardı olan açık kaynaklı bir araçtır.
   </p>
 
   <div class="grid-2">
     <!-- Card 1: Core Definition & Capabilities -->
     <div class="cyber-card">
       <div class="card-title">
-        <span class="cyber-badge badge-htb">OVERVIEW</span> Key Capabilities
+        <span class="cyber-badge badge-htb">OVERVIEW</span> Temel Yetenekler
       </div>
       <ul>
-        <li><strong>Host Discovery:</strong> Locates live hosts, IP addresses, and active devices on any network.</li>
-        <li><strong>Port Scanning:</strong> Identifies open TCP/UDP ports listening for network connections.</li>
-        <li><strong>Service & Version Detection:</strong> Queries open ports to determine application names and exact versions (<code style="color: var(--htb-green);">-sV</code>).</li>
-        <li><strong>OS Fingerprinting:</strong> Analyzes network responses to detect remote Operating Systems (<code style="color: var(--htb-green);">-O</code>).</li>
+        <li><strong>Host Discovery:</strong> Herhangi bir ağ üzerindeki aktif host'ları, IP adreslerini ve cihazları tespit eder.</li>
+        <li><strong>Port Scanning:</strong> Ağ bağlantılarını dinleyen açık TCP/UDP portlarını belirler.</li>
+        <li><strong>Service & Version Detection:</strong> Açık portları sorgulayarak uygulama adlarını ve tam sürümlerini belirler (<code style="color: var(--htb-green);">-sV</code>).</li>
+        <li><strong>OS Fingerprinting:</strong> Hedef işletim sistemini tespit etmek için ağ yanıtlarını analiz eder (<code style="color: var(--htb-green);">-O</code>).</li>
       </ul>
     </div>
 
@@ -127,54 +127,54 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
       <!-- Loaded from slides/02_why_nmap.html -->
 <!-- SLIDE: Why We Need Nmap -->
 <section>
-  <h2><i class="fa-solid fa-shield-virus highlight-htb"></i> Why We Need Nmap</h2>
+  <h2><i class="fa-solid fa-shield-virus highlight-htb"></i> Nmap'e Neden İhtiyaç Duyarız?</h2>
   <p class="slide-subtitle">
-    Essential use cases in network administration, security auditing, and threat defense.
+    Ağ yönetimi, güvenlik denetimi ve tehdit savunmasında temel kullanım senaryoları.
   </p>
 
   <div class="grid-3">
     <!-- Card 1: Network Inventory & Visibility -->
     <div class="cyber-card">
       <div class="card-title">
-        <span class="cyber-badge badge-htb">VISIBILITY</span> Network Inventory
+        <span class="cyber-badge badge-htb">VISIBILITY</span> Ağ Envanteri
       </div>
       <p style="margin-bottom: 0.6rem; color: var(--text-muted); font-size: 0.9em;">
-        Maintains complete network awareness and control.
+        Eksiksiz ağ farkındalığı ve kontrolü sağlar.
       </p>
       <ul>
-        <li>Maps all connected systems & active IP ranges.</li>
-        <li>Detects unauthorized or rogue devices instantly.</li>
-        <li>Monitors service uptime and network availability.</li>
+        <li>Bağlı tüm sistemleri ve aktif IP aralıklarını haritalandırır.</li>
+        <li>Yetkisiz veya kural dışı (rogue) cihazları anında tespit eder.</li>
+        <li>Servis çalışma süresini (uptime) ve ağ erişilebilirliğini izler.</li>
       </ul>
     </div>
 
     <!-- Card 2: Security Auditing & Vulnerability Discovery -->
     <div class="cyber-card threat">
       <div class="card-title">
-        <span class="cyber-badge badge-red">AUDITING</span> Vulnerability Analysis
+        <span class="cyber-badge badge-red">AUDITING</span> Zafiyet Analizi
       </div>
       <p style="margin-bottom: 0.6rem; color: var(--text-muted); font-size: 0.9em;">
-        Identifies potential attack surfaces before adversaries do.
+        Saldırganlardan önce potansiyel saldırı yüzeylerini belirler.
       </p>
       <ul class="threat-list">
-        <li>Uncovers exposed / unnecessary open ports.</li>
-        <li>Flags unpatched, outdated service versions.</li>
-        <li>Automates exploit checks via Nmap Scripting Engine (NSE).</li>
+        <li>Açıkta kalan veya gereksiz açık portları ortaya çıkarır.</li>
+        <li>Yamalanmamış ve güncel olmayan servis sürümlerini işaretler.</li>
+        <li>Nmap Scripting Engine (NSE) ile zafiyet kontrollerini otomatikleştirir.</li>
       </ul>
     </div>
 
     <!-- Card 3: Firewall & Defense Verification -->
     <div class="cyber-card secure">
       <div class="card-title">
-        <span class="cyber-badge badge-cyan">DEFENSE</span> Policy Verification
+        <span class="cyber-badge badge-cyan">DEFENSE</span> Politika Doğrulama
       </div>
       <p style="margin-bottom: 0.6rem; color: var(--text-muted); font-size: 0.9em;">
-        Validates security controls & access rules.
+        Güvenlik kontrollerini ve erişim kurallarını doğrular.
       </p>
       <ul class="secure-list">
-        <li>Tests firewall filtering and ACL efficiency.</li>
-        <li>Verifies network segmentation controls.</li>
-        <li>Ensures compliance with security baselines.</li>
+        <li>Firewall filtrelemesini ve ACL verimliliğini test eder.</li>
+        <li>Ağ segmentasyonu kontrollerini doğrular.</li>
+        <li>Güvenlik standartlarına uyumluluğu sağlar.</li>
       </ul>
     </div>
   </div>
@@ -183,12 +183,12 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
       <!-- Loaded from slides/03_nmap_live_target.html -->
 <!-- SLIDE: Nmap Basic Scan -->
 <section>
-  <h2><i class="fa-solid fa-terminal highlight-htb"></i> Nmap Basic Scan</h2>
+  <h2><i class="fa-solid fa-terminal highlight-htb"></i> Nmap Temel Tarama</h2>
   
   <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-top: 0.5rem;">
     <img src="media/basic_nmap_scan.png" style="max-height: 480px; max-width: 90%; border: none !important; outline: none !important; box-shadow: none !important; background: transparent !important;" alt="basic nmap scan">
     <p style="margin-top: 1rem; color: var(--text-muted); font-size: 0.9em;">
-      show nmap on live target
+      Canlı hedef üzerinde Nmap kullanım gösterimi
     </p>
   </div>
 </section>
@@ -196,9 +196,9 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
       <!-- Loaded from slides/04_nmap_responses.html -->
 <!-- SLIDE: Nmap Port States & Responses -->
 <section>
-  <h2><i class="fa-solid fa-network-wired highlight-htb"></i> Nmap Port States & Responses</h2>
+  <h2><i class="fa-solid fa-network-wired highlight-htb"></i> Nmap Port Durumları ve Yanıtlar</h2>
   <p class="slide-subtitle">
-    How Nmap interprets probe responses and firewall filtering behavior:
+    Nmap'in problara verilen yanıtları ve firewall filtreleme davranışlarını nasıl yorumladığı:
   </p>
 
   <div style="display: flex; flex-direction: column; gap: 0.9rem; text-align: left; max-width: 1050px; margin: 0 auto;">
@@ -207,7 +207,7 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
     <div style="display: grid; grid-template-columns: 180px 1fr; gap: 1.2rem; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.65rem;">
       <div><span class="cyber-badge badge-htb" style="font-size: 0.9rem; width: 150px; text-align: center;">open</span></div>
       <div style="font-size: 0.95em; color: var(--text-main); line-height: 1.45;">
-        An application is actively listening and accepting connections on this port.
+        Bir uygulama bu port üzerinde aktif olarak dinleme yapmakta ve bağlantıları kabul etmektedir.
       </div>
     </div>
 
@@ -215,7 +215,7 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
     <div style="display: grid; grid-template-columns: 180px 1fr; gap: 1.2rem; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.65rem;">
       <div><span class="cyber-badge badge-red" style="font-size: 0.9rem; width: 150px; text-align: center;">closed</span></div>
       <div style="font-size: 0.95em; color: var(--text-main); line-height: 1.45;">
-        Reachable (no firewall), but no application is running on this port. Nmap receives an <code style="color: var(--accent-red);">RST</code> flag response.
+        Erişilebilir (firewall yok), ancak bu portta çalışan bir uygulama yoktur. Nmap yanıt olarak bir <code style="color: var(--accent-red);">RST</code> bayrağı alır.
       </div>
     </div>
 
@@ -223,7 +223,7 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
     <div style="display: grid; grid-template-columns: 180px 1fr; gap: 1.2rem; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.65rem;">
       <div><span class="cyber-badge badge-purple" style="font-size: 0.9rem; width: 150px; text-align: center;">filtered</span></div>
       <div style="font-size: 0.95em; color: var(--text-main); line-height: 1.45;">
-        No response returned; Nmap cannot determine port state. Likely packets are dropped by a firewall or returned an ICMP error.
+        Hiçbir yanıt dönmemiştir; Nmap port durumunu belirleyemez. Paketler büyük ihtimalle bir firewall tarafından düşürülmüş (drop) ya da bir ICMP hatası dönmüştür.
       </div>
     </div>
 
@@ -231,7 +231,7 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
     <div style="display: grid; grid-template-columns: 180px 1fr; gap: 1.2rem; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.65rem;">
       <div><span class="cyber-badge badge-yellow" style="font-size: 0.9rem; width: 150px; text-align: center;">open | filtered</span></div>
       <div style="font-size: 0.95em; color: var(--text-main); line-height: 1.45;">
-        Common during UDP scans (<code style="color: var(--htb-green);">-sU</code>) or stealth scans (FIN/NULL). Open ports ignore packets without replying, making them indistinguishable from firewall filtering.
+        UDP taramaları (<code style="color: var(--htb-green);">-sU</code>) veya stealth taramalar (FIN/NULL) sırasında yaygın görülür. Açık portlar yanıt vermeden paketleri göz ardı eder ve bu da durumu firewall filtrelemesinden ayırt etmeyi imkansız kılar.
       </div>
     </div>
 
@@ -239,7 +239,7 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
     <div style="display: grid; grid-template-columns: 180px 1fr; gap: 1.2rem; align-items: center; padding-bottom: 0.2rem;">
       <div><span class="cyber-badge badge-cyan" style="font-size: 0.85rem; width: 150px; text-align: center;">closed | filtered</span></div>
       <div style="font-size: 0.95em; color: var(--text-main); line-height: 1.45;">
-        <em>(Extremely rare)</em> Occurs during stealth "Idle scans" (<code style="color: var(--accent-cyan);">-sI</code>). Traffic was bounced off a Zombie machine, but mathematical results were inconclusive.
+        <em>(Son derece nadir)</em> Gizli "Idle scan" (<code style="color: var(--accent-cyan);">-sI</code>) sırasında oluşur. Trafik bir Zombie makineden sekmektedir ancak matematiksel sonuçlar belirsizdir.
       </div>
     </div>
 
@@ -249,9 +249,9 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
       <!-- Loaded from slides/04a_nmap_raw_packets.html -->
 <!-- SLIDE: Nmap Raw Packets -->
 <section>
-  <h2><i class="fa-solid fa-microchip highlight-htb"></i> Nmap & Raw Packets</h2>
+  <h2><i class="fa-solid fa-microchip highlight-htb"></i> Nmap ve Raw Paketler</h2>
   <p class="slide-subtitle">
-    Why Nmap requires root privileges and how it bypasses standard operating system networking APIs.
+    Nmap'in neden root yetkilerine ihtiyaç duyduğu ve standart işletim sistemi ağ API'lerini nasıl devre dışı bıraktığı.
   </p>
 
   <div class="grid-2" style="align-items: stretch; gap: 1.5rem; max-width: 1050px; margin: 0 auto;">
@@ -260,20 +260,20 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
     <div class="cyber-card" style="display: flex; flex-direction: column; justify-content: space-between;">
       <div>
         <div class="card-title">
-          <span class="cyber-badge badge-cyan">STANDARD APPS</span> OS Socket API
+          <span class="cyber-badge badge-cyan">STANDART UYGULAMALAR</span> OS Socket API
         </div>
         <p style="color: var(--text-muted); font-size: 0.92em; margin-bottom: 1rem;">
-          Normal network applications (browsers, SSH clients, curl) rely on operating system high-level socket APIs:
+          Normal ağ uygulamaları (tarayıcılar, SSH istemcileri, curl) işletim sisteminin üst seviye socket API'lerine dayanır:
         </p>
         <ul style="margin-bottom: 0;">
-          <li>Uses standard kernel functions (<code style="color: var(--accent-cyan);">connect()</code>, <code style="color: var(--accent-cyan);">send()</code>).</li>
-          <li>OS kernel automatically handles TCP handshakes, sequence numbers, and packet flags.</li>
-          <li>Applications cannot manually manipulate underlying TCP/IP header fields.</li>
+          <li>Standart kernel fonksiyonlarını kullanır (<code style="color: var(--accent-cyan);">connect()</code>, <code style="color: var(--accent-cyan);">send()</code>).</li>
+          <li>İşletim sistemi çekirdeği; TCP el sıkışmalarını, sequence numaralarını ve paket bayraklarını otomatik yönetir.</li>
+          <li>Uygulamalar alt katmandaki TCP/IP header alanlarına doğrudan müdahale edemez.</li>
         </ul>
       </div>
 
       <div style="margin-top: 1.2rem; padding: 0.75rem 1rem; background: rgba(45, 226, 230, 0.08); border-left: 3px solid var(--accent-cyan); border-radius: 4px; font-size: 0.85em; color: var(--text-main);">
-        <i class="fa-solid fa-info-circle highlight-cyan"></i> No special privileges required (runs under standard user account).
+        <i class="fa-solid fa-info-circle highlight-cyan"></i> Özel bir yetki gerekmez (standart kullanıcı hesabı altında çalışır).
       </div>
     </div>
 
@@ -281,20 +281,20 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
     <div class="cyber-card secure" style="display: flex; flex-direction: column; justify-content: space-between;">
       <div>
         <div class="card-title">
-          <span class="cyber-badge badge-htb">NMAP RAW SOCKETS</span> Direct Header Crafting
+          <span class="cyber-badge badge-htb">NMAP RAW SOCKETS</span> Doğrudan Header Oluşturma
         </div>
         <p style="color: var(--text-muted); font-size: 0.92em; margin-bottom: 1rem;">
-          Nmap bypasses high-level APIs to construct raw network frames from scratch:
+          Nmap, raw network frame'lerini sıfırdan oluşturmak için üst seviye API'leri devre dışı bırakır:
         </p>
         <ul class="secure-list" style="margin-bottom: 0;">
-          <li><strong>Direct Packet Manipulation:</strong> Manually sets custom IP/TCP headers, flags (<code style="color: var(--htb-green);">SYN</code>, <code style="color: var(--accent-red);">RST</code>, <code style="color: var(--accent-yellow);">FIN</code>), and options.</li>
-          <li><strong>Probing Capabilities:</strong> Enables stealth scans, OS fingerprinting, and custom response detection.</li>
-          <li><strong>Root / Sudo Privileges:</strong> Opening raw sockets (<code style="color: var(--htb-green);">SOCK_RAW</code>) requires root access.</li>
+          <li><strong>Doğrudan Paket Manipülasyonu:</strong> Özel IP/TCP başlıklarını, bayrakları (<code style="color: var(--htb-green);">SYN</code>, <code style="color: var(--accent-red);">RST</code>, <code style="color: var(--accent-yellow);">FIN</code>) ve opsiyonları manuel olarak ayarlar.</li>
+          <li><strong>Prob Yetenekleri:</strong> Stealth taramaları, OS fingerprinting ve özel yanıt tespitini mümkün kılar.</li>
+          <li><strong>Root / Sudo Yetkileri:</strong> Ham socket'ler (<code style="color: var(--htb-green);">SOCK_RAW</code>) açmak root erişimi gerektirir.</li>
         </ul>
       </div>
 
       <div style="margin-top: 1.2rem; padding: 0.75rem 1rem; background: rgba(159, 239, 0, 0.1); border-left: 3px solid var(--htb-green); border-radius: 4px; font-size: 0.85em; color: var(--text-main);">
-        <i class="fa-solid fa-key highlight-htb"></i> <strong>Sudo Requirement:</strong> Raw socket access is restricted by the kernel for network security.
+        <i class="fa-solid fa-key highlight-htb"></i> <strong>Sudo Gereksinimi:</strong> Raw socket erişimi ağ güvenliği nedeniyle işletim sistemi çekirdeği tarafından kısıtlanmıştır.
       </div>
     </div>
 
@@ -306,7 +306,7 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
 <section>
   <h2><i class="fa-solid fa-user-ninja highlight-htb"></i> TCP-SYN (Stealth) Scan (<code style="color: var(--htb-green);">-sS</code>)</h2>
   <p class="slide-subtitle">
-    The default and most popular Nmap scan technique. Performs a "half-open" TCP scan without completing the 3-way handshake.
+    Varsayılan ve en popüler Nmap tarama tekniğidir. 3 yollu el sıkışmayı (3-way handshake) tamamlamadan "half-open" bir TCP taraması gerçekleştirir.
   </p>
 
   <div class="grid-2" style="align-items: center; gap: 1.5rem;">
@@ -314,24 +314,24 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
     <!-- Key Mechanics & Responses -->
     <div class="cyber-card">
       <div class="card-title">
-        <span class="cyber-badge badge-htb">HALF-OPEN SCAN</span> Core Mechanics
+        <span class="cyber-badge badge-htb">HALF-OPEN SCAN</span> Temel Çalışma Mantığı
       </div>
       <ul style="margin-bottom: 0.8rem;">
-        <li><strong>Privileges:</strong> Requires <code style="color: var(--htb-green);">sudo</code> / root privileges to craft raw TCP packets.</li>
-        <li><strong>Stealth Mechanism:</strong> Never completes the TCP 3-way handshake; prevents connection logging by applications.</li>
+        <li><strong>Yetkiler:</strong> Raw TCP paketleri oluşturmak için <code style="color: var(--htb-green);">sudo</code> / root yetkileri gerektirir.</li>
+        <li><strong>Gizlilik Mekanizması:</strong> TCP 3-way handshake adımlarını hiçbir zaman tamamlamaz; bu sayede uygulamalar tarafından bağlantı kaydı (logging) tutulmasını önler.</li>
       </ul>
 
       <div class="card-title" style="margin-top: 1rem; font-size: 1.05em;">
-        <i class="fa-solid fa-exchange-alt highlight-cyan"></i> Packet Responses & Port Detection:
+        <i class="fa-solid fa-exchange-alt highlight-cyan"></i> Paket Yanıtları ve Port Tespiti:
       </div>
       <ul style="margin-bottom: 0;">
         <li>
           <span class="cyber-badge badge-htb" style="font-size: 0.75rem;">open</span> 
-          Target responds with <code style="color: var(--htb-green);">SYN-ACK</code>. Nmap detects port as <strong>open</strong> and immediately sends an <code style="color: var(--accent-red);">RST</code> to tear down the connection.
+          Hedef <code style="color: var(--htb-green);">SYN-ACK</code> ile yanıt verir. Nmap portu <strong>open</strong> olarak tespit eder ve bağlantıyı sonlandırmak için hemen bir <code style="color: var(--accent-red);">RST</code> gönderir.
         </li>
         <li>
           <span class="cyber-badge badge-red" style="font-size: 0.75rem;">closed</span> 
-          Target responds with <code style="color: var(--accent-red);">RST</code> packet &rarr; Nmap detects port as <strong>closed</strong>.
+          Hedef <code style="color: var(--accent-red);">RST</code> paketi ile yanıt verir &rarr; Nmap portu <strong>closed</strong> olarak belirler.
         </li>
       </ul>
     </div>
@@ -343,7 +343,7 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
       <div style="background: #ffffff; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--htb-border); box-shadow: 0 0 15px var(--htb-green-glow);">
         <img src="media/Ereet_Packet_Trace_Syn_Open.png" alt="TCP SYN Scan Open Port" style="max-height: 180px; width: 100%; display: block; object-fit: contain;">
         <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #333333; font-weight: 600; margin-top: 4px;">
-          <i class="fa-solid fa-arrow-right-to-bracket" style="color: #2e7d32;"></i> Open Port Packet Exchange (SYN &rarr; SYN-ACK &rarr; RST)
+          <i class="fa-solid fa-arrow-right-to-bracket" style="color: #2e7d32;"></i> Açık Port Paket Trafiği (SYN &rarr; SYN-ACK &rarr; RST)
         </div>
       </div>
 
@@ -351,7 +351,7 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
       <div style="background: #ffffff; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--htb-border-red); box-shadow: 0 0 15px rgba(255, 46, 99, 0.25);">
         <img src="media/Ereet_Packet_Trace_Syn_Closed.png" alt="TCP SYN Scan Closed Port" style="max-height: 180px; width: 100%; display: block; object-fit: contain;">
         <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #333333; font-weight: 600; margin-top: 4px;">
-          <i class="fa-solid fa-ban" style="color: #c62828;"></i> Closed Port Packet Exchange (SYN &rarr; RST)
+          <i class="fa-solid fa-ban" style="color: #c62828;"></i> Kapalı Port Paket Trafiği (SYN &rarr; RST)
         </div>
       </div>
 
@@ -363,9 +363,9 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
       <!-- Loaded from slides/04c_tcp_syn_scan_filtered.html -->
 <!-- SLIDE: TCP-SYN Scan Filtered Ports & Retransmission -->
 <section>
-  <h2><i class="fa-solid fa-filter-circle-xmark highlight-htb"></i> TCP-SYN Scan: Filtered Ports & Retransmission</h2>
+  <h2><i class="fa-solid fa-filter-circle-xmark highlight-htb"></i> TCP-SYN Scan: Filtrelenmiş Portlar ve Retransmission</h2>
   <p class="slide-subtitle">
-    Understanding how TCP-SYN scans handle packet loss, firewall drop rules, and probe retransmissions.
+    TCP-SYN taramalarının paket kayıplarını, firewall drop kurallarını ve prob retransmission işlemlerini nasıl ele aldığını anlama.
   </p>
 
   <div class="grid-2" style="align-items: center; gap: 1.5rem;">
@@ -374,21 +374,21 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
     <div style="display: flex; flex-direction: column; gap: 1rem;">
       <div class="cyber-card threat">
         <div class="card-title">
-          <span class="cyber-badge badge-purple">FILTERED STATE</span> Firewall & Packet Drop Behavior
+          <span class="cyber-badge badge-purple">FILTERED STATE</span> Firewall ve Paket Düşürme Davranışı
         </div>
         <ul class="threat-list" style="margin-bottom: 0.6rem;">
-          <li><strong>No Response Packet:</strong> If Nmap receives no packet back (or ICMP error), the port state is determined as <span class="cyber-badge badge-purple" style="font-size: 0.75rem;">filtered</span>.</li>
-          <li><strong>Firewall Filtering:</strong> Depending on rules, firewalls or routers may silently drop/ignore incoming <code style="color: var(--htb-green);">SYN</code> packets.</li>
+          <li><strong>Yanıt Paketi Yok:</strong> Nmap geri paket almazsa (veya ICMP hatası alırsa), port durumu <span class="cyber-badge badge-purple" style="font-size: 0.75rem;">filtered</span> olarak belirlenir.</li>
+          <li><strong>Firewall Filtreleme:</strong> Kurallara bağlı olarak firewall'lar veya router'lar gelen <code style="color: var(--htb-green);">SYN</code> paketlerini sessizce düşürebilir veya göz ardı edebilir.</li>
         </ul>
       </div>
 
       <div class="cyber-card">
         <div class="card-title">
-          <span class="cyber-badge badge-cyan">RETRANSMISSION</span> Network Retries
+          <span class="cyber-badge badge-cyan">RETRANSMISSION</span> Ağ Üzerinde Yeniden Deneme
         </div>
         <ul>
-          <li><strong>Slow Networks & Retries:</strong> When target or network is slow/filtered, TCP sends multiple <code style="color: var(--htb-green);">SYN</code> packets before giving up.</li>
-          <li><strong>Probe Retry:</strong> Example SYN scan on filtered NetBIOS port <code style="color: var(--htb-green);">139</code> re-sends probes: <em>"Try again. Anybody home?"</em></li>
+          <li><strong>Yavaş Ağlar ve Yeniden Denemeler:</strong> Hedef veya ağ yavaş/filtrelenmiş olduğunda, TCP vazgeçmeden önce birden fazla <code style="color: var(--htb-green);">SYN</code> paketi gönderir.</li>
+          <li><strong>Prob Yeniden Denemesi:</strong> Filtrelenmiş NetBIOS portu <code style="color: var(--htb-green);">139</code> üzerindeki SYN tarama örneğinde problar tekrar gönderilir.</li>
         </ul>
       </div>
     </div>
@@ -400,7 +400,7 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
       <div style="background: #ffffff; padding: 12px 14px; border-radius: 8px; border: 1px solid var(--htb-border); box-shadow: 0 0 20px rgba(157, 78, 221, 0.3);">
         <img src="media/Ereet_Packet_Trace_Syn_Filtered.png" alt="TCP SYN Scan Filtered Port" style="max-height: 210px; width: 100%; display: block; object-fit: contain;">
         <div style="font-family: var(--font-mono); font-size: 0.75rem; color: #333333; font-weight: 600; margin-top: 6px;">
-          <i class="fa-solid fa-rotate-right" style="color: #6a1b9a;"></i> Filtered Port Packet Trace (Multiple SYN Probes & Retransmissions)
+          <i class="fa-solid fa-rotate-right" style="color: #6a1b9a;"></i> Filtrelenmiş Port Paket İzlemesi (Çoklu SYN Probları ve Retransmission)
         </div>
       </div>
 
@@ -2175,6 +2175,59 @@ IF-MIB::ifDescr.2 = STRING: eth1 (Internal 10.10.10.0/24)</code></pre>
   </div>
 </section>
 
+      <!-- Loaded from slides/23a1_ftp_fundamental_attacks.html -->
+<!-- SLIDE 23a1: FTP Fundamental Attacks -->
+<section>
+  <h2><i class="fa-solid fa-triangle-exclamation highlight-htb"></i> Temel FTP Saldırı Türleri</h2>
+  <p class="slide-subtitle">
+    Anonim giriş, parola kaba kuvvet (brute force) ve şifresiz ağ dinleme (sniffing) tehditleri.
+  </p>
+
+  <div class="grid-3">
+    <!-- Card 1: Anonymous Login -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">MISCONFIG</span> Anonymous Access
+      </div>
+      <p style="margin-bottom: 0.6rem; color: var(--text-muted); font-size: 0.9em;">
+        Varsayılan ya da hatalı yapılandırma nedeniyle parolasız erişim.
+      </p>
+      <ul class="threat-list">
+        <li>Kullanıcı adı olarak <code style="color: var(--htb-green);">anonymous</code> veya <code style="color: var(--htb-green);">ftp</code> kullanılır.</li>
+        <li>Hassas sistem dosyalarının sızmasına veya yetkisiz dosya yüklenmesine (RCE) yol açabilir.</li>
+      </ul>
+    </div>
+
+    <!-- Card 2: Brute Force Attacks -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">AUTH THREAT</span> Brute Force & Password Spraying
+      </div>
+      <p style="margin-bottom: 0.6rem; color: var(--text-muted); font-size: 0.9em;">
+        Kimlik doğrulama mekanizmasına yönelik otomatik parola denemeleri.
+      </p>
+      <ul class="threat-list">
+        <li>Hydra veya Medusa gibi araçlarla hızlı sözlük (dictionary) saldırıları düzenlenir.</li>
+        <li>Account lockout veya rate-limiting bulunmayan FTP sunucularında yüksek başarı oranına sahiptir.</li>
+      </ul>
+    </div>
+
+    <!-- Card 3: Cleartext Sniffing -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">PLAINTEXT</span> Cleartext Sniffing
+      </div>
+      <p style="margin-bottom: 0.6rem; color: var(--text-muted); font-size: 0.9em;">
+        Şifrelenmemiş komut ve veri kanallarının dinlenmesi.
+      </p>
+      <ul class="threat-list">
+        <li>FTP, kullanıcı adı ve parolaları (<code style="color: var(--htb-green);">USER</code> / <code style="color: var(--htb-green);">PASS</code>) açık metin olarak iletir.</li>
+        <li>Wireshark veya tcpdump ile yerel ağ (LAN) üzerindeki tüm oturum bilgileri ve aktarılan dosyalar yakalanabilir.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
       <!-- Loaded from slides/23b_ftp_bounce_attack.html -->
 <!-- SLIDE 23b: FTP Bounce Attack Threat -->
 <section>
@@ -2296,6 +2349,20 @@ tftp> quit</code></pre>
   </div>
 </section>
 
+      <!-- Loaded from slides/25a_mitm_overview.html -->
+<!-- SLIDE 25a: Man-in-the-Middle (MITM) Overview -->
+<section>
+  <h2><i class="fa-solid fa-user-secret highlight-htb"></i> Man-in-the-Middle (MITM) Saldırısı</h2>
+  
+  <p class="slide-subtitle" style="text-align: center; margin-bottom: 1rem;">
+    Saldırganın iki taraf arasındaki iletişimin arasına girerek trafiği gizlice dinlemesi veya değiştirmesi.
+  </p>
+
+  <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-top: 0.5rem;">
+    <img src="media/mitm.jpg" style="max-height: 480px; max-width: 90%; object-fit: contain; border-radius: 8px;" alt="Man-in-the-Middle Attack">
+  </div>
+</section>
+
       <!-- Loaded from slides/26_arp_overview.html -->
 <!-- SLIDE 26: What is ARP & The Trust Assumption -->
 <section>
@@ -2327,23 +2394,10 @@ tftp> quit</code></pre>
   </div>
 </section>
 
-      <!-- Loaded from slides/27_arp_cache_poisoning.html -->
-<!-- SLIDE 27: Attack A - ARP Cache Poisoning -->
-<section>
-  <h2><i class="fa-solid fa-user-ninja highlight-htb"></i> ARP Cache Poisoning (Spoofing)</h2>
-  <p class="slide-subtitle" style="font-size: 1.05em; color: var(--text-main); margin-bottom: 1.2rem;">
-    Sahte ARP yanıtlarıyla hedef ve ağ geçidinin önbelleklerini zehirleyerek <span class="highlight-htb">MITM saldırısı</span> gerçekleştirir.
-  </p>
-
-  <div style="text-align: center; margin-top: 0.5rem;">
-    <img src="media/arp_cache_poisoning_mitm.png" alt="ARP Cache Poisoning MITM" style="max-height: 500px; width: auto; max-width: 100%; display: block; margin: 0 auto; object-fit: contain;">
-  </div>
-</section>
-
       <!-- Loaded from slides/28_arp_flooding.html -->
-<!-- SLIDE 28: Attack B - ARP / MAC Flooding -->
+<!-- SLIDE 28: Attack A - ARP / MAC Flooding -->
 <section>
-  <h2><i class="fa-solid fa-water-ladder highlight-htb"></i> Saldırı Yöntemi B: ARP / MAC Flooding</h2>
+  <h2><i class="fa-solid fa-water-ladder highlight-htb"></i> Saldırı Yöntemi A: ARP / MAC Flooding</h2>
   <p class="slide-subtitle">
     Switch'in CAM tablosunu tüketerek cihazı bir Hub gibi davranmaya (<span class="highlight-red">Fail-Open</span>) zorlama tekniği.
   </p>
@@ -2369,6 +2423,19 @@ tftp> quit</code></pre>
   <p style="font-size: 0.95em; color: var(--text-main); margin-top: 1rem; text-align: center;">
     <strong>Fail-Open (Hub Modu):</strong> Tablo dolunca switch tüm paketleri bütün portlara basar (<em>Broadcast</em>); saldırgan tüm ağı pasif dinler (<span class="highlight-cyan">Sniffing</span>).
   </p>
+</section>
+
+      <!-- Loaded from slides/27_arp_cache_poisoning.html -->
+<!-- SLIDE 27: Attack B - ARP Cache Poisoning -->
+<section>
+  <h2><i class="fa-solid fa-user-ninja highlight-htb"></i> Saldırı Yöntemi B: ARP Cache Poisoning (Spoofing)</h2>
+  <p class="slide-subtitle" style="font-size: 1.05em; color: var(--text-main); margin-bottom: 1.2rem;">
+    Sahte ARP yanıtlarıyla hedef ve ağ geçidinin önbelleklerini zehirleyerek <span class="highlight-htb">MITM saldırısı</span> gerçekleştirir.
+  </p>
+
+  <div style="text-align: center; margin-top: 0.5rem;">
+    <img src="media/arp_cache_poisoning_mitm.png" alt="ARP Cache Poisoning MITM" style="max-height: 500px; width: auto; max-width: 100%; display: block; margin: 0 auto; object-fit: contain;">
+  </div>
 </section>
 
       <!-- Loaded from slides/29_arp_brainstorm_impacts.html -->
@@ -2507,6 +2574,224 @@ sudo arpspoof -i eth0 -t &lt;GATEWAY_IP&gt; &lt;TARGET_IP&gt;
 wireshark &  # Filtre: arp || http</code></pre>
       <div style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-muted); margin-top: 0.4rem; text-align: center;">
         <i class="fa-solid fa-lightbulb highlight-yellow"></i> <strong>İpucu:</strong> Wireshark'ta <code style="color: var(--accent-cyan);">arp.duplicate-address-detected</code> uyarısını arayın.
+      </div>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/32_dhcp_overview.html -->
+<!-- SLIDE 32: What is DHCP & DORA Process -->
+<section>
+  <h2><i class="fa-solid fa-network-wired highlight-htb"></i> DHCP Nedir & DORA Süreci</h2>
+  <p class="slide-subtitle" style="text-align: center;">
+    Ağdaki cihazlara otomatik IP adresi, alt ağ maskesi ve ağ geçidi atayan <span class="highlight-htb">Katman 7 (UDP 67/68)</span> protokolü.
+  </p>
+
+  <div style="text-align: center; margin-top: 1rem;">
+    <img src="media/dhcp_process_explained.jpg" alt="DHCP Process Explained" style="max-height: 480px; width: auto; max-width: 100%; display: block; margin: 0 auto; border-radius: 8px;">
+  </div>
+</section>
+
+      <!-- Loaded from slides/32a_dhcp_wireshark.html -->
+<!-- SLIDE 32a: DHCP DORA Wireshark Analysis -->
+<section>
+  <h2><i class="fa-solid fa-microscope highlight-htb"></i> DHCP DORA Paket Analizi (Wireshark)</h2>
+  <p class="slide-subtitle">
+    DORA el sıkışmasının Wireshark üzerindeki canlı paket yakalama görüntüsü.
+  </p>
+
+  <div style="text-align: center; margin-top: 1rem;">
+    <img src="media/dhcp_dora_wireshark.png" alt="DHCP DORA Wireshark" style="max-height: 480px; width: auto; max-width: 100%; display: block; margin: 0 auto; border-radius: 8px;">
+  </div>
+</section>
+
+      <!-- Loaded from slides/33_dhcp_attacks_overview.html -->
+<!-- SLIDE 33: DHCP Attacks & Impact Overview -->
+<section>
+  <h2><i class="fa-solid fa-triangle-exclamation highlight-red"></i> DHCP Saldırıları & Ağ Etkisi</h2>
+  <p class="slide-subtitle">
+    ARP protokolünde olduğu gibi DHCP de doğrulama mekanizmasından yoksundur; her isteğe körlemesine güvenilir.
+  </p>
+
+  <div class="grid-2">
+    <!-- Card 1: Temel Güvenlik Açığı -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">ZAFİYET</span> Doğrulama Yok (No Authentication)
+      </div>
+      <ul class="threat-list" style="font-size: 0.88em; margin-bottom: 0;">
+        <li><strong>Açık Yayın (Broadcast Nature):</strong> Tüm DHCP Discover mesajları ağa açık yayın olarak atılır. Cihazlar gelen sunucu teklifinin meşruluğunu sorgulayamaz.</li>
+        <li><strong>Kimlik Kontrolü Yok:</strong> Sunucu, gelen isteğin gerçek bir istemciden mi yoksa sahte MAC adresi üreten bir saldırgandan mı geldiğini doğrulayamaz.</li>
+      </ul>
+    </div>
+
+    <!-- Card 2: Birleşik Saldırı Modeli -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-purple">BİRLEŞİK SALDIRI</span> 2 Aşamalı Tehdit Modeli
+      </div>
+      <ul style="font-size: 0.88em; margin-bottom: 0; list-style-type: none; padding-left: 0;">
+        <li style="margin-bottom: 0.6rem;">
+          <strong style="color: var(--accent-red);">Aşama 1: DHCP Starvation (Servis Dışı Bırakma):</strong> Meşru DHCP sunucusunun tüm IP havuzu tüketilir.
+        </li>
+        <li>
+          <strong style="color: var(--accent-purple);">Aşama 2: Rogue DHCP Server (MİTM Saldırısı):</strong> Saldırgan kendi sahte sunucusunu devreye sokarak tüm ağ trafiğini kendi üzerinden yönlendirir.
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/32b_win10_dhcp_config.html -->
+<!-- SLIDE 32b: Windows 10 IPv4 DHCP Configuration -->
+<section>
+  <h2><i class="fa-solid fa-desktop highlight-htb"></i> Windows İstemci Yapılandırması</h2>
+  <p class="slide-subtitle" style="text-align: center;">
+    Win10 IPv4 Config
+  </p>
+
+  <div style="text-align: center; margin-top: 1rem;">
+    <img src="media/Win10_DHCP_config.png" alt="Win10 IPv4 Config" style="max-height: 480px; width: auto; max-width: 100%; display: block; margin: 0 auto; border-radius: 8px;">
+  </div>
+</section>
+
+      <!-- Loaded from slides/34_dhcp_starvation.html -->
+<!-- SLIDE 34: DHCP Starvation Attack Mechanism -->
+<section>
+  <h2><i class="fa-solid fa-skull-crossbones highlight-red"></i> DHCP Starvation (Havuz Tüketme) Saldırısı</h2>
+  <p class="slide-subtitle" style="text-align: center;">
+    Saldırgan rastgele MAC adresleri üreterek meşru sunucudaki tüm IP adreslerini kiralar ve havuzu tüketir.
+  </p>
+
+  <div class="grid-2" style="margin-top: 1rem;">
+    <!-- Step 1 & 2 -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">AŞAMA 1</span> Sahte İstekler & IP Rezervasyonu
+      </div>
+      <ul class="threat-list" style="font-size: 0.9em; margin-bottom: 0;">
+        <li style="margin-bottom: 0.8rem;">
+          <strong>Sahte MAC ve Transaction ID:</strong> Saldırgan sürekli rastgele MAC adresleriyle <code style="color: var(--accent-cyan);">DHCP DISCOVER</code> paketleri yayınlar.
+        </li>
+        <li>
+          <strong>IP Havuzunun Dolması:</strong> Sunucu her isteği farklı bir benzersiz cihaz sanarak tüm IP'leri rezerve eder. Kullanılabilir IP kalmaz.
+        </li>
+      </ul>
+    </div>
+
+    <!-- Step 3 & 4 -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-purple">AŞAMA 2</span> Kiralama Kilitleme & DoS Etkisi
+      </div>
+      <ul class="threat-list" style="font-size: 0.9em; margin-bottom: 0;">
+        <li style="margin-bottom: 0.8rem;">
+          <strong>Tam El Sıkışma (REQUEST / ACK):</strong> Kiralama süresini kilitlemek için tam el sıkışma tamamlanarak havuz uzun süreli felç edilir.
+        </li>
+        <li>
+          <strong>Servis Dışı (DoS):</strong> Ağa katılan yeni meşru istemciler IP alamaz ve ağa erişim sağlayamaz.
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/34a_dhcp_starvation_img.html -->
+<!-- SLIDE 34a: DHCP Starvation Pool Image -->
+<section>
+  <h2><i class="fa-solid fa-server highlight-red"></i> DHCP Pool Exhaustion (Modem Arayüzü)</h2>
+  <p class="slide-subtitle" style="text-align: center;">
+    zte_modem dhcp pool
+  </p>
+
+  <div style="text-align: center; margin-top: 1rem;">
+    <img src="media/dhcp_pool_zte_modem.webp" alt="zte_modem dhcp pool" style="max-height: 480px; width: auto; max-width: 100%; display: block; margin: 0 auto; border-radius: 8px;">
+  </div>
+</section>
+
+      <!-- Loaded from slides/35_dhcp_rogue_server.html -->
+<!-- SLIDE 35: DHCP Rogue Server Attack Mechanism -->
+<section>
+  <h2><i class="fa-solid fa-server highlight-red"></i> DHCP Rogue Server (Sahte Sunucu) Saldırısı</h2>
+  <p class="slide-subtitle" style="text-align: center;">
+    Meşru sunucu devredışı bırakıldıktan sonra sahte sunucu kurularak kurbanların trafiği saldırgana yönlendirilir.
+  </p>
+
+  <div class="grid-2" style="margin-top: 1rem;">
+    <!-- Card 1: Hızlı Yanıt & Ele Geçirme -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">MEKANİZMA</span> Saldırganın Ağa Müdahalesi
+      </div>
+      <ul class="threat-list" style="font-size: 0.9em; margin-bottom: 0;">
+        <li style="margin-bottom: 0.8rem;">
+          <strong>Aktif Sahte Sunucu:</strong> Saldırgan (ör. Metasploit veya rogue cihaz) meşru sunucudan daha hızlı yanıt vererek IP dağıtır.
+        </li>
+        <li>
+          <strong>Tam Trafik Hakimiyeti:</strong> Ağ katılan her yeni cihaz meşru sanarak sahte sunucudan yapılandırma alır.
+        </li>
+      </ul>
+    </div>
+
+    <!-- Card 2: Zararlı Ağ Ayarları -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-purple">MİTM & VEKTÖRLER</span> Zararlı Yapılandırma Dağıtımı
+      </div>
+      <ul class="threat-list" style="font-size: 0.9em; margin-bottom: 0;">
+        <li style="margin-bottom: 0.8rem;">
+          <strong>Sahte Default Gateway:</strong> İstemciye Varsayılan Ağ Geçidi olarak saldırganın IP'si verilir (Ortadaki Adam / MITM).
+        </li>
+        <li>
+          <strong>Sahte DNS Sunucusu:</strong> DNS adresi olarak saldırganın IP'si verilerek istemciler phishing sitelerine yönlendirilir.
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/35a_dhcp_rogue_server_img.html -->
+<!-- SLIDE 35a: DHCP Rogue Server Diagram -->
+<section>
+  <h2><i class="fa-solid fa-network-wired highlight-red"></i> DHCP Rogue Server Saldırı Şeması</h2>
+  <p class="slide-subtitle" style="text-align: center;">
+    Rogue DHCP sunucusunun ağ trafiğini kendi üzerine çekme mimarisi.
+  </p>
+
+  <div style="text-align: center; margin-top: 1rem;">
+    <img src="media/dhcp_rogue_attack.webp" alt="DHCP Rogue Server Attack Diagram" style="max-height: 480px; width: auto; max-width: 100%; display: block; margin: 0 auto; border-radius: 8px;">
+  </div>
+</section>
+
+      <!-- Loaded from slides/36_dhcp_snooping.html -->
+<!-- SLIDE 36: DHCP Snooping Defense -->
+<section>
+  <h2><i class="fa-solid fa-shield-halved highlight-htb"></i> DHCP Snooping</h2>
+
+  <div class="grid-2" style="align-items: center; margin-top: 0.5rem;">
+    <!-- Left: SVG Diagram -->
+    <div style="text-align: center;">
+      <img src="media/dhcp-at-layer2-snooping-enabled.svg" alt="DHCP Snooping Enabled at Layer 2" style="max-height: 420px; width: 100%; object-fit: contain; display: block; margin: 0 auto;">
+    </div>
+
+    <!-- Right: Explanatory Cyber Cards -->
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      <div class="cyber-card secure">
+        <div class="card-title">
+          <span class="cyber-badge badge-htb">TRUSTED PORTS</span> Güvenilir Portlar
+        </div>
+        <p style="font-size: 0.88em; color: var(--text-main); margin-bottom: 0;">
+          <strong>Trusted portlar</strong>, gerçek DHCP sunucularına veya router'lara bağlanır. Bu portlar <span class="highlight-htb">DHCPOFFER</span> ve <span class="highlight-htb">DHCPACK</span> gibi tüm DHCP mesajlarını gönderebilir ve alabilir.
+        </p>
+      </div>
+
+      <div class="cyber-card threat">
+        <div class="card-title">
+          <span class="cyber-badge badge-red">UNTRUSTED PORTS</span> Güvensiz Portlar
+        </div>
+        <p style="font-size: 0.88em; color: var(--text-main); margin-bottom: 0;">
+          <strong>Untrusted portlar</strong>, normal kullanıcılara veya uç cihazlara bağlanır. Yalnızca (IP isteyen) <span class="highlight-cyan">DHCPDISCOVER</span> mesajlarını gönderebilirler. <span class="highlight-red">DHCPOFFER</span> veya <span class="highlight-red">DHCPACK</span> paketlerini gönderemezler / kabul edilemezler.
+        </p>
       </div>
     </div>
   </div>

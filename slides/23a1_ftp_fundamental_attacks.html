@@ -1,0 +1,51 @@
+<!-- SLIDE 23a1: FTP Fundamental Attacks -->
+<section>
+  <h2><i class="fa-solid fa-triangle-exclamation highlight-htb"></i> Temel FTP Saldırı Türleri</h2>
+  <p class="slide-subtitle">
+    Anonim giriş, parola kaba kuvvet (brute force) ve şifresiz ağ dinleme (sniffing) tehditleri.
+  </p>
+
+  <div class="grid-3">
+    <!-- Card 1: Anonymous Login -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">MISCONFIG</span> Anonymous Access
+      </div>
+      <p style="margin-bottom: 0.6rem; color: var(--text-muted); font-size: 0.9em;">
+        Varsayılan ya da hatalı yapılandırma nedeniyle parolasız erişim.
+      </p>
+      <ul class="threat-list">
+        <li>Kullanıcı adı olarak <code style="color: var(--htb-green);">anonymous</code> veya <code style="color: var(--htb-green);">ftp</code> kullanılır.</li>
+        <li>Hassas sistem dosyalarının sızmasına veya yetkisiz dosya yüklenmesine (RCE) yol açabilir.</li>
+      </ul>
+    </div>
+
+    <!-- Card 2: Brute Force Attacks -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">AUTH THREAT</span> Brute Force & Password Spraying
+      </div>
+      <p style="margin-bottom: 0.6rem; color: var(--text-muted); font-size: 0.9em;">
+        Kimlik doğrulama mekanizmasına yönelik otomatik parola denemeleri.
+      </p>
+      <ul class="threat-list">
+        <li>Hydra veya Medusa gibi araçlarla hızlı sözlük (dictionary) saldırıları düzenlenir.</li>
+        <li>Account lockout veya rate-limiting bulunmayan FTP sunucularında yüksek başarı oranına sahiptir.</li>
+      </ul>
+    </div>
+
+    <!-- Card 3: Cleartext Sniffing -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">PLAINTEXT</span> Cleartext Sniffing
+      </div>
+      <p style="margin-bottom: 0.6rem; color: var(--text-muted); font-size: 0.9em;">
+        Şifrelenmemiş komut ve veri kanallarının dinlenmesi.
+      </p>
+      <ul class="threat-list">
+        <li>FTP, kullanıcı adı ve parolaları (<code style="color: var(--htb-green);">USER</code> / <code style="color: var(--htb-green);">PASS</code>) açık metin olarak iletir.</li>
+        <li>Wireshark veya tcpdump ile yerel ağ (LAN) üzerindeki tüm oturum bilgileri ve aktarılan dosyalar yakalanabilir.</li>
+      </ul>
+    </div>
+  </div>
+</section>

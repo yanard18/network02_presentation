@@ -1,0 +1,39 @@
+<!-- SLIDE 34: DHCP Starvation Attack Mechanism -->
+<section>
+  <h2><i class="fa-solid fa-skull-crossbones highlight-red"></i> DHCP Starvation (Havuz Tüketme) Saldırısı</h2>
+  <p class="slide-subtitle" style="text-align: center;">
+    Saldırgan rastgele MAC adresleri üreterek meşru sunucudaki tüm IP adreslerini kiralar ve havuzu tüketir.
+  </p>
+
+  <div class="grid-2" style="margin-top: 1rem;">
+    <!-- Step 1 & 2 -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">AŞAMA 1</span> Sahte İstekler & IP Rezervasyonu
+      </div>
+      <ul class="threat-list" style="font-size: 0.9em; margin-bottom: 0;">
+        <li style="margin-bottom: 0.8rem;">
+          <strong>Sahte MAC ve Transaction ID:</strong> Saldırgan sürekli rastgele MAC adresleriyle <code style="color: var(--accent-cyan);">DHCP DISCOVER</code> paketleri yayınlar.
+        </li>
+        <li>
+          <strong>IP Havuzunun Dolması:</strong> Sunucu her isteği farklı bir benzersiz cihaz sanarak tüm IP'leri rezerve eder. Kullanılabilir IP kalmaz.
+        </li>
+      </ul>
+    </div>
+
+    <!-- Step 3 & 4 -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-purple">AŞAMA 2</span> Kiralama Kilitleme & DoS Etkisi
+      </div>
+      <ul class="threat-list" style="font-size: 0.9em; margin-bottom: 0;">
+        <li style="margin-bottom: 0.8rem;">
+          <strong>Tam El Sıkışma (REQUEST / ACK):</strong> Kiralama süresini kilitlemek için tam el sıkışma tamamlanarak havuz uzun süreli felç edilir.
+        </li>
+        <li>
+          <strong>Servis Dışı (DoS):</strong> Ağa katılan yeni meşru istemciler IP alamaz ve ağa erişim sağlayamaz.
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>

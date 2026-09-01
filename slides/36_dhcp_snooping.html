@@ -1,0 +1,32 @@
+<!-- SLIDE 36: DHCP Snooping Defense -->
+<section>
+  <h2><i class="fa-solid fa-shield-halved highlight-htb"></i> DHCP Snooping</h2>
+
+  <div class="grid-2" style="align-items: center; margin-top: 0.5rem;">
+    <!-- Left: SVG Diagram -->
+    <div style="text-align: center;">
+      <img src="media/dhcp-at-layer2-snooping-enabled.svg" alt="DHCP Snooping Enabled at Layer 2" style="max-height: 420px; width: 100%; object-fit: contain; display: block; margin: 0 auto;">
+    </div>
+
+    <!-- Right: Explanatory Cyber Cards -->
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      <div class="cyber-card secure">
+        <div class="card-title">
+          <span class="cyber-badge badge-htb">TRUSTED PORTS</span> Güvenilir Portlar
+        </div>
+        <p style="font-size: 0.88em; color: var(--text-main); margin-bottom: 0;">
+          <strong>Trusted portlar</strong>, gerçek DHCP sunucularına veya router'lara bağlanır. Bu portlar <span class="highlight-htb">DHCPOFFER</span> ve <span class="highlight-htb">DHCPACK</span> gibi tüm DHCP mesajlarını gönderebilir ve alabilir.
+        </p>
+      </div>
+
+      <div class="cyber-card threat">
+        <div class="card-title">
+          <span class="cyber-badge badge-red">UNTRUSTED PORTS</span> Güvensiz Portlar
+        </div>
+        <p style="font-size: 0.88em; color: var(--text-main); margin-bottom: 0;">
+          <strong>Untrusted portlar</strong>, normal kullanıcılara veya uç cihazlara bağlanır. Yalnızca (IP isteyen) <span class="highlight-cyan">DHCPDISCOVER</span> mesajlarını gönderebilirler. <span class="highlight-red">DHCPOFFER</span> veya <span class="highlight-red">DHCPACK</span> paketlerini gönderemezler / kabul edilemezler.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

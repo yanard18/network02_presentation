@@ -2,7 +2,7 @@
 <section>
   <h2><i class="fa-solid fa-user-ninja highlight-htb"></i> TCP-SYN (Stealth) Scan (<code style="color: var(--htb-green);">-sS</code>)</h2>
   <p class="slide-subtitle">
-    The default and most popular Nmap scan technique. Performs a "half-open" TCP scan without completing the 3-way handshake.
+    Varsayılan ve en popüler Nmap tarama tekniğidir. 3 yollu el sıkışmayı (3-way handshake) tamamlamadan "half-open" bir TCP taraması gerçekleştirir.
   </p>
 
   <div class="grid-2" style="align-items: center; gap: 1.5rem;">
@@ -10,24 +10,24 @@
     <!-- Key Mechanics & Responses -->
     <div class="cyber-card">
       <div class="card-title">
-        <span class="cyber-badge badge-htb">HALF-OPEN SCAN</span> Core Mechanics
+        <span class="cyber-badge badge-htb">HALF-OPEN SCAN</span> Temel Çalışma Mantığı
       </div>
       <ul style="margin-bottom: 0.8rem;">
-        <li><strong>Privileges:</strong> Requires <code style="color: var(--htb-green);">sudo</code> / root privileges to craft raw TCP packets.</li>
-        <li><strong>Stealth Mechanism:</strong> Never completes the TCP 3-way handshake; prevents connection logging by applications.</li>
+        <li><strong>Yetkiler:</strong> Raw TCP paketleri oluşturmak için <code style="color: var(--htb-green);">sudo</code> / root yetkileri gerektirir.</li>
+        <li><strong>Gizlilik Mekanizması:</strong> TCP 3-way handshake adımlarını hiçbir zaman tamamlamaz; bu sayede uygulamalar tarafından bağlantı kaydı (logging) tutulmasını önler.</li>
       </ul>
 
       <div class="card-title" style="margin-top: 1rem; font-size: 1.05em;">
-        <i class="fa-solid fa-exchange-alt highlight-cyan"></i> Packet Responses & Port Detection:
+        <i class="fa-solid fa-exchange-alt highlight-cyan"></i> Paket Yanıtları ve Port Tespiti:
       </div>
       <ul style="margin-bottom: 0;">
         <li>
           <span class="cyber-badge badge-htb" style="font-size: 0.75rem;">open</span> 
-          Target responds with <code style="color: var(--htb-green);">SYN-ACK</code>. Nmap detects port as <strong>open</strong> and immediately sends an <code style="color: var(--accent-red);">RST</code> to tear down the connection.
+          Hedef <code style="color: var(--htb-green);">SYN-ACK</code> ile yanıt verir. Nmap portu <strong>open</strong> olarak tespit eder ve bağlantıyı sonlandırmak için hemen bir <code style="color: var(--accent-red);">RST</code> gönderir.
         </li>
         <li>
           <span class="cyber-badge badge-red" style="font-size: 0.75rem;">closed</span> 
-          Target responds with <code style="color: var(--accent-red);">RST</code> packet &rarr; Nmap detects port as <strong>closed</strong>.
+          Hedef <code style="color: var(--accent-red);">RST</code> paketi ile yanıt verir &rarr; Nmap portu <strong>closed</strong> olarak belirler.
         </li>
       </ul>
     </div>
@@ -39,7 +39,7 @@
       <div style="background: #ffffff; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--htb-border); box-shadow: 0 0 15px var(--htb-green-glow);">
         <img src="media/Ereet_Packet_Trace_Syn_Open.png" alt="TCP SYN Scan Open Port" style="max-height: 180px; width: 100%; display: block; object-fit: contain;">
         <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #333333; font-weight: 600; margin-top: 4px;">
-          <i class="fa-solid fa-arrow-right-to-bracket" style="color: #2e7d32;"></i> Open Port Packet Exchange (SYN &rarr; SYN-ACK &rarr; RST)
+          <i class="fa-solid fa-arrow-right-to-bracket" style="color: #2e7d32;"></i> Açık Port Paket Trafiği (SYN &rarr; SYN-ACK &rarr; RST)
         </div>
       </div>
 
@@ -47,7 +47,7 @@
       <div style="background: #ffffff; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--htb-border-red); box-shadow: 0 0 15px rgba(255, 46, 99, 0.25);">
         <img src="media/Ereet_Packet_Trace_Syn_Closed.png" alt="TCP SYN Scan Closed Port" style="max-height: 180px; width: 100%; display: block; object-fit: contain;">
         <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #333333; font-weight: 600; margin-top: 4px;">
-          <i class="fa-solid fa-ban" style="color: #c62828;"></i> Closed Port Packet Exchange (SYN &rarr; RST)
+          <i class="fa-solid fa-ban" style="color: #c62828;"></i> Kapalı Port Paket Trafiği (SYN &rarr; RST)
         </div>
       </div>
 

@@ -1,0 +1,35 @@
+<!-- SLIDE 33: DHCP Attacks & Impact Overview -->
+<section>
+  <h2><i class="fa-solid fa-triangle-exclamation highlight-red"></i> DHCP Saldırıları & Ağ Etkisi</h2>
+  <p class="slide-subtitle">
+    ARP protokolünde olduğu gibi DHCP de doğrulama mekanizmasından yoksundur; her isteğe körlemesine güvenilir.
+  </p>
+
+  <div class="grid-2">
+    <!-- Card 1: Temel Güvenlik Açığı -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">ZAFİYET</span> Doğrulama Yok (No Authentication)
+      </div>
+      <ul class="threat-list" style="font-size: 0.88em; margin-bottom: 0;">
+        <li><strong>Açık Yayın (Broadcast Nature):</strong> Tüm DHCP Discover mesajları ağa açık yayın olarak atılır. Cihazlar gelen sunucu teklifinin meşruluğunu sorgulayamaz.</li>
+        <li><strong>Kimlik Kontrolü Yok:</strong> Sunucu, gelen isteğin gerçek bir istemciden mi yoksa sahte MAC adresi üreten bir saldırgandan mı geldiğini doğrulayamaz.</li>
+      </ul>
+    </div>
+
+    <!-- Card 2: Birleşik Saldırı Modeli -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-purple">BİRLEŞİK SALDIRI</span> 2 Aşamalı Tehdit Modeli
+      </div>
+      <ul style="font-size: 0.88em; margin-bottom: 0; list-style-type: none; padding-left: 0;">
+        <li style="margin-bottom: 0.6rem;">
+          <strong style="color: var(--accent-red);">Aşama 1: DHCP Starvation (Servis Dışı Bırakma):</strong> Meşru DHCP sunucusunun tüm IP havuzu tüketilir.
+        </li>
+        <li>
+          <strong style="color: var(--accent-purple);">Aşama 2: Rogue DHCP Server (MİTM Saldırısı):</strong> Saldırgan kendi sahte sunucusunu devreye sokarak tüm ağ trafiğini kendi üzerinden yönlendirir.
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>

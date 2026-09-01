@@ -1,0 +1,39 @@
+<!-- SLIDE 35: DHCP Rogue Server Attack Mechanism -->
+<section>
+  <h2><i class="fa-solid fa-server highlight-red"></i> DHCP Rogue Server (Sahte Sunucu) Saldırısı</h2>
+  <p class="slide-subtitle" style="text-align: center;">
+    Meşru sunucu devredışı bırakıldıktan sonra sahte sunucu kurularak kurbanların trafiği saldırgana yönlendirilir.
+  </p>
+
+  <div class="grid-2" style="margin-top: 1rem;">
+    <!-- Card 1: Hızlı Yanıt & Ele Geçirme -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">MEKANİZMA</span> Saldırganın Ağa Müdahalesi
+      </div>
+      <ul class="threat-list" style="font-size: 0.9em; margin-bottom: 0;">
+        <li style="margin-bottom: 0.8rem;">
+          <strong>Aktif Sahte Sunucu:</strong> Saldırgan (ör. Metasploit veya rogue cihaz) meşru sunucudan daha hızlı yanıt vererek IP dağıtır.
+        </li>
+        <li>
+          <strong>Tam Trafik Hakimiyeti:</strong> Ağ katılan her yeni cihaz meşru sanarak sahte sunucudan yapılandırma alır.
+        </li>
+      </ul>
+    </div>
+
+    <!-- Card 2: Zararlı Ağ Ayarları -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-purple">MİTM & VEKTÖRLER</span> Zararlı Yapılandırma Dağıtımı
+      </div>
+      <ul class="threat-list" style="font-size: 0.9em; margin-bottom: 0;">
+        <li style="margin-bottom: 0.8rem;">
+          <strong>Sahte Default Gateway:</strong> İstemciye Varsayılan Ağ Geçidi olarak saldırganın IP'si verilir (Ortadaki Adam / MITM).
+        </li>
+        <li>
+          <strong>Sahte DNS Sunucusu:</strong> DNS adresi olarak saldırganın IP'si verilerek istemciler phishing sitelerine yönlendirilir.
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>

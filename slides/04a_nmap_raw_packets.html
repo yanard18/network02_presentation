@@ -1,8 +1,8 @@
 <!-- SLIDE: Nmap Raw Packets -->
 <section>
-  <h2><i class="fa-solid fa-microchip highlight-htb"></i> Nmap & Raw Packets</h2>
+  <h2><i class="fa-solid fa-microchip highlight-htb"></i> Nmap ve Raw Paketler</h2>
   <p class="slide-subtitle">
-    Why Nmap requires root privileges and how it bypasses standard operating system networking APIs.
+    Nmap'in neden root yetkilerine ihtiyaç duyduğu ve standart işletim sistemi ağ API'lerini nasıl devre dışı bıraktığı.
   </p>
 
   <div class="grid-2" style="align-items: stretch; gap: 1.5rem; max-width: 1050px; margin: 0 auto;">
@@ -11,20 +11,20 @@
     <div class="cyber-card" style="display: flex; flex-direction: column; justify-content: space-between;">
       <div>
         <div class="card-title">
-          <span class="cyber-badge badge-cyan">STANDARD APPS</span> OS Socket API
+          <span class="cyber-badge badge-cyan">STANDART UYGULAMALAR</span> OS Socket API
         </div>
         <p style="color: var(--text-muted); font-size: 0.92em; margin-bottom: 1rem;">
-          Normal network applications (browsers, SSH clients, curl) rely on operating system high-level socket APIs:
+          Normal ağ uygulamaları (tarayıcılar, SSH istemcileri, curl) işletim sisteminin üst seviye socket API'lerine dayanır:
         </p>
         <ul style="margin-bottom: 0;">
-          <li>Uses standard kernel functions (<code style="color: var(--accent-cyan);">connect()</code>, <code style="color: var(--accent-cyan);">send()</code>).</li>
-          <li>OS kernel automatically handles TCP handshakes, sequence numbers, and packet flags.</li>
-          <li>Applications cannot manually manipulate underlying TCP/IP header fields.</li>
+          <li>Standart kernel fonksiyonlarını kullanır (<code style="color: var(--accent-cyan);">connect()</code>, <code style="color: var(--accent-cyan);">send()</code>).</li>
+          <li>İşletim sistemi çekirdeği; TCP el sıkışmalarını, sequence numaralarını ve paket bayraklarını otomatik yönetir.</li>
+          <li>Uygulamalar alt katmandaki TCP/IP header alanlarına doğrudan müdahale edemez.</li>
         </ul>
       </div>
 
       <div style="margin-top: 1.2rem; padding: 0.75rem 1rem; background: rgba(45, 226, 230, 0.08); border-left: 3px solid var(--accent-cyan); border-radius: 4px; font-size: 0.85em; color: var(--text-main);">
-        <i class="fa-solid fa-info-circle highlight-cyan"></i> No special privileges required (runs under standard user account).
+        <i class="fa-solid fa-info-circle highlight-cyan"></i> Özel bir yetki gerekmez (standart kullanıcı hesabı altında çalışır).
       </div>
     </div>
 
@@ -32,20 +32,20 @@
     <div class="cyber-card secure" style="display: flex; flex-direction: column; justify-content: space-between;">
       <div>
         <div class="card-title">
-          <span class="cyber-badge badge-htb">NMAP RAW SOCKETS</span> Direct Header Crafting
+          <span class="cyber-badge badge-htb">NMAP RAW SOCKETS</span> Doğrudan Header Oluşturma
         </div>
         <p style="color: var(--text-muted); font-size: 0.92em; margin-bottom: 1rem;">
-          Nmap bypasses high-level APIs to construct raw network frames from scratch:
+          Nmap, raw network frame'lerini sıfırdan oluşturmak için üst seviye API'leri devre dışı bırakır:
         </p>
         <ul class="secure-list" style="margin-bottom: 0;">
-          <li><strong>Direct Packet Manipulation:</strong> Manually sets custom IP/TCP headers, flags (<code style="color: var(--htb-green);">SYN</code>, <code style="color: var(--accent-red);">RST</code>, <code style="color: var(--accent-yellow);">FIN</code>), and options.</li>
-          <li><strong>Probing Capabilities:</strong> Enables stealth scans, OS fingerprinting, and custom response detection.</li>
-          <li><strong>Root / Sudo Privileges:</strong> Opening raw sockets (<code style="color: var(--htb-green);">SOCK_RAW</code>) requires root access.</li>
+          <li><strong>Doğrudan Paket Manipülasyonu:</strong> Özel IP/TCP başlıklarını, bayrakları (<code style="color: var(--htb-green);">SYN</code>, <code style="color: var(--accent-red);">RST</code>, <code style="color: var(--accent-yellow);">FIN</code>) ve opsiyonları manuel olarak ayarlar.</li>
+          <li><strong>Prob Yetenekleri:</strong> Stealth taramaları, OS fingerprinting ve özel yanıt tespitini mümkün kılar.</li>
+          <li><strong>Root / Sudo Yetkileri:</strong> Ham socket'ler (<code style="color: var(--htb-green);">SOCK_RAW</code>) açmak root erişimi gerektirir.</li>
         </ul>
       </div>
 
       <div style="margin-top: 1.2rem; padding: 0.75rem 1rem; background: rgba(159, 239, 0, 0.1); border-left: 3px solid var(--htb-green); border-radius: 4px; font-size: 0.85em; color: var(--text-main);">
-        <i class="fa-solid fa-key highlight-htb"></i> <strong>Sudo Requirement:</strong> Raw socket access is restricted by the kernel for network security.
+        <i class="fa-solid fa-key highlight-htb"></i> <strong>Sudo Gereksinimi:</strong> Raw socket erişimi ağ güvenliği nedeniyle işletim sistemi çekirdeği tarafından kısıtlanmıştır.
       </div>
     </div>
 

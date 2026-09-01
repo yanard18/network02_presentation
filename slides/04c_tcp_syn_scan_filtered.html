@@ -1,8 +1,8 @@
 <!-- SLIDE: TCP-SYN Scan Filtered Ports & Retransmission -->
 <section>
-  <h2><i class="fa-solid fa-filter-circle-xmark highlight-htb"></i> TCP-SYN Scan: Filtered Ports & Retransmission</h2>
+  <h2><i class="fa-solid fa-filter-circle-xmark highlight-htb"></i> TCP-SYN Scan: Filtrelenmiş Portlar ve Retransmission</h2>
   <p class="slide-subtitle">
-    Understanding how TCP-SYN scans handle packet loss, firewall drop rules, and probe retransmissions.
+    TCP-SYN taramalarının paket kayıplarını, firewall drop kurallarını ve prob retransmission işlemlerini nasıl ele aldığını anlama.
   </p>
 
   <div class="grid-2" style="align-items: center; gap: 1.5rem;">
@@ -11,21 +11,21 @@
     <div style="display: flex; flex-direction: column; gap: 1rem;">
       <div class="cyber-card threat">
         <div class="card-title">
-          <span class="cyber-badge badge-purple">FILTERED STATE</span> Firewall & Packet Drop Behavior
+          <span class="cyber-badge badge-purple">FILTERED STATE</span> Firewall ve Paket Düşürme Davranışı
         </div>
         <ul class="threat-list" style="margin-bottom: 0.6rem;">
-          <li><strong>No Response Packet:</strong> If Nmap receives no packet back (or ICMP error), the port state is determined as <span class="cyber-badge badge-purple" style="font-size: 0.75rem;">filtered</span>.</li>
-          <li><strong>Firewall Filtering:</strong> Depending on rules, firewalls or routers may silently drop/ignore incoming <code style="color: var(--htb-green);">SYN</code> packets.</li>
+          <li><strong>Yanıt Paketi Yok:</strong> Nmap geri paket almazsa (veya ICMP hatası alırsa), port durumu <span class="cyber-badge badge-purple" style="font-size: 0.75rem;">filtered</span> olarak belirlenir.</li>
+          <li><strong>Firewall Filtreleme:</strong> Kurallara bağlı olarak firewall'lar veya router'lar gelen <code style="color: var(--htb-green);">SYN</code> paketlerini sessizce düşürebilir veya göz ardı edebilir.</li>
         </ul>
       </div>
 
       <div class="cyber-card">
         <div class="card-title">
-          <span class="cyber-badge badge-cyan">RETRANSMISSION</span> Network Retries
+          <span class="cyber-badge badge-cyan">RETRANSMISSION</span> Ağ Üzerinde Yeniden Deneme
         </div>
         <ul>
-          <li><strong>Slow Networks & Retries:</strong> When target or network is slow/filtered, TCP sends multiple <code style="color: var(--htb-green);">SYN</code> packets before giving up.</li>
-          <li><strong>Probe Retry:</strong> Example SYN scan on filtered NetBIOS port <code style="color: var(--htb-green);">139</code> re-sends probes: <em>"Try again. Anybody home?"</em></li>
+          <li><strong>Yavaş Ağlar ve Yeniden Denemeler:</strong> Hedef veya ağ yavaş/filtrelenmiş olduğunda, TCP vazgeçmeden önce birden fazla <code style="color: var(--htb-green);">SYN</code> paketi gönderir.</li>
+          <li><strong>Prob Yeniden Denemesi:</strong> Filtrelenmiş NetBIOS portu <code style="color: var(--htb-green);">139</code> üzerindeki SYN tarama örneğinde problar tekrar gönderilir.</li>
         </ul>
       </div>
     </div>
@@ -37,7 +37,7 @@
       <div style="background: #ffffff; padding: 12px 14px; border-radius: 8px; border: 1px solid var(--htb-border); box-shadow: 0 0 20px rgba(157, 78, 221, 0.3);">
         <img src="media/Ereet_Packet_Trace_Syn_Filtered.png" alt="TCP SYN Scan Filtered Port" style="max-height: 210px; width: 100%; display: block; object-fit: contain;">
         <div style="font-family: var(--font-mono); font-size: 0.75rem; color: #333333; font-weight: 600; margin-top: 6px;">
-          <i class="fa-solid fa-rotate-right" style="color: #6a1b9a;"></i> Filtered Port Packet Trace (Multiple SYN Probes & Retransmissions)
+          <i class="fa-solid fa-rotate-right" style="color: #6a1b9a;"></i> Filtrelenmiş Port Paket İzlemesi (Çoklu SYN Probları ve Retransmission)
         </div>
       </div>
 
