@@ -1,0 +1,29 @@
+<!-- SLIDE 39: DNS Cache Poisoning vs ARP/DHCP Attacks -->
+<section>
+  <h2><i class="fa-solid fa-code-compare highlight-cyan"></i> DNS Cache Poisoning vs. L2 Saldırıları (ARP / DHCP)</h2>
+  <p class="slide-subtitle">
+    Katman 7 (DNS) ve Katman 2 (ARP/DHCP) zehirleme saldırılarının karşılaştırması.
+  </p>
+
+  <div class="comparison-list" style="margin-top: 1rem;">
+    <div class="comparison-row">
+      <strong><i class="fa-solid fa-map-pin highlight-htb"></i> Saldırı Konumu:</strong> 
+      <span class="highlight-cyan">DNS Cache Poisoning</span> İnternet üzerindeki DNS Resolver'ları hedefler. <span class="highlight-red">ARP/DHCP</span> doğrudan Yerel Ağı (LAN) hedefler.
+    </div>
+
+    <div class="comparison-row">
+      <strong><i class="fa-solid fa-globe highlight-htb"></i> Etki Alanı (Radius):</strong> 
+      <span class="highlight-cyan">DNS Cache Poisoning</span> O Resolver'ı kullanan tüm dünya çapındaki kullanıcıları etkiler. <span class="highlight-red">ARP/DHCP</span> sadece aynı alt ağdaki (Subnet) cihazları etkiler.
+    </div>
+
+    <div class="comparison-row">
+      <strong><i class="fa-solid fa-user-secret highlight-htb"></i> Yakınlık (Proximity):</strong> 
+      <span class="highlight-cyan">DNS Cache Poisoning</span> Saldırgan dünyanın herhangi bir yerinde olabilir. <span class="highlight-red">ARP/DHCP</span> Saldırgan fiziksel/mantıksal olarak aynı LAN ortamında olmalıdır.
+    </div>
+
+    <div class="comparison-row">
+      <strong><i class="fa-solid fa-gears highlight-htb"></i> Mekanizma:</strong> 
+      <span class="highlight-cyan">DNS Cache Poisoning</span> UDP Transaction ID & Port tahmini ile sahte paket fırlatma. <span class="highlight-red">ARP/DHCP</span> Sahte ARP Reply ve DHCP Offer paketleri gönderme.
+    </div>
+  </div>
+</section>

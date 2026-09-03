@@ -1,0 +1,38 @@
+<!-- SLIDE 38a: Transaction ID (TXID) Prevention Mechanism -->
+<section>
+  <h2><i class="fa-solid fa-key highlight-htb"></i> Saldırıyı Engellemesi Beklenen Mekanizma: Transaction ID (TXID)</h2>
+  <p class="slide-subtitle" style="text-align: center; margin-bottom: 0.8rem;">
+    DNS paket başlığındaki <span class="highlight-htb">16-bit Transaction ID</span> alanı, sorgu ile yanıtı eşleştirerek sahte yanıtları engellemeyi amaçlar.
+  </p>
+
+  <div class="grid-2-asym" style="align-items: center; margin-top: 0.5rem;">
+    <!-- Left: TXID Cards -->
+    <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+      <div class="cyber-card secure">
+        <div class="card-title">
+          <span class="cyber-badge badge-htb">16-BIT TXID</span> Güvenlik Eşleşmesi
+        </div>
+        <p style="font-size: 0.83em; color: var(--text-main); margin-bottom: 0;">
+          Resolver giden her sorguya rastgele bir <span class="highlight-htb">Transaction ID (0-65535)</span> atar. Gelen yanıtın kabul edilmesi için TXID değerinin tam olarak uyuşması şarttır.
+        </p>
+      </div>
+
+      <div class="cyber-card threat">
+        <div class="card-title">
+          <span class="cyber-badge badge-red">ZAFİYET</span> Neden Yetersiz Kaldı?
+        </div>
+        <p style="font-size: 0.83em; color: var(--text-main); margin-bottom: 0;">
+          65,536 toplam olasılık, ağ hızı yüksek olan modern bir saldırganın binlerce sahte paketi kısa sürede fırlatarak doğru TXID'yi tahmin etmesi için yeterince küçüktür.
+        </p>
+      </div>
+    </div>
+
+    <!-- Right: Packet Diagram -->
+    <div style="text-align: center;">
+      <img src="media/dns_packet_diagram.png" alt="DNS Packet Diagram TXID" style="max-height: 400px; width: 100%; object-fit: contain; background: #ffffff; border-radius: 8px; padding: 10px;">
+      <div style="font-size: 0.82em; color: var(--text-muted); margin-top: 0.5rem;">
+        <i class="fa-solid fa-diagram-project highlight-cyan"></i> DNS Paket Başlığında Transaction ID Alanı
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,43 @@
+<!-- SLIDE 44: TRAP; RESET; POISON (NAT Port Exhaustion Attack) -->
+<section>
+  <h2><i class="fa-solid fa-bomb highlight-red"></i> TRAP; RESET; POISON — CGNAT Port Tüketimi (Timo, 2023)</h2>
+  <p class="slide-subtitle" style="font-size: 0.95em; color: var(--text-main); margin-bottom: 0.8rem;">
+    Carrier-Grade NAT (CGNAPT) cihazlarını manipüle ederek <span class="highlight-red">32-bit SPR korumasını tekrar 16-bit'e düşürme</span> yöntemi.
+  </p>
+
+  <div class="grid-3" style="align-items: stretch;">
+    <!-- Step 1: TRAP -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">1. TRAP</span> Port Tablosunu Boğma
+      </div>
+      <p style="font-size: 0.8em; color: var(--text-main); margin-bottom: 0;">
+        Kullanıcı zararlı siteye çekilir. JS döngüsü ile 60,000 benzersiz alt alan adı istetilir. NAT tablosundaki tüm geçici (ephemeral) portlar kilitlenir ve geriye sadece ~10 tahmin edilebilir port bırakılır.
+      </p>
+    </div>
+
+    <!-- Step 2: RESET -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-yellow">2. RESET</span> Tetikleme Sorgusu
+      </div>
+      <p style="font-size: 0.8em; color: var(--text-main); margin-bottom: 0;">
+        NAT port tablosu tıkanmış durumdayken, hedef DNS Resolver yetkili sunucuya sorgu atmaya zorlanır. NAT cihazı zorunlu olarak bilinen çok dar bir port aralığından tahsis yapar.
+      </p>
+    </div>
+
+    <!-- Step 3: POISON -->
+    <div class="cyber-card secure">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">3. POISON</span> Kolaylaştırılmış Zehirleme
+      </div>
+      <p style="font-size: 0.8em; color: var(--text-main); margin-bottom: 0;">
+        Dış kaynak portu artık bilindiği / tahmin edilebildiği için 16-bitlik port entropisi elenir. Saldırgan sadece 16-bitlik TXID'yi tahmin ederek zehirli paketi enjekte eder!
+      </p>
+    </div>
+  </div>
+
+  <div style="margin-top: 0.8rem; padding: 0.5rem 0.8rem; background: var(--htb-bg-terminal); border-left: 4px solid var(--accent-cyan); border-radius: 4px; font-size: 0.78em; color: var(--text-main);">
+    <i class="fa-solid fa-circle-info highlight-cyan"></i> <strong>Önemli Ölümcül Kusur:</strong> İçerideki DNS sunucusu port 41000'i korusa bile, saldırgan NAT cihazının dışarıya açtığı 55000 portunu hedefler. NAT cihazı gelen paketi otomatik olarak iç sunucunun 41000 portuna yönlendirir!
+  </div>
+</section>

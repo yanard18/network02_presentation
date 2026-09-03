@@ -1,0 +1,29 @@
+<!-- SLIDE 38d1: Kaminsky Subdomain Breakthrough -->
+<section>
+  <h2><i class="fa-solid fa-lightbulb highlight-htb"></i> Kaminsky Farkındalığı: Rastgele Subdomain Hilesi</h2>
+  <p class="slide-subtitle">
+    TTL kilitlenmesini bertaraf eden kilit fikir: <span class="highlight-htb">Sınırsız Deneme Hakkı</span>.
+  </p>
+
+  <div class="grid-2" style="align-items: stretch; gap: 1.4rem; margin-top: 0.8rem;">
+    <!-- Left: Direct Attack Lockout Problem -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">DOĞRUDAN SALDIRI</span> Tek Şans Riski
+      </div>
+      <p style="font-size: 0.85em; color: var(--text-main); margin-bottom: 0;">
+        Doğrudan <span class="highlight-red">www.foo.com</span> hedeflendiğinde, 1 başarısız denemede gerçek yanıt önbelleğe yazılır. Saldırgan 24 saat boyunca o domain için <strong>kilitlenir (lockout)</strong>.
+      </p>
+    </div>
+
+    <!-- Right: Kaminsky Breakthrough -->
+    <div class="cyber-card secure">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">KAMINSKY HİLESİ</span> Sınırsız Deneme
+      </div>
+      <p style="font-size: 0.85em; color: var(--text-main); margin-bottom: 0;">
+        Doğrudan hedefi sormak yerine önbellekte hiç bulunmayan rastgele alt alan adları istetilir: <span class="highlight-cyan">1.foo.com</span>, <span class="highlight-cyan">2.foo.com</span> ... <span class="highlight-yellow">83.foo.com</span>. Kaybedilse bile anında bir sonraki subdomain ile <strong>sınırsız deneme</strong> yapılır!
+      </p>
+    </div>
+  </div>
+</section>

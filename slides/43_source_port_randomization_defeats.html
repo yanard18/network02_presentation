@@ -1,0 +1,31 @@
+<!-- SLIDE 43: Source Port Randomization (SPR) & Vulnerabilities -->
+<section>
+  <h2><i class="fa-solid fa-lock-open highlight-yellow"></i> Savunma: Source Port Randomization (SPR) & Zafiyetler</h2>
+
+  <div class="grid-2" style="align-items: stretch; margin-top: 0.8rem;">
+    <!-- Left: SPR Mechanism -->
+    <div class="cyber-card secure">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">SPR MECHANISM</span> Kaynak Portu Rastgeleliği
+      </div>
+      <p style="font-size: 0.83em; color: var(--text-main); margin-bottom: 0.5rem;">
+        Sadece 16-bit TXID (65,536 olasılık) yetersiz olduğu için DNS çözücüler her özyinelemeli sorguda dışarıya giden <strong>UDP Kaynak Portunu rastgele belirler</strong>.
+      </p>
+      <div style="padding: 0.5rem; background: var(--htb-bg-terminal); border-radius: 4px; font-family: 'Fira Code', monospace; font-size: 0.78em; color: var(--htb-green);">
+        16-bit TXID + 16-bit Port = 32-bit Entropi (~4 Milyar Kombinasyon)
+      </div>
+    </div>
+
+    <!-- Right: Why SPR is Vulnerable in 2026 -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">2026 RISKS</span> SPR Neden Halen Zafiyet Barındırıyor?
+      </div>
+      <ul style="font-size: 0.8em; display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 0;">
+        <li><strong class="highlight-red">Gömülü Cihazlar & IoT:</strong> Eski uClibc kütüphaneleri kullanan kamera ve router stub-resolver'larında SPR bulunmaz.</li>
+        <li><strong class="highlight-red">Özel Yönlendiriciler:</strong> Performans için sabit port kullanan şirket içi proprietary forwarding yazılımları.</li>
+        <li><strong class="highlight-yellow">NAT "De-Randomization" (PAT):</strong> En yaygın neden! Güvenlik duvarı NAT/PAT kuralları dışarı çıkan tüm UDP 53 trafiğini tek veya sıralı sabit portlara dönüştürerek SPR korumasını yok eder.</li>
+      </ul>
+    </div>
+  </div>
+</section>

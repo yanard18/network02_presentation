@@ -1,0 +1,39 @@
+<!-- SLIDE 38g: Bailiwick Rule -->
+<section>
+  <h2><i class="fa-solid fa-shield-cat highlight-yellow"></i> Bailiwick Kuralı</h2>
+  <p class="slide-subtitle">
+    DNS yetki sınırları (<span class="highlight-cyan">Bailiwick Rule</span>) ve Kaminsky saldırısındaki durumu.
+  </p>
+
+  <div class="grid-2" style="align-items: stretch; gap: 1.4rem; margin-top: 0.8rem;">
+    <!-- Left Card: What is Bailiwick Rule -->
+    <div class="cyber-card secure">
+      <div class="card-title">
+        <span class="cyber-badge badge-cyan">BAILIWICK RULE</span> Yetki Sınırı Kuralları
+      </div>
+      <p style="font-size: 0.83em; color: var(--text-main); margin-bottom: 0.5rem;">
+        Resolver'ların her sahte ek bilgiyi önbelleğe almasını önlemek için getirilen kural: <em>"Yalnızca orijinal sorgu domain hiyerarşisine dahil olan ek kayıtlar kabul edilir."</em>
+      </p>
+      <ul style="font-size: 0.8em; margin-bottom: 0; color: var(--text-muted);">
+        <li>• <strong>Root sunucusu:</strong> Her domain hakkında yetki verebilir.</li>
+        <li>• <strong>.com sunucusu:</strong> Yalnızca <code>.com</code> ile biten domainleri verebilir.</li>
+        <li>• <strong>foo.com sunucusu:</strong> Yalnızca <code>.foo.com</code> kapsamını verebilir.</li>
+      </ul>
+    </div>
+
+    <!-- Right Card: Why Bailiwick Failed for Kaminsky -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">EXPLOIT BYPASS</span> Neden Kaminsky'i Engelleyemedi?
+      </div>
+      <div style="font-size: 0.83em; color: var(--text-main); display: flex; flex-direction: column; gap: 0.6rem;">
+        <p style="margin: 0;">
+          Saldırgan <code>83.foo.com</code> sorulduğunda <code>google.com</code> yetkisini değiştirmeye çalışsaydı, Bailiwick engellerdi (<span class="highlight-red">Out-of-Bailiwick</span>).
+        </p>
+        <div style="padding: 0.6rem; background: var(--htb-bg-terminal); border-left: 3px solid var(--accent-red); border-radius: 4px; font-size: 0.95em;">
+          Ancak <span class="highlight-cyan">83.foo.com</span> sorgusu doğrudan <span class="highlight-yellow">foo.com</span> ebeveyn domainine ait olduğu için (<span class="highlight-htb">In-Bailiwick</span>), Resolver <code>foo.com NS ns.attacker.com</code> enjeksiyonunu meşru kabul etmek <strong>ZORUNDADIR!</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

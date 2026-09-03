@@ -1,0 +1,47 @@
+<!-- SLIDE 41: Dan Kaminsky Attack & Bailiwick Rule -->
+<section>
+  <h2><i class="fa-solid fa-bug highlight-htb"></i> Dan Kaminsky Saldırısı (2008) & Authority Enjeksiyonu</h2>
+
+  <div class="grid-2" style="align-items: stretch; margin-top: 0.8rem;">
+    <!-- Left: TTL Lockout Problem & Kaminsky Solution -->
+    <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+      <div class="cyber-card threat">
+        <div class="card-title">
+          <span class="cyber-badge badge-red">TTL LOCKOUT</span> 2008 Öncesi Problem
+        </div>
+        <p style="font-size: 0.82em; color: var(--text-main); margin-bottom: 0;">
+          Doğrudan <span class="highlight-red">www.bank.com</span> hedeflendiğinde, sahte yanıt gecikirse gerçek yanıt önbelleğe yazılır (TTL = 24 saat). Saldırgan 1 gün boyunca kilitlenir (Lockout).
+        </p>
+      </div>
+
+      <div class="cyber-card secure">
+        <div class="card-title">
+          <span class="cyber-badge badge-htb">KAMINSKY FARKINDALIĞI</span> Sınırsız Deneme
+        </div>
+        <p style="font-size: 0.82em; color: var(--text-main); margin-bottom: 0;">
+          Kaminsky <span class="highlight-htb">1.bank.com</span>, <span class="highlight-htb">2.bank.com</span> gibi rastgele alt alan adları sordu. Sorgu başarısız olsa bile yeni bir alt alan adı ile anında kilitlenmeden tekrar denedi!
+        </p>
+      </div>
+    </div>
+
+    <!-- Right: DNS Packet Payload Injection Structure -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-purple">AUTHORITY OVERWRITE</span> NS Kaydını Ele Geçirme
+      </div>
+      <pre style="font-size: 0.72em; margin-bottom: 0.5rem;"><code class="language-dns">HEADER:
+  Transaction ID: 1337 (Tahmin Edilen)
+QUESTION SECTION:
+  1.foo.com.        IN   A
+ANSWER SECTION: (Önemsiz Sahte Yanıt)
+  1.foo.com.        IN   A   6.6.6.6
+AUTHORITY SECTION: (Zehir - Tüm Domain Hijack)
+  foo.com.          IN   NS  ns.attacker.com.
+ADDITIONAL SECTION: (Attacker NS IP)
+  ns.attacker.com.  IN   A   1.2.3.4</code></pre>
+      <p style="font-size: 0.78em; color: var(--text-muted); margin-bottom: 0;">
+        <i class="fa-solid fa-shield-cat highlight-yellow"></i> <strong>Bailiwick Kuralı:</strong> Resolver'lar ek kayıtları yalnızca sorgulanan ana alan adı (<span class="highlight-cyan">foo.com</span>) kapsamındaysa kabul eder.
+      </p>
+    </div>
+  </div>
+</section>

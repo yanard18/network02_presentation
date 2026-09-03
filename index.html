@@ -2797,6 +2797,506 @@ wireshark &  # Filtre: arp || http</code></pre>
   </div>
 </section>
 
+      <!-- Loaded from slides/36a_dns_intro.html -->
+<!-- SLIDE 36a: Intro to DNS -->
+<section>
+  <h2><i class="fa-solid fa-network-wired highlight-htb"></i> DNS Protokolüne Giriş</h2>
+  <p class="slide-subtitle" style="text-align: center; margin-bottom: 1.2rem;">
+    İnternetin telefon rehberi: İnsan tarafından okunabilir alan adlarını (ör. <code>example.com</code>) IP adreslerine çevirir.
+  </p>
+
+  <div style="text-align: center; margin-top: 0.5rem;">
+    <img src="media/dns_intro.png" alt="DNS Intro Diagram" style="max-height: 480px; width: auto; max-width: 100%; display: block; margin: 0 auto; border-radius: 8px; object-fit: contain;">
+  </div>
+</section>
+
+      <!-- Loaded from slides/37_dns_overview.html -->
+<!-- SLIDE 37: DNS Protocol Dynamics & Recursion -->
+<section>
+  <h2><i class="fa-solid fa-server highlight-htb"></i> DNS Protokolü & Önbellek (Cache) Mantığı</h2>
+  <p class="slide-subtitle" style="text-align: center; margin-bottom: 0.8rem;">
+    Özyinelemeli Sorgu (Uncached) vs Önbellekten Yanıt (Cached)
+  </p>
+
+  <div class="grid-2" style="align-items: center; justify-content: center; gap: 1.2rem;">
+    <!-- Left: Uncached Response Diagram -->
+    <div style="text-align: center;">
+      <img src="media/dns-uncached-response.svg" alt="DNS Uncached Recursive Response" style="max-height: 330px; width: 100%; object-fit: contain; background: #ffffff; border-radius: 8px; padding: 8px 12px; box-sizing: border-box;">
+      <div style="font-size: 0.82em; color: var(--text-muted); margin-top: 0.4rem;">
+        <i class="fa-solid fa-diagram-project highlight-htb"></i> 1. Önbellekte Olmayan Sorgu (Uncached)
+      </div>
+    </div>
+
+    <!-- Right: Cached Response Diagram -->
+    <div style="text-align: center;">
+      <img src="media/dns_cached_response.svg" alt="DNS Cached Response" style="max-height: 330px; width: 100%; object-fit: contain; background: #ffffff; border-radius: 8px; padding: 8px 12px; box-sizing: border-box;">
+      <div style="font-size: 0.82em; color: var(--text-muted); margin-top: 0.4rem;">
+        <i class="fa-solid fa-bolt highlight-cyan"></i> 2. Önbellekten Hızlı Yanıt (Cached)
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Reminder Text -->
+  <div style="margin-top: 1rem; padding: 0.7rem 1.2rem; background: var(--htb-bg-card); border: 1px solid var(--htb-border); border-radius: 8px; font-size: 0.82em; color: var(--text-main); display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; text-align: left;">
+    <div>
+      <i class="fa-solid fa-arrows-rotate highlight-htb"></i> <strong>Recursive Resolve:</strong> Önbellekte kayıt yoksa Resolver sırasıyla Root, TLD ve Yetkili (Authoritative) sunucuları sorgulayarak tam çözme gerçekleştirir.
+    </div>
+    <div>
+      <i class="fa-solid fa-clock highlight-cyan"></i> <strong>TTL (Time to Live) Değeri:</strong> Kaydın önbellekte kaç saniye saklanacağını belirler. Süre dolana kadar sonraki tüm istekler anında önbellekten verilir.
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/38_dns_cache_poisoning_theory.html -->
+<!-- SLIDE 38: DNS Cache Poisoning Theory & UDP Race -->
+<section>
+  <h2><i class="fa-solid fa-skull-crossbones highlight-red"></i> DNS Cache Poisoning Teorisi & UDP Yarışı</h2>
+  <p class="slide-subtitle" style="text-align: center; margin-bottom: 1.2rem;">
+    UDP protokolünün oturum bilgisi taşımamasını (Stateless) suistimal ederek <span class="highlight-red">sahte DNS yanıtı enjekte etme</span>.
+  </p>
+
+  <div style="text-align: center; margin-top: 0.5rem;">
+    <img src="media/dns_cache_poison.svg" alt="DNS Cache Poisoning Attack Flow" style="max-height: 480px; width: 100%; object-fit: contain; background: #ffffff; border-radius: 8px; padding: 10px; display: block; margin: 0 auto;">
+    <div style="font-size: 0.85em; color: var(--text-muted); margin-top: 0.8rem;">
+      <i class="fa-solid fa-bolt highlight-red"></i> Sahte UDP Yanıtı ile Önbellek Zehirleme Akışı
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/39_dns_cache_poisoning_vs_arp_dhcp.html -->
+<!-- SLIDE 39: DNS Cache Poisoning vs ARP/DHCP Attacks -->
+<section>
+  <h2><i class="fa-solid fa-code-compare highlight-cyan"></i> DNS Cache Poisoning vs. L2 Saldırıları (ARP / DHCP)</h2>
+  <p class="slide-subtitle">
+    Katman 7 (DNS) ve Katman 2 (ARP/DHCP) zehirleme saldırılarının karşılaştırması.
+  </p>
+
+  <div class="comparison-list" style="margin-top: 1rem;">
+    <div class="comparison-row">
+      <strong><i class="fa-solid fa-map-pin highlight-htb"></i> Saldırı Konumu:</strong> 
+      <span class="highlight-cyan">DNS Cache Poisoning</span> İnternet üzerindeki DNS Resolver'ları hedefler. <span class="highlight-red">ARP/DHCP</span> doğrudan Yerel Ağı (LAN) hedefler.
+    </div>
+
+    <div class="comparison-row">
+      <strong><i class="fa-solid fa-globe highlight-htb"></i> Etki Alanı (Radius):</strong> 
+      <span class="highlight-cyan">DNS Cache Poisoning</span> O Resolver'ı kullanan tüm dünya çapındaki kullanıcıları etkiler. <span class="highlight-red">ARP/DHCP</span> sadece aynı alt ağdaki (Subnet) cihazları etkiler.
+    </div>
+
+    <div class="comparison-row">
+      <strong><i class="fa-solid fa-user-secret highlight-htb"></i> Yakınlık (Proximity):</strong> 
+      <span class="highlight-cyan">DNS Cache Poisoning</span> Saldırgan dünyanın herhangi bir yerinde olabilir. <span class="highlight-red">ARP/DHCP</span> Saldırgan fiziksel/mantıksal olarak aynı LAN ortamında olmalıdır.
+    </div>
+
+    <div class="comparison-row">
+      <strong><i class="fa-solid fa-gears highlight-htb"></i> Mekanizma:</strong> 
+      <span class="highlight-cyan">DNS Cache Poisoning</span> UDP Transaction ID & Port tahmini ile sahte paket fırlatma. <span class="highlight-red">ARP/DHCP</span> Sahte ARP Reply ve DHCP Offer paketleri gönderme.
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/38a_dns_txid_prevention.html -->
+<!-- SLIDE 38a: Transaction ID (TXID) Prevention Mechanism -->
+<section>
+  <h2><i class="fa-solid fa-key highlight-htb"></i> Saldırıyı Engellemesi Beklenen Mekanizma: Transaction ID (TXID)</h2>
+  <p class="slide-subtitle" style="text-align: center; margin-bottom: 0.8rem;">
+    DNS paket başlığındaki <span class="highlight-htb">16-bit Transaction ID</span> alanı, sorgu ile yanıtı eşleştirerek sahte yanıtları engellemeyi amaçlar.
+  </p>
+
+  <div class="grid-2-asym" style="align-items: center; margin-top: 0.5rem;">
+    <!-- Left: TXID Cards -->
+    <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+      <div class="cyber-card secure">
+        <div class="card-title">
+          <span class="cyber-badge badge-htb">16-BIT TXID</span> Güvenlik Eşleşmesi
+        </div>
+        <p style="font-size: 0.83em; color: var(--text-main); margin-bottom: 0;">
+          Resolver giden her sorguya rastgele bir <span class="highlight-htb">Transaction ID (0-65535)</span> atar. Gelen yanıtın kabul edilmesi için TXID değerinin tam olarak uyuşması şarttır.
+        </p>
+      </div>
+
+      <div class="cyber-card threat">
+        <div class="card-title">
+          <span class="cyber-badge badge-red">ZAFİYET</span> Neden Yetersiz Kaldı?
+        </div>
+        <p style="font-size: 0.83em; color: var(--text-main); margin-bottom: 0;">
+          65,536 toplam olasılık, ağ hızı yüksek olan modern bir saldırganın binlerce sahte paketi kısa sürede fırlatarak doğru TXID'yi tahmin etmesi için yeterince küçüktür.
+        </p>
+      </div>
+    </div>
+
+    <!-- Right: Packet Diagram -->
+    <div style="text-align: center;">
+      <img src="media/dns_packet_diagram.png" alt="DNS Packet Diagram TXID" style="max-height: 400px; width: 100%; object-fit: contain; background: #ffffff; border-radius: 8px; padding: 10px;">
+      <div style="font-size: 0.82em; color: var(--text-muted); margin-top: 0.5rem;">
+        <i class="fa-solid fa-diagram-project highlight-cyan"></i> DNS Paket Başlığında Transaction ID Alanı
+      </div>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/38b_dns_guessing_game_ttl.html -->
+<!-- SLIDE 38b: Tahmin Oyunu & TTL Odds -->
+<section>
+  <h2><i class="fa-solid fa-dice highlight-htb"></i> Tahmin Oyunu</h2>
+  <p class="slide-subtitle" style="text-align: center; margin-bottom: 1.5rem;">
+    TXID Tahmin Oranları & TTL Kilitlenme Mantığı
+  </p>
+
+  <div style="max-width: 840px; margin: 0 auto; text-align: left;">
+    <ul style="font-size: 1.05em; line-height: 1.8; display: flex; flex-direction: column; gap: 1.2rem; list-style: none; padding-left: 0;">
+      <li style="display: flex; gap: 0.8rem; align-items: flex-start;">
+        <i class="fa-solid fa-shield-halved highlight-htb" style="margin-top: 0.3rem; font-size: 1.1em;"></i>
+        <div>
+          <strong style="color: var(--text-white);">Gerçek Sunucu Avantajı:</strong> Gerçek yetkili sunucu, saldırgana karşı <span class="highlight-htb">65,536'ya 1</span> ezici bir avantaja sahiptir.
+        </div>
+      </li>
+      <li style="display: flex; gap: 0.8rem; align-items: flex-start;">
+        <i class="fa-solid fa-clock highlight-cyan" style="margin-top: 0.3rem; font-size: 1.1em;"></i>
+        <div>
+          <strong style="color: var(--text-white);">Yarışı Kazanan Kuralları Koyar:</strong> Gerçek sunucu yarışı kazandığında, sonraki yarışın ne zaman olacağını <span class="highlight-cyan">TTL (Time To Live)</span> süresi ile belirler (1 dakika, 1 saat veya 1 gün). Bu süre, yanıtın o alan adı için ne kadar geçerli kalacağını gösterir.
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+      <!-- Loaded from slides/38c_dns_starter_pistol_quote.html -->
+<!-- SLIDE 38c: Starter Pistol Concept Quote -->
+<section>
+  <div style="max-width: 920px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 2rem 0;">
+    <i class="fa-solid fa-quote-left highlight-htb" style="font-size: 2.8rem; margin-bottom: 1.5rem; opacity: 0.85;"></i>
+    <h2 style="font-size: 1.9em; font-weight: 600; line-height: 1.5; color: var(--text-main); border: none; padding: 0; margin-bottom: 1rem;">
+      "Eğer bu yarış TXID'yi ilk yanıtlayanın kazandığı bir yarışsa;<br>
+      <span class="highlight-red">'bad guy'</span> yarışı başlatan işaret fişeğini elinde tutmaktadır."
+    </h2>
+  </div>
+</section>
+
+      <!-- Loaded from slides/38d_dns_flooding_txid_flooding.html -->
+<!-- SLIDE 38d: TXID Packet Flooding Quote -->
+<section>
+  <div style="max-width: 920px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 2rem 0;">
+    <i class="fa-solid fa-quote-left highlight-htb" style="font-size: 2.8rem; margin-bottom: 1.5rem; opacity: 0.85;"></i>
+    <h2 style="font-size: 1.9em; font-weight: 600; line-height: 1.5; color: var(--text-main); border: none; padding: 0; margin-bottom: 1.5rem;">
+      "İkinci olarak, kim <span class="highlight-red">'bad guy'ın</span> sadece tek bir yanıt gönderebileceğini söyledi?"
+    </h2>
+    
+    <div style="max-width: 780px; text-align: left; font-size: 1.05em; color: var(--text-main); line-height: 1.7; background: rgba(255, 46, 99, 0.08); border-left: 4px solid var(--accent-red); padding: 1rem 1.2rem; border-radius: 6px;">
+      Saldırgan tek bir sahte paketle sınırlı değildir. Dar zaman penceresinde farklı Transaction ID (TXID) değerlerine sahip <strong>binlerce sahte yanıt paketini</strong> peş peşe fırlatarak doğru TXID'yi tutturma şansını katlayabilir.
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/38d1_kaminsky_subdomain_breakthrough.html -->
+<!-- SLIDE 38d1: Kaminsky Subdomain Breakthrough -->
+<section>
+  <h2><i class="fa-solid fa-lightbulb highlight-htb"></i> Kaminsky Farkındalığı: Rastgele Subdomain Hilesi</h2>
+  <p class="slide-subtitle">
+    TTL kilitlenmesini bertaraf eden kilit fikir: <span class="highlight-htb">Sınırsız Deneme Hakkı</span>.
+  </p>
+
+  <div class="grid-2" style="align-items: stretch; gap: 1.4rem; margin-top: 0.8rem;">
+    <!-- Left: Direct Attack Lockout Problem -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">DOĞRUDAN SALDIRI</span> Tek Şans Riski
+      </div>
+      <p style="font-size: 0.85em; color: var(--text-main); margin-bottom: 0;">
+        Doğrudan <span class="highlight-red">www.foo.com</span> hedeflendiğinde, 1 başarısız denemede gerçek yanıt önbelleğe yazılır. Saldırgan 24 saat boyunca o domain için <strong>kilitlenir (lockout)</strong>.
+      </p>
+    </div>
+
+    <!-- Right: Kaminsky Breakthrough -->
+    <div class="cyber-card secure">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">KAMINSKY HİLESİ</span> Sınırsız Deneme
+      </div>
+      <p style="font-size: 0.85em; color: var(--text-main); margin-bottom: 0;">
+        Doğrudan hedefi sormak yerine önbellekte hiç bulunmayan rastgele alt alan adları istetilir: <span class="highlight-cyan">1.foo.com</span>, <span class="highlight-cyan">2.foo.com</span> ... <span class="highlight-yellow">83.foo.com</span>. Kaybedilse bile anında bir sonraki subdomain ile <strong>sınırsız deneme</strong> yapılır!
+      </p>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/38g_bailiwick_rule.html -->
+<!-- SLIDE 38g: Bailiwick Rule -->
+<section>
+  <h2><i class="fa-solid fa-shield-cat highlight-yellow"></i> Bailiwick Kuralı</h2>
+  <p class="slide-subtitle">
+    DNS yetki sınırları (<span class="highlight-cyan">Bailiwick Rule</span>) ve Kaminsky saldırısındaki durumu.
+  </p>
+
+  <div class="grid-2" style="align-items: stretch; gap: 1.4rem; margin-top: 0.8rem;">
+    <!-- Left Card: What is Bailiwick Rule -->
+    <div class="cyber-card secure">
+      <div class="card-title">
+        <span class="cyber-badge badge-cyan">BAILIWICK RULE</span> Yetki Sınırı Kuralları
+      </div>
+      <p style="font-size: 0.83em; color: var(--text-main); margin-bottom: 0.5rem;">
+        Resolver'ların her sahte ek bilgiyi önbelleğe almasını önlemek için getirilen kural: <em>"Yalnızca orijinal sorgu domain hiyerarşisine dahil olan ek kayıtlar kabul edilir."</em>
+      </p>
+      <ul style="font-size: 0.8em; margin-bottom: 0; color: var(--text-muted);">
+        <li>• <strong>Root sunucusu:</strong> Her domain hakkında yetki verebilir.</li>
+        <li>• <strong>.com sunucusu:</strong> Yalnızca <code>.com</code> ile biten domainleri verebilir.</li>
+        <li>• <strong>foo.com sunucusu:</strong> Yalnızca <code>.foo.com</code> kapsamını verebilir.</li>
+      </ul>
+    </div>
+
+    <!-- Right Card: Why Bailiwick Failed for Kaminsky -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">EXPLOIT BYPASS</span> Neden Kaminsky'i Engelleyemedi?
+      </div>
+      <div style="font-size: 0.83em; color: var(--text-main); display: flex; flex-direction: column; gap: 0.6rem;">
+        <p style="margin: 0;">
+          Saldırgan <code>83.foo.com</code> sorulduğunda <code>google.com</code> yetkisini değiştirmeye çalışsaydı, Bailiwick engellerdi (<span class="highlight-red">Out-of-Bailiwick</span>).
+        </p>
+        <div style="padding: 0.6rem; background: var(--htb-bg-terminal); border-left: 3px solid var(--accent-red); border-radius: 4px; font-size: 0.95em;">
+          Ancak <span class="highlight-cyan">83.foo.com</span> sorgusu doğrudan <span class="highlight-yellow">foo.com</span> ebeveyn domainine ait olduğu için (<span class="highlight-htb">In-Bailiwick</span>), Resolver <code>foo.com NS ns.attacker.com</code> enjeksiyonunu meşru kabul etmek <strong>ZORUNDADIR!</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/38e_dns_kaminsky_ttl_bypass.html -->
+<!-- SLIDE 38e: Bypassing the TTL Lock (Delegation Attack) -->
+<section>
+  <h2><i class="fa-solid fa-sitemap highlight-htb"></i> TTL Kilitlenmesini Aşmak</h2>
+
+  <div style="max-width: 900px; margin: 1rem auto 0 auto; text-align: left;">
+    <p style="font-size: 1.05em; font-weight: 600; color: var(--text-white); margin-bottom: 0.8rem;">
+      <i class="fa-solid fa-circle-question highlight-yellow"></i> Asıl soru, 83.foo.com yarışını kazanan bir saldırganın, www.foo.com adresini de ele geçirmesi mümkün müdür?
+    </p>
+
+    <div style="font-size: 0.88em; line-height: 1.6; display: flex; flex-direction: column; gap: 0.5rem;">
+      <div style="color: var(--text-main);">
+        Doğru tahmin edilen TXID ile gönderilebilecek 3 olası yanıt vardır:
+        <ul style="margin-top: 0.4rem; display: flex; flex-direction: column; gap: 0.35rem; list-style: none; padding-left: 1rem;">
+          <li><span class="highlight-cyan">1)</span> <em>"İşte 83.foo.com için yanıtın: 6.6.6.6"</em></li>
+          <li><span class="highlight-cyan">2)</span> <em>"83.foo.com yanıtını bilmiyorum."</em></li>
+          <li>
+            <span class="highlight-htb">3)</span> <em>"83.foo.com mu? Bilmiyorum, git <span class="highlight-yellow">www.foo.com</span> sunucusuna sor, adresi: <span class="highlight-red">6.6.6.6</span>"</em>
+            <div style="margin-top: 0.5rem; padding-left: 1rem; color: var(--text-muted);">
+              <strong style="color: var(--text-main);">Bu çalışmak zorundadır — bu sadece başka bir yetkilendirmedir (delegation):</strong>
+              <ul style="margin-top: 0.3rem; display: flex; flex-direction: column; gap: 0.25rem; list-style: none; padding-left: 0.5rem;">
+                <li>• <strong>13 Root Sunucusu:</strong> <em>"83.foo.com mu? Bilmiyorum, git com sunucusuna sor (1.2.3.4)"</em></li>
+                <li>• <strong>Com Sunucusu:</strong> <em>"83.foo.com mu? Bilmiyorum, git foo.com sunucusuna sor (2.3.4.5)"</em></li>
+                <li>• <strong>Foo.com Sunucusu:</strong> <em>"83.foo.com mu? Bilmiyorum, git www.foo.com sunucusuna sor (6.6.6.6)"</em></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/38f_dns_authority_injection_secretary.html -->
+<!-- SLIDE 38f: Authority Section Injection & Secretary Analogy -->
+<section>
+  <h2><i class="fa-solid fa-user-tie highlight-htb"></i> NS Overwrite</h2>
+  <p class="slide-subtitle">
+    <span class="highlight-htb">Authority Section Injection</span> ile tek bir yanıt üzerinden tüm domain adını ele geçirme.
+  </p>
+
+  <div class="grid-2" style="align-items: stretch; gap: 1.4rem; margin-top: 0.6rem;">
+    <!-- Left: Secretary Analogy -->
+    <div class="cyber-card secure">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">ANALOGY</span> Sekreter Benzetmesi
+      </div>
+      <div style="font-size: 0.82em; color: var(--text-main); display: flex; flex-direction: column; gap: 0.6rem;">
+        <p style="margin: 0;">
+          <strong>1. Soru:</strong> Bir şirkete gidip <em>"3. kattaki 83 numaralı ofis nerede?"</em> diye sorarsınız (<code>83.foo.com</code>).
+        </p>
+        <p style="margin: 0;">
+          <strong>2. Yanıt & Ekstra Bilgi:</strong> Sekreter yanıt verir: <em>"Oda 83 orada. <strong>Bu arada, tüm binanın yeni Genel Müdürü benim</strong> ve doğrudan numaram 6.6.6.6'dır."</em>
+        </p>
+        <div style="padding: 0.5rem; background: var(--htb-bg-terminal); border-left: 3px solid var(--htb-green); border-radius: 4px; font-size: 0.95em; color: var(--text-main);">
+          Resolver verilen bu ekstra iddiaya güvendiği için tüm binanın (<code>foo.com</code>) yönetimini saldırgana devreder!
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Technical Packet Structure -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">TECHNICAL MECH</span> DNS Yanıt Başlığı (Poison)
+      </div>
+      <pre style="font-size: 0.72em; margin-bottom: 0;"><code class="language-dns">QUESTION SECTION:
+  83.foo.com.      IN   A
+
+ANSWER SECTION: (Önemsiz Yanıt)
+  83.foo.com.      IN   A   6.6.6.6
+
+AUTHORITY SECTION: (Zehir - NS Overwrite)
+  foo.com.         IN   NS  ns.attacker.com.
+
+ADDITIONAL SECTION: (Glue Record)
+  ns.attacker.com. IN   A   1.2.3.4</code></pre>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/40_dns_poisoning_impacts_myetherwallet.html -->
+<!-- SLIDE 40: Attack Impacts & Case Study -->
+<section>
+  <h2><i class="fa-solid fa-triangle-exclamation highlight-red"></i> DNS Hijacking Etkileri & Gerçek Vaka Analizi</h2>
+
+  <div class="grid-2" style="align-items: stretch; margin-top: 0.8rem;">
+    <!-- Left: Threat Vectors -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">IMPACTS</span> DNS Zehirlemenin Sonuçları
+      </div>
+      <ul style="font-size: 0.82em; display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 0;">
+        <li><strong class="highlight-red">Phishing (Kimlik Avı):</strong> Gerçek domainlerin (örn: paypal.com) sahte sayfalara yönlendirilmesi.</li>
+        <li><strong class="highlight-red">Zararlı Yazılım Dağıtımı:</strong> Yazılım güncelleme sunucularının veya indirme sayfalarının değiştirilmesi.</li>
+        <li><strong class="highlight-red">MX Poisoning (E-posta Müdahalesi):</strong> MX kayıtları değiştirilerek gelen tüm e-postaların saldırgan sunucusundan geçirilmesi.</li>
+        <li><strong class="highlight-red">TLS/SSL Sertifika Bypass:</strong> Saldırganın yönlendirilen alan adı için geçerli TLS sertifikası alabilmesi.</li>
+      </ul>
+    </div>
+
+    <!-- Right: Real Incident Case Study -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-purple">CASE STUDY</span> MyEtherWallet Soygunu
+      </div>
+      <div style="font-size: 0.82em; color: var(--text-main); display: flex; flex-direction: column; gap: 0.5rem;">
+        <p style="margin: 0;">
+          <strong>Saldırı Senaryosu:</strong> Saldırganlar Amazon Route 53 DNS sunucularının BGP rotalarını hijack etti.
+        </p>
+        <p style="margin: 0;">
+          <strong>Gelişim:</strong> 2 saat boyunca <span class="highlight-cyan">MyEtherWallet</span> DNS istekleri Rusya'daki sahte bir sunucuya yönlendirildi.
+        </p>
+        <div style="padding: 0.6rem; background: rgba(255, 46, 99, 0.1); border-left: 3px solid var(--accent-red); border-radius: 4px;">
+          <strong class="highlight-red">Sonuç:</strong> Kullanıcıların özel anahtarları (Private Key) çalındı ve <span class="highlight-yellow">17 Milyon $</span> değerinde Kripto Para dakikalar içinde boşaltıldı.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/42_dns_firewall_evasion_starter_pistols.html -->
+<!-- SLIDE 42: Firewall Evasion & Starter Pistols -->
+<section>
+  <h2><i class="fa-solid fa-shield-virus highlight-red"></i> Güvenlik Duvarı Bypass & "Starter Pistols"</h2>
+
+  <div class="grid-2" style="align-items: stretch; margin-top: 0.8rem;">
+    <!-- Left: Starter Pistols Logic -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">STARTER PISTOLS</span> Başlatıcı Tetikleyiciler
+      </div>
+      <p style="font-size: 0.83em; color: var(--text-main); margin-bottom: 0.6rem;">
+        Kurumsal güvenlik duvarları dışarıdan gelen DNS isteklerini engeller. Saldırgan, iç ağdaki resolver'ı <strong>dışarıya sorgu atmaya zorlamak</strong> için tetikleyiciler kullanır:
+      </p>
+      <ul style="font-size: 0.8em; margin-bottom: 0; display: flex; flex-direction: column; gap: 0.3rem;">
+        <li><i class="fa-solid fa-globe highlight-cyan"></i> <strong>Web Tarayıcıları:</strong> Sitede gizli <code>&lt;img src="http://hello.attacker.com/a.jpg"&gt;</code> yükleme.</li>
+        <li><i class="fa-solid fa-envelope highlight-cyan"></i> <strong>E-posta Sunucuları:</strong> Saldırgan domaininden e-posta göndererek anti-spam DNS kontrolünü tetikleme.</li>
+        <li><i class="fa-solid fa-eye highlight-cyan"></i> <strong>IDS/IPS:</strong> Güvenlik sistemlerini manipüle ederek ters DNS (PTR) araması yaptırma.</li>
+      </ul>
+    </div>
+
+    <!-- Right: Firewall Hole Mechanism -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">FIREWALL HOLE</span> Güvenlik Duvarındaki Kapı
+      </div>
+      <div style="font-size: 0.82em; color: var(--text-main); display: flex; flex-direction: column; gap: 0.6rem;">
+        <p style="margin: 0;">
+          <strong>1. Tetikleme:</strong> İç ağdaki cihaz <code>hello.attacker.com</code> adresini çözmek için kurumsal Resolver'a başvurur.
+        </p>
+        <p style="margin: 0;">
+          <strong>2. Kapı Açılır:</strong> Resolver dışarıya UDP 53 isteği gönderdiği an, Firewall bu porta gelen <strong>dış yanıtları geçirmeye izin verir!</strong> Yarış başlar.
+        </p>
+        <p style="margin: 0;">
+          <strong>3. IP Tespiti:</strong> Saldırganın Yetkili Sunucusu gelen sorgudan kurumsal Resolver'ın kamu IP adresini anında günlüğe kaydeder.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/43_source_port_randomization_defeats.html -->
+<!-- SLIDE 43: Source Port Randomization (SPR) & Vulnerabilities -->
+<section>
+  <h2><i class="fa-solid fa-lock-open highlight-yellow"></i> Savunma: Source Port Randomization (SPR) & Zafiyetler</h2>
+
+  <div class="grid-2" style="align-items: stretch; margin-top: 0.8rem;">
+    <!-- Left: SPR Mechanism -->
+    <div class="cyber-card secure">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">SPR MECHANISM</span> Kaynak Portu Rastgeleliği
+      </div>
+      <p style="font-size: 0.83em; color: var(--text-main); margin-bottom: 0.5rem;">
+        Sadece 16-bit TXID (65,536 olasılık) yetersiz olduğu için DNS çözücüler her özyinelemeli sorguda dışarıya giden <strong>UDP Kaynak Portunu rastgele belirler</strong>.
+      </p>
+      <div style="padding: 0.5rem; background: var(--htb-bg-terminal); border-radius: 4px; font-family: 'Fira Code', monospace; font-size: 0.78em; color: var(--htb-green);">
+        16-bit TXID + 16-bit Port = 32-bit Entropi (~4 Milyar Kombinasyon)
+      </div>
+    </div>
+
+    <!-- Right: Why SPR is Vulnerable in 2026 -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">2026 RISKS</span> SPR Neden Halen Zafiyet Barındırıyor?
+      </div>
+      <ul style="font-size: 0.8em; display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 0;">
+        <li><strong class="highlight-red">Gömülü Cihazlar & IoT:</strong> Eski uClibc kütüphaneleri kullanan kamera ve router stub-resolver'larında SPR bulunmaz.</li>
+        <li><strong class="highlight-red">Özel Yönlendiriciler:</strong> Performans için sabit port kullanan şirket içi proprietary forwarding yazılımları.</li>
+        <li><strong class="highlight-yellow">NAT "De-Randomization" (PAT):</strong> En yaygın neden! Güvenlik duvarı NAT/PAT kuralları dışarı çıkan tüm UDP 53 trafiğini tek veya sıralı sabit portlara dönüştürerek SPR korumasını yok eder.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/44_trap_reset_poison_cgnat.html -->
+<!-- SLIDE 44: TRAP; RESET; POISON (NAT Port Exhaustion Attack) -->
+<section>
+  <h2><i class="fa-solid fa-bomb highlight-red"></i> TRAP; RESET; POISON — CGNAT Port Tüketimi (Timo, 2023)</h2>
+  <p class="slide-subtitle" style="font-size: 0.95em; color: var(--text-main); margin-bottom: 0.8rem;">
+    Carrier-Grade NAT (CGNAPT) cihazlarını manipüle ederek <span class="highlight-red">32-bit SPR korumasını tekrar 16-bit'e düşürme</span> yöntemi.
+  </p>
+
+  <div class="grid-3" style="align-items: stretch;">
+    <!-- Step 1: TRAP -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">1. TRAP</span> Port Tablosunu Boğma
+      </div>
+      <p style="font-size: 0.8em; color: var(--text-main); margin-bottom: 0;">
+        Kullanıcı zararlı siteye çekilir. JS döngüsü ile 60,000 benzersiz alt alan adı istetilir. NAT tablosundaki tüm geçici (ephemeral) portlar kilitlenir ve geriye sadece ~10 tahmin edilebilir port bırakılır.
+      </p>
+    </div>
+
+    <!-- Step 2: RESET -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-yellow">2. RESET</span> Tetikleme Sorgusu
+      </div>
+      <p style="font-size: 0.8em; color: var(--text-main); margin-bottom: 0;">
+        NAT port tablosu tıkanmış durumdayken, hedef DNS Resolver yetkili sunucuya sorgu atmaya zorlanır. NAT cihazı zorunlu olarak bilinen çok dar bir port aralığından tahsis yapar.
+      </p>
+    </div>
+
+    <!-- Step 3: POISON -->
+    <div class="cyber-card secure">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">3. POISON</span> Kolaylaştırılmış Zehirleme
+      </div>
+      <p style="font-size: 0.8em; color: var(--text-main); margin-bottom: 0;">
+        Dış kaynak portu artık bilindiği / tahmin edilebildiği için 16-bitlik port entropisi elenir. Saldırgan sadece 16-bitlik TXID'yi tahmin ederek zehirli paketi enjekte eder!
+      </p>
+    </div>
+  </div>
+
+  <div style="margin-top: 0.8rem; padding: 0.5rem 0.8rem; background: var(--htb-bg-terminal); border-left: 4px solid var(--accent-cyan); border-radius: 4px; font-size: 0.78em; color: var(--text-main);">
+    <i class="fa-solid fa-circle-info highlight-cyan"></i> <strong>Önemli Ölümcül Kusur:</strong> İçerideki DNS sunucusu port 41000'i korusa bile, saldırgan NAT cihazının dışarıya açtığı 55000 portunu hedefler. NAT cihazı gelen paketi otomatik olarak iç sunucunun 41000 portuna yönlendirir!
+  </div>
+</section>
+
       <!-- Loaded from slides/summary.html -->
 <!-- SLIDE: Module Summary -->
 <section data-background-gradient="radial-gradient(circle, rgba(159,239,0,0.15) 0%, rgba(11,18,31,1) 100%)">

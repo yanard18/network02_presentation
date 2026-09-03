@@ -1,0 +1,39 @@
+<!-- SLIDE 42: Firewall Evasion & Starter Pistols -->
+<section>
+  <h2><i class="fa-solid fa-shield-virus highlight-red"></i> Güvenlik Duvarı Bypass & "Starter Pistols"</h2>
+
+  <div class="grid-2" style="align-items: stretch; margin-top: 0.8rem;">
+    <!-- Left: Starter Pistols Logic -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">STARTER PISTOLS</span> Başlatıcı Tetikleyiciler
+      </div>
+      <p style="font-size: 0.83em; color: var(--text-main); margin-bottom: 0.6rem;">
+        Kurumsal güvenlik duvarları dışarıdan gelen DNS isteklerini engeller. Saldırgan, iç ağdaki resolver'ı <strong>dışarıya sorgu atmaya zorlamak</strong> için tetikleyiciler kullanır:
+      </p>
+      <ul style="font-size: 0.8em; margin-bottom: 0; display: flex; flex-direction: column; gap: 0.3rem;">
+        <li><i class="fa-solid fa-globe highlight-cyan"></i> <strong>Web Tarayıcıları:</strong> Sitede gizli <code>&lt;img src="http://hello.attacker.com/a.jpg"&gt;</code> yükleme.</li>
+        <li><i class="fa-solid fa-envelope highlight-cyan"></i> <strong>E-posta Sunucuları:</strong> Saldırgan domaininden e-posta göndererek anti-spam DNS kontrolünü tetikleme.</li>
+        <li><i class="fa-solid fa-eye highlight-cyan"></i> <strong>IDS/IPS:</strong> Güvenlik sistemlerini manipüle ederek ters DNS (PTR) araması yaptırma.</li>
+      </ul>
+    </div>
+
+    <!-- Right: Firewall Hole Mechanism -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">FIREWALL HOLE</span> Güvenlik Duvarındaki Kapı
+      </div>
+      <div style="font-size: 0.82em; color: var(--text-main); display: flex; flex-direction: column; gap: 0.6rem;">
+        <p style="margin: 0;">
+          <strong>1. Tetikleme:</strong> İç ağdaki cihaz <code>hello.attacker.com</code> adresini çözmek için kurumsal Resolver'a başvurur.
+        </p>
+        <p style="margin: 0;">
+          <strong>2. Kapı Açılır:</strong> Resolver dışarıya UDP 53 isteği gönderdiği an, Firewall bu porta gelen <strong>dış yanıtları geçirmeye izin verir!</strong> Yarış başlar.
+        </p>
+        <p style="margin: 0;">
+          <strong>3. IP Tespiti:</strong> Saldırganın Yetkili Sunucusu gelen sorgudan kurumsal Resolver'ın kamu IP adresini anında günlüğe kaydeder.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,31 @@
+<!-- SLIDE 38e: Bypassing the TTL Lock (Delegation Attack) -->
+<section>
+  <h2><i class="fa-solid fa-sitemap highlight-htb"></i> TTL Kilitlenmesini Aşmak</h2>
+
+  <div style="max-width: 900px; margin: 1rem auto 0 auto; text-align: left;">
+    <p style="font-size: 1.05em; font-weight: 600; color: var(--text-white); margin-bottom: 0.8rem;">
+      <i class="fa-solid fa-circle-question highlight-yellow"></i> Asıl soru, 83.foo.com yarışını kazanan bir saldırganın, www.foo.com adresini de ele geçirmesi mümkün müdür?
+    </p>
+
+    <div style="font-size: 0.88em; line-height: 1.6; display: flex; flex-direction: column; gap: 0.5rem;">
+      <div style="color: var(--text-main);">
+        Doğru tahmin edilen TXID ile gönderilebilecek 3 olası yanıt vardır:
+        <ul style="margin-top: 0.4rem; display: flex; flex-direction: column; gap: 0.35rem; list-style: none; padding-left: 1rem;">
+          <li><span class="highlight-cyan">1)</span> <em>"İşte 83.foo.com için yanıtın: 6.6.6.6"</em></li>
+          <li><span class="highlight-cyan">2)</span> <em>"83.foo.com yanıtını bilmiyorum."</em></li>
+          <li>
+            <span class="highlight-htb">3)</span> <em>"83.foo.com mu? Bilmiyorum, git <span class="highlight-yellow">www.foo.com</span> sunucusuna sor, adresi: <span class="highlight-red">6.6.6.6</span>"</em>
+            <div style="margin-top: 0.5rem; padding-left: 1rem; color: var(--text-muted);">
+              <strong style="color: var(--text-main);">Bu çalışmak zorundadır — bu sadece başka bir yetkilendirmedir (delegation):</strong>
+              <ul style="margin-top: 0.3rem; display: flex; flex-direction: column; gap: 0.25rem; list-style: none; padding-left: 0.5rem;">
+                <li>• <strong>13 Root Sunucusu:</strong> <em>"83.foo.com mu? Bilmiyorum, git com sunucusuna sor (1.2.3.4)"</em></li>
+                <li>• <strong>Com Sunucusu:</strong> <em>"83.foo.com mu? Bilmiyorum, git foo.com sunucusuna sor (2.3.4.5)"</em></li>
+                <li>• <strong>Foo.com Sunucusu:</strong> <em>"83.foo.com mu? Bilmiyorum, git www.foo.com sunucusuna sor (6.6.6.6)"</em></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

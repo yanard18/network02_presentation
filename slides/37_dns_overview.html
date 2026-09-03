@@ -1,0 +1,35 @@
+<!-- SLIDE 37: DNS Protocol Dynamics & Recursion -->
+<section>
+  <h2><i class="fa-solid fa-server highlight-htb"></i> DNS Protokolü & Önbellek (Cache) Mantığı</h2>
+  <p class="slide-subtitle" style="text-align: center; margin-bottom: 0.8rem;">
+    Özyinelemeli Sorgu (Uncached) vs Önbellekten Yanıt (Cached)
+  </p>
+
+  <div class="grid-2" style="align-items: center; justify-content: center; gap: 1.2rem;">
+    <!-- Left: Uncached Response Diagram -->
+    <div style="text-align: center;">
+      <img src="media/dns-uncached-response.svg" alt="DNS Uncached Recursive Response" style="max-height: 330px; width: 100%; object-fit: contain; background: #ffffff; border-radius: 8px; padding: 8px 12px; box-sizing: border-box;">
+      <div style="font-size: 0.82em; color: var(--text-muted); margin-top: 0.4rem;">
+        <i class="fa-solid fa-diagram-project highlight-htb"></i> 1. Önbellekte Olmayan Sorgu (Uncached)
+      </div>
+    </div>
+
+    <!-- Right: Cached Response Diagram -->
+    <div style="text-align: center;">
+      <img src="media/dns_cached_response.svg" alt="DNS Cached Response" style="max-height: 330px; width: 100%; object-fit: contain; background: #ffffff; border-radius: 8px; padding: 8px 12px; box-sizing: border-box;">
+      <div style="font-size: 0.82em; color: var(--text-muted); margin-top: 0.4rem;">
+        <i class="fa-solid fa-bolt highlight-cyan"></i> 2. Önbellekten Hızlı Yanıt (Cached)
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Reminder Text -->
+  <div style="margin-top: 1rem; padding: 0.7rem 1.2rem; background: var(--htb-bg-card); border: 1px solid var(--htb-border); border-radius: 8px; font-size: 0.82em; color: var(--text-main); display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; text-align: left;">
+    <div>
+      <i class="fa-solid fa-arrows-rotate highlight-htb"></i> <strong>Recursive Resolve:</strong> Önbellekte kayıt yoksa Resolver sırasıyla Root, TLD ve Yetkili (Authoritative) sunucuları sorgulayarak tam çözme gerçekleştirir.
+    </div>
+    <div>
+      <i class="fa-solid fa-clock highlight-cyan"></i> <strong>TTL (Time to Live) Değeri:</strong> Kaydın önbellekte kaç saniye saklanacağını belirler. Süre dolana kadar sonraki tüm istekler anında önbellekten verilir.
+    </div>
+  </div>
+</section>

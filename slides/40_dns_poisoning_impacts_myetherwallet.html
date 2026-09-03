@@ -1,0 +1,37 @@
+<!-- SLIDE 40: Attack Impacts & Case Study -->
+<section>
+  <h2><i class="fa-solid fa-triangle-exclamation highlight-red"></i> DNS Hijacking Etkileri & Gerçek Vaka Analizi</h2>
+
+  <div class="grid-2" style="align-items: stretch; margin-top: 0.8rem;">
+    <!-- Left: Threat Vectors -->
+    <div class="cyber-card threat">
+      <div class="card-title">
+        <span class="cyber-badge badge-red">IMPACTS</span> DNS Zehirlemenin Sonuçları
+      </div>
+      <ul style="font-size: 0.82em; display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 0;">
+        <li><strong class="highlight-red">Phishing (Kimlik Avı):</strong> Gerçek domainlerin (örn: paypal.com) sahte sayfalara yönlendirilmesi.</li>
+        <li><strong class="highlight-red">Zararlı Yazılım Dağıtımı:</strong> Yazılım güncelleme sunucularının veya indirme sayfalarının değiştirilmesi.</li>
+        <li><strong class="highlight-red">MX Poisoning (E-posta Müdahalesi):</strong> MX kayıtları değiştirilerek gelen tüm e-postaların saldırgan sunucusundan geçirilmesi.</li>
+        <li><strong class="highlight-red">TLS/SSL Sertifika Bypass:</strong> Saldırganın yönlendirilen alan adı için geçerli TLS sertifikası alabilmesi.</li>
+      </ul>
+    </div>
+
+    <!-- Right: Real Incident Case Study -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-purple">CASE STUDY</span> MyEtherWallet Soygunu
+      </div>
+      <div style="font-size: 0.82em; color: var(--text-main); display: flex; flex-direction: column; gap: 0.5rem;">
+        <p style="margin: 0;">
+          <strong>Saldırı Senaryosu:</strong> Saldırganlar Amazon Route 53 DNS sunucularının BGP rotalarını hijack etti.
+        </p>
+        <p style="margin: 0;">
+          <strong>Gelişim:</strong> 2 saat boyunca <span class="highlight-cyan">MyEtherWallet</span> DNS istekleri Rusya'daki sahte bir sunucuya yönlendirildi.
+        </p>
+        <div style="padding: 0.6rem; background: rgba(255, 46, 99, 0.1); border-left: 3px solid var(--accent-red); border-radius: 4px;">
+          <strong class="highlight-red">Sonuç:</strong> Kullanıcıların özel anahtarları (Private Key) çalındı ve <span class="highlight-yellow">17 Milyon $</span> değerinde Kripto Para dakikalar içinde boşaltıldı.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
