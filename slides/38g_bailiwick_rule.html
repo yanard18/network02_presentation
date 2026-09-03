@@ -1,37 +1,52 @@
 <!-- SLIDE 38g: Bailiwick Rule -->
 <section>
-  <h2><i class="fa-solid fa-shield-cat highlight-yellow"></i> Bailiwick Kuralı</h2>
+  <h2><i class="fa-solid fa-shield-cat highlight-yellow"></i> Bailiwick Kuralı (DNS Yetki Sınırı)</h2>
   <p class="slide-subtitle">
-    DNS yetki sınırları (<span class="highlight-cyan">Bailiwick Rule</span>) ve Kaminsky saldırısındaki durumu.
+    DNS sunucularının alan adı sınırları (<span class="highlight-cyan">Bailiwick Rule</span>) ve Kaminsky'nin meşru bypass yöntemi.
   </p>
 
-  <div class="grid-2" style="align-items: stretch; gap: 1.4rem; margin-top: 0.8rem;">
+  <div class="grid-2" style="align-items: stretch; gap: 1.2rem; margin-top: 0.6rem;">
     <!-- Left Card: What is Bailiwick Rule -->
-    <div class="cyber-card secure">
-      <div class="card-title">
-        <span class="cyber-badge badge-cyan">BAILIWICK RULE</span> Yetki Sınırı Kuralları
+    <div class="cyber-card secure" style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title">
+          <span class="cyber-badge badge-cyan">BAILIWICK KURALI</span> Yetki Alanı Sınırı
+        </div>
+        <p style="font-size: 0.82em; color: var(--text-main); margin-bottom: 0.6rem; line-height: 1.5;">
+          Resolver'ların her sahte ek bilgiyi önbelleğe almasını önleyen güvenlik mekanizması:
+        </p>
+        <div style="padding: 0.55rem 0.7rem; background: rgba(0, 229, 255, 0.08); border-left: 3px solid var(--accent-cyan); border-radius: 4px; font-size: 0.8em; color: var(--text-main); margin-bottom: 0.6rem;">
+          <em>"Bir DNS yanıtındaki ek yetki kayıtları (NS/A), yalnızca <strong>sorgulanan alan adının hiyerarşik kapsamında</strong> ise kabul edilir."</em>
+        </div>
       </div>
-      <p style="font-size: 0.83em; color: var(--text-main); margin-bottom: 0.5rem;">
-        Resolver'ların her sahte ek bilgiyi önbelleğe almasını önlemek için getirilen kural: <em>"Yalnızca orijinal sorgu domain hiyerarşisine dahil olan ek kayıtlar kabul edilir."</em>
-      </p>
-      <ul style="font-size: 0.8em; margin-bottom: 0; color: var(--text-muted);">
-        <li>• <strong>Root sunucusu:</strong> Her domain hakkında yetki verebilir.</li>
-        <li>• <strong>.com sunucusu:</strong> Yalnızca <code>.com</code> ile biten domainleri verebilir.</li>
-        <li>• <strong>foo.com sunucusu:</strong> Yalnızca <code>.foo.com</code> kapsamını verebilir.</li>
+      <ul style="font-size: 0.78em; margin-bottom: 0; color: var(--text-muted); display: flex; flex-direction: column; gap: 0.35rem; list-style: none; padding-left: 0;">
+        <li><i class="fa-solid fa-check highlight-htb"></i> <strong>Root Sunucu:</strong> Tüm internet (<code>.</code>) hakkında yetki verebilir.</li>
+        <li><i class="fa-solid fa-check highlight-htb"></i> <strong>.com Sunucusu:</strong> Yalnızca <code>*.com</code> uzantılı domainleri verebilir.</li>
+        <li><i class="fa-solid fa-check highlight-htb"></i> <strong>foo.com Sunucusu:</strong> Yalnızca <code>*.foo.com</code> alt domainlerini verebilir.</li>
       </ul>
     </div>
 
-    <!-- Right Card: Why Bailiwick Failed for Kaminsky -->
-    <div class="cyber-card threat">
-      <div class="card-title">
-        <span class="cyber-badge badge-red">EXPLOIT BYPASS</span> Neden Kaminsky'i Engelleyemedi?
+    <!-- Right Card: Out-of-Bailiwick vs In-Bailiwick Comparison -->
+    <div style="display: flex; flex-direction: column; gap: 0.65rem;">
+      <!-- Blocked Case -->
+      <div class="cyber-card threat" style="padding: 0.75rem 0.9rem;">
+        <div class="card-title" style="font-size: 0.85em; margin-bottom: 0.35rem;">
+          <span class="cyber-badge badge-red"><i class="fa-solid fa-xmark"></i> OUT-OF-BAILIWICK</span> Engellenen Sıradan Saldırı
+        </div>
+        <div style="font-size: 0.78em; color: var(--text-main); line-height: 1.45;">
+          <strong>Sorgu:</strong> <code>83.foo.com</code> &nbsp;|&nbsp; <strong>Sahte Ekstra Bilgi:</strong> <code>google.com NS attacker.com</code><br>
+          <span class="highlight-red">🛑 Resolver Reddeder:</span> <em>"Ben sana foo.com sordum, google.com yetkisini değiştiremezsin!"</em>
+        </div>
       </div>
-      <div style="font-size: 0.83em; color: var(--text-main); display: flex; flex-direction: column; gap: 0.6rem;">
-        <p style="margin: 0;">
-          Saldırgan <code>83.foo.com</code> sorulduğunda <code>google.com</code> yetkisini değiştirmeye çalışsaydı, Bailiwick engellerdi (<span class="highlight-red">Out-of-Bailiwick</span>).
-        </p>
-        <div style="padding: 0.6rem; background: var(--htb-bg-terminal); border-left: 3px solid var(--accent-red); border-radius: 4px; font-size: 0.95em;">
-          Ancak <span class="highlight-cyan">83.foo.com</span> sorgusu doğrudan <span class="highlight-yellow">foo.com</span> ebeveyn domainine ait olduğu için (<span class="highlight-htb">In-Bailiwick</span>), Resolver <code>foo.com NS ns.attacker.com</code> enjeksiyonunu meşru kabul etmek <strong>ZORUNDADIR!</strong>
+
+      <!-- Kaminsky Bypass Case -->
+      <div class="cyber-card secure" style="padding: 0.75rem 0.9rem; border-color: var(--accent-htb);">
+        <div class="card-title" style="font-size: 0.85em; margin-bottom: 0.35rem;">
+          <span class="cyber-badge badge-htb"><i class="fa-solid fa-check"></i> IN-BAILIWICK</span> Kaminsky'nin Şah-Mat Hamlesi
+        </div>
+        <div style="font-size: 0.78em; color: var(--text-main); line-height: 1.45;">
+          <strong>Sorgu:</strong> <code>83.foo.com</code> &nbsp;|&nbsp; <strong>Sahte Ekstra Bilgi:</strong> <code>foo.com NS ns.attacker.com</code><br>
+          <span class="highlight-htb">✅ Resolver Kabul Eder:</span> <code>foo.com</code>, <code>83.foo.com</code>'un üst domaini olduğu için bu kayıt <strong>In-Bailiwick</strong>'tir. Resolver enjeksiyonu meşru kabul etmek <strong>ZORUNDADIR!</strong>
         </div>
       </div>
     </div>
