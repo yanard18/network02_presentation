@@ -76,9 +76,5 @@
   "42_dns_firewall_evasion_starter_pistols.html",
   "43_source_port_randomization_defeats.html",
   "44_trap_reset_poison_cgnat.html",
-  "45_network_hardening_title.html",
-  "46_macro_vs_micro_segmentation.html",
-  "47_microsegmentation_enforcement.html",
-  "48_why_microsegmentation_works.html",
   "summary.html"
 ]
