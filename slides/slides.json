@@ -2,7 +2,6 @@
   "title.html",
   "agenda.html",
   "01_what_is_nmap.html",
-  "02_why_nmap.html",
   "03_nmap_live_target.html",
   "04_nmap_responses.html",
   "04a_nmap_raw_packets.html",
@@ -11,7 +10,6 @@
   "04d_tcp_connect_scan.html",
   "04e_udp_scan_overview.html",
   "04f_udp_scan_challenges.html",
-  "04g_udp_scan_optimization.html",
   "04h_stealth_tcp_scans.html",
   "04i_stealth_tcp_responses.html",
   "04j_tcp_ack_scan.html",
@@ -76,5 +74,9 @@
   "42_dns_firewall_evasion_starter_pistols.html",
   "43_source_port_randomization_defeats.html",
   "44_trap_reset_poison_cgnat.html",
+  "44a_block3_network_hardening.html",
+  "44b_micro_segmentation.html",
+  "44c_key_concepts_microsegmentation.html",
+  "44d_what_is_a_workload.html",
   "summary.html"
 ]

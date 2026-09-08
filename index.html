@@ -125,52 +125,6 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
   </div>
 </section>
 
-      <!-- Loaded from slides/02_why_nmap.html -->
-<!-- SLIDE: Why We Need Nmap -->
-<section>
-  <h2><i class="fa-solid fa-shield-virus highlight-htb"></i> Nmap'e Neden İhtiyaç Duyarız?</h2>
-  <p class="slide-subtitle">
-    Ağ yönetimi, güvenlik denetimi ve tehdit savunmasında temel kullanım senaryoları.
-  </p>
-
-  <div class="grid-3">
-    <!-- Card 1: Network Inventory & Visibility -->
-    <div class="cyber-card">
-      <div class="card-title">
-        <span class="cyber-badge badge-htb">VISIBILITY</span> Ağ Envanteri
-      </div>
-      <ul>
-        <li>Bağlı tüm sistemleri ve aktif IP aralıklarını haritalandırır.</li>
-        <li>Yetkisiz veya kural dışı (rogue) cihazları anında tespit eder.</li>
-        <li>Servis çalışma süresini (uptime) ve ağ erişilebilirliğini izler.</li>
-      </ul>
-    </div>
-
-    <!-- Card 2: Security Auditing & Vulnerability Discovery -->
-    <div class="cyber-card threat">
-      <div class="card-title">
-        <span class="cyber-badge badge-red">AUDITING</span> Zafiyet Analizi
-      </div>
-      <ul class="threat-list">
-        <li>Açıkta kalan veya gereksiz açık portları ortaya çıkarır.</li>
-        <li>Yamalanmamış ve güncel olmayan servis sürümlerini işaretler.</li>
-        <li>Nmap Scripting Engine (NSE) ile zafiyet kontrollerini otomatikleştirir.</li>
-      </ul>
-    </div>
-
-    <!-- Card 3: Firewall & Defense Verification -->
-    <div class="cyber-card secure">
-      <div class="card-title">
-        <span class="cyber-badge badge-cyan">DEFENSE</span> Politika Doğrulama
-      </div>
-      <ul class="secure-list">
-        <li>Firewall filtrelemesini ve ACL verimliliğini test eder.</li>
-        <li>Ağ segmentasyonu kontrollerini doğrular.</li>
-        <li>Güvenlik standartlarına uyumluluğu sağlar.</li>
-      </ul>
-    </div>
-  </div>
-</section>
 
       <!-- Loaded from slides/03_nmap_live_target.html -->
 <!-- SLIDE: Nmap Basic Scan -->
@@ -624,74 +578,6 @@ nping --udp --traceroute -c 13 -p 54 target.htb</code></pre>
   </div>
 </section>
 
-      <!-- Loaded from slides/04g_udp_scan_optimization.html -->
-<!-- SLIDE: UDP Scan Speed & Optimization Tactics -->
-<section>
-  <h2><i class="fa-solid fa-gauge-high highlight-htb"></i> UDP Scan Optimization Tactics</h2>
-  <p class="slide-subtitle">
-    Overcoming UDP timeouts and ICMP rate limiting bottlenecks with targeted optimization flags.
-  </p>
-
-  <div class="grid-2" style="gap: 1.2rem;">
-    
-    <!-- Flag 1: Parallel Host Scans -->
-    <div class="cyber-card">
-      <div class="card-title">
-        <span class="cyber-badge badge-htb">PARALLELISM</span> <code style="color: var(--htb-green); font-size: 0.95em;">--min-hostgroup 100</code>
-      </div>
-      <p style="color: var(--text-muted); font-size: 0.88em; margin-bottom: 0.5rem;">
-        Increases parallel host group scanning sizes.
-      </p>
-      <ul style="margin-bottom: 0; font-size: 0.88em;">
-        <li>Scans 100 targets simultaneously rather than waiting sequentially.</li>
-        <li>Bypasses single-host ICMP rate limiting bottlenecks by distributing probes.</li>
-      </ul>
-    </div>
-
-    <!-- Flag 2: Probe Intensity -->
-    <div class="cyber-card">
-      <div class="card-title">
-        <span class="cyber-badge badge-cyan">FAST PROBES</span> <code style="color: var(--accent-cyan); font-size: 0.95em;">--version-intensity 0</code>
-      </div>
-      <p style="color: var(--text-muted); font-size: 0.88em; margin-bottom: 0.5rem;">
-        Restricts service probes during version scans (<code style="color: var(--htb-green);">-sV</code>).
-      </p>
-      <ul style="margin-bottom: 0; font-size: 0.88em;">
-        <li>Only fires the most likely, high-probability service probes (intensity scale 0 to 9).</li>
-        <li>Dramatically reduces scan duration while maintaining key service identification.</li>
-      </ul>
-    </div>
-
-    <!-- Flag 3: Host Timeout -->
-    <div class="cyber-card">
-      <div class="card-title">
-        <span class="cyber-badge badge-purple">TIMEOUT CONTROL</span> <code style="color: var(--accent-purple); font-size: 0.95em;">--host-timeout &lt;time&gt;</code>
-      </div>
-      <p style="color: var(--text-muted); font-size: 0.88em; margin-bottom: 0.5rem;">
-        Prevents single slow hosts from stalling entire scans.
-      </p>
-      <ul style="margin-bottom: 0; font-size: 0.88em;">
-        <li>Gives up on unresponsive targets after a set threshold (e.g., <code style="color: var(--accent-purple);">--host-timeout 30m</code>).</li>
-        <li>Frees up scanner bandwidth for remaining network targets.</li>
-      </ul>
-    </div>
-
-    <!-- Flag 4: Scan Verbosity & Progress -->
-    <div class="cyber-card">
-      <div class="card-title">
-        <span class="cyber-badge badge-yellow">REAL-TIME ETA</span> <code style="color: var(--accent-yellow); font-size: 0.95em;">-v</code> / <code style="color: var(--accent-yellow); font-size: 0.95em;">-v2</code>
-      </div>
-      <p style="color: var(--text-muted); font-size: 0.88em; margin-bottom: 0.5rem;">
-        Enables verbosity and scan progress tracking.
-      </p>
-      <ul style="margin-bottom: 0; font-size: 0.88em;">
-        <li>Prints real-time host status updates and completion ETAs.</li>
-        <li>Allows pressing <code style="color: var(--accent-yellow);">&lt;Space&gt;</code> during scans to inspect live completion percentage.</li>
-      </ul>
-    </div>
-
-  </div>
-</section>
 
       <!-- Loaded from slides/04h_stealth_tcp_scans.html -->
 <!-- SLIDE: TCP FIN, NULL, & Xmas Scans Overview -->
@@ -3322,6 +3208,79 @@ ADDITIONAL SECTION: (Glue Record)
   </div>
 </section>
 
+      <!-- Loaded from slides/44a_block3_network_hardening.html -->
+<!-- SLIDE 44a: Section Title - Block 3 Network Hardening -->
+<section data-background-gradient="radial-gradient(circle, rgba(159,239,0,0.12) 0%, rgba(11,18,31,1) 100%)">
+  <div style="text-align: center;">
+    <span class="cyber-badge badge-htb" style="margin-bottom: 1.5rem; font-size: 0.9rem;">
+      <i class="fa-solid fa-shield-halved"></i> BLOCK 3 // NETWORK HARDENING
+    </span>
+    <h1 style="font-size: 3.4em; margin-bottom: 0.4em;">Network <span class="htb-highlight">Hardening</span></h1>
+  </div>
+</section>
+
+      <!-- Loaded from slides/44b_micro_segmentation.html -->
+<!-- SLIDE 44b: Micro Segmentation -->
+<section>
+  <h2><i class="fa-solid fa-cubes highlight-htb"></i> Micro Segmentation</h2>
+
+  <div style="max-width: 900px; margin: 2.5rem auto 0 auto; text-align: center; font-size: 1.25em; line-height: 1.8;">
+    <blockquote style="background: transparent; border: none; font-style: italic; color: var(--text-main); margin: 0; padding: 0;">
+      "Microsegmentation refers to an approach to security that involves dividing a network into segments and applying security controls to each segment based on the segment’s requirements."
+    </blockquote>
+    <div style="margin-top: 1.5rem; font-size: 0.85em; font-family: var(--font-mono); color: var(--htb-green);">
+      <i class="fa-solid fa-quote-left"></i> Source: <strong>Palo Alto Networks</strong>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/44c_key_concepts_microsegmentation.html -->
+<!-- SLIDE 44c: Microsegmentation (continuation) -->
+<section>
+  <h2><i class="fa-solid fa-diagram-project highlight-htb"></i> Microsegmentation (continuation)</h2>
+
+  <div style="text-align: center; margin-top: 1.5rem;">
+    <img src="media/microsegmentation.webp" alt="Microsegmentation Diagram" style="max-height: 480px; width: auto; max-width: 100%; display: block; margin: 0 auto; border-radius: 8px; object-fit: contain;">
+  </div>
+</section>
+
+      <!-- Loaded from slides/44d_what_is_a_workload.html -->
+<!-- SLIDE 44d: What is a Workload? -->
+<section>
+  <h2><i class="fa-solid fa-server highlight-htb"></i> Workload Nedir?</h2>
+
+  <div style="max-width: 900px; margin: 2rem auto 0 auto; text-align: center; font-size: 1.2em; line-height: 1.8;">
+    <p style="color: var(--text-main); margin-bottom: 2rem;">
+      Workload, bir uygulamayı çalıştırmak için gereken tüm kaynak ve süreçlerin genel tanımıdır.
+    </p>
+
+    <div class="grid-3" style="margin-top: 1.5rem;">
+      <div class="cyber-card" style="text-align: center; padding: 1.2rem;">
+        <div style="font-size: 2em; color: var(--htb-green); margin-bottom: 0.5rem;">
+          <i class="fa-solid fa-desktop"></i>
+        </div>
+        <div style="font-family: var(--font-mono); font-weight: bold; color: var(--text-main);">Hosts</div>
+        <p style="font-size: 0.82em; color: var(--text-muted); margin-top: 0.3rem; margin-bottom: 0;">Fiziksel bare-metal server sistemleri</p>
+      </div>
+
+      <div class="cyber-card" style="text-align: center; padding: 1.2rem;">
+        <div style="font-size: 2em; color: var(--accent-cyan); margin-bottom: 0.5rem;">
+          <i class="fa-solid fa-server"></i>
+        </div>
+        <div style="font-family: var(--font-mono); font-weight: bold; color: var(--text-main);">Virtual Machines</div>
+        <p style="font-size: 0.82em; color: var(--text-muted); margin-top: 0.3rem; margin-bottom: 0;">Hypervisor üzerinde çalışan VM örnekleri</p>
+      </div>
+
+      <div class="cyber-card" style="text-align: center; padding: 1.2rem;">
+        <div style="font-size: 2em; color: var(--accent-purple); margin-bottom: 0.5rem;">
+          <i class="fa-solid fa-box-archive"></i>
+        </div>
+        <div style="font-family: var(--font-mono); font-weight: bold; color: var(--text-main);">Containers</div>
+        <p style="font-size: 0.82em; color: var(--text-muted); margin-top: 0.3rem; margin-bottom: 0;">Docker ve K8s pod katmanları</p>
+      </div>
+    </div>
+  </div>
+</section>
 
       <!-- Loaded from slides/summary.html -->
 <!-- SLIDE: Module Summary -->
