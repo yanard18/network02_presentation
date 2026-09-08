@@ -1,35 +1,46 @@
-<!-- SLIDE 15: Telnet Threats & IoT Botnets -->
+<!-- SLIDE 15: Mirai Botnet -->
 <section>
-  <h2><i class="fa-solid fa-bug highlight-red"></i> Insecure Design & IoT Botnets</h2>
+  <h2><i class="fa-solid fa-bug highlight-red"></i> Mirai Botnet</h2>
   <p class="slide-subtitle">
-    Unencrypted traffic makes Telnet a prime target for credential sniffing and botnet hijacking.
+    Linux tabanlı IoT cihazlarını hedef alan ve tarihin en yıkıcı DDoS saldırılarını gerçekleştiren zararlı yazılım.
   </p>
 
-  <div class="grid-2">
-    <!-- Card 1: Security Weaknesses -->
-    <div class="cyber-card threat">
-      <div class="card-title">
-        <span class="cyber-badge badge-red">PROTOCOL RISKS</span> Severe Flaws
+  <div class="grid-3" style="align-items: stretch; gap: 1.2rem;">
+    <!-- Card 1: Overview & Discovery -->
+    <div class="cyber-card threat" style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title">
+          <span class="cyber-badge badge-red">OVERVIEW</span> Genel Tanım & Keşif
+        </div>
+        <ul class="threat-list" style="font-size: 0.85em;">
+          <li><strong>Tanım:</strong> Linux çalıştıran IP kameralar ve ev router'larını uzaktan kontrol edilen botlara dönüştürür.</li>
+          <li><strong>Köken & İsim:</strong> İsmini Japonca "gelecek" (未来) kelimesinden ve <em>Mirai Nikki</em> animesinden alır.</li>
+          <li><strong>Keşif (Ağustos 2016):</strong> <em>MalwareMustDie</em> grubu tarafından tespit edildi.</li>
+          <li><strong>Açık Kaynak Kod:</strong> Hack Forums sızıntısı sonrası diğer malware projelerine uyarlandı.</li>
+        </ul>
       </div>
-      <ul class="threat-list">
-        <li><strong>Plaintext Traffic:</strong> Unencrypted passwords, keystrokes, & CLI outputs.</li>
-        <li><strong>Easy Sniffing:</strong> Intercepted via Wireshark or <code style="color: var(--accent-red);">tcpdump</code>.</li>
-        <li><strong>No Server Identity:</strong> Lacks digital certificates or host verification.</li>
-        <li><strong>MitM Risk:</strong> Susceptible to ARP spoofing & credential harvesting.</li>
-      </ul>
     </div>
 
-    <!-- Card 2: Mirai Botnet -->
-    <div class="cyber-card threat">
-      <div class="card-title">
-        <span class="cyber-badge badge-red">BOTNET VECTOR</span> Mirai Exploitation
+    <!-- Card 2: Historic Attacks -->
+    <div class="cyber-card threat" style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title">
+          <span class="cyber-badge badge-red">ATTACKS</span> Tarihi Saldırılar
+        </div>
+        <ul class="threat-list" style="font-size: 0.85em;">
+          <li><strong>İlk Kullanım:</strong> Minecraft sunucuları ve koruma firmalarına saldırıldı.</li>
+          <li><strong>KrebsOnSecurity & OVH (Eylül 2016):</strong> Rekor ölçekte DDoS saldırıları düzenlendi.</li>
+          <li><strong>Dyn Saldırısı (Ekim 2016):</strong> DNS sağlayıcısı Dyn felç edilerek Twitter, Netflix ve Reddit erişilemez kılındı.</li>
+        </ul>
       </div>
-      <ul class="threat-list">
-        <li><strong>IoT Exposure:</strong> Active by default on IP cameras, routers, & DVRs.</li>
-        <li><strong>Default Creds:</strong> Weak factory logins (<code style="color: var(--accent-red);">admin/admin</code>, <code style="color: var(--accent-red);">root/123456</code>).</li>
-        <li><strong>Mirai Botnet:</strong> Scans <span class="highlight-red">TCP/23 & 2323</span> to brute-force & infect devices.</li>
-        <li><strong>DDoS Impact:</strong> Recruited millions of IoT nodes for record terabit attacks.</li>
-      </ul>
+    </div>
+
+    <!-- Direct Image Display -->
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: 100%;">
+      <img src="media/mirai_nikki.jpg" alt="Mirai Nikki" style="width: 100%; height: auto; max-height: 320px; object-fit: contain; border-radius: 8px; display: block;" />
+      <p style="font-size: 0.78em; color: var(--text-muted); margin-top: 0.6rem;">
+        <i class="fa-solid fa-film highlight-cyan"></i> <em>Mirai Nikki</em> (2011)
+      </p>
     </div>
   </div>
 </section>

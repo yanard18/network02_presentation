@@ -2,7 +2,7 @@
 <section>
   <h2><i class="fa-solid fa-layer-group highlight-htb"></i> SNMP Protocol Evolution</h2>
   <p class="slide-subtitle">
-    Security & capability differences across protocol generations.
+    Protokol jenerasyonları arasındaki güvenlik ve yetenek farkları.
   </p>
 
   <div class="grid-3">
@@ -12,10 +12,10 @@
         <span class="cyber-badge badge-red">LEGACY</span> SNMPv1
       </div>
       <ul class="threat-list">
-        <li><strong>Auth:</strong> Plaintext <span class="highlight-red">Community Strings</span>.</li>
-        <li><strong>Encryption:</strong> <span class="highlight-red">None</span> (cleartext payload).</li>
-        <li><strong>Features:</strong> Basic <code style="color: var(--htb-green);">GET</code>/<code style="color: var(--htb-green);">SET</code> (32-bit counters).</li>
-        <li><strong>Risk:</strong> Vulnerable to network sniffing.</li>
+        <li><strong>Auth:</strong> Plaintext <span class="highlight-red">Community String</span>'ler.</li>
+        <li><strong>Encryption:</strong> <span class="highlight-red">Yok</span> (cleartext payload).</li>
+        <li><strong>Features:</strong> Temel <code style="color: var(--htb-green);">GET</code>/<code style="color: var(--htb-green);">SET</code> (32-bit counter'lar).</li>
+        <li><strong>Risk:</strong> Network sniffing saldırılarına karşı savunmasız.</li>
       </ul>
     </div>
 
@@ -26,9 +26,9 @@
       </div>
       <ul>
         <li><strong>Auth:</strong> Community-based (<code style="color: var(--accent-yellow);">v2c</code>).</li>
-        <li><strong>Encryption:</strong> <span class="highlight-red">None</span> (plain text strings).</li>
-        <li><strong>Features:</strong> Added <code style="color: var(--htb-green);">GETBULK</code> & 64-bit counters.</li>
-        <li><strong>Status:</strong> Prevalent in internal LANs.</li>
+        <li><strong>Encryption:</strong> <span class="highlight-red">Yok</span> (plain text string'ler).</li>
+        <li><strong>Features:</strong> <code style="color: var(--htb-green);">GETBULK</code> desteği ve 64-bit counter'lar eklendi.</li>
+        <li><strong>Status:</strong> İç LAN ağlarında oldukça yaygın.</li>
       </ul>
     </div>
 
@@ -38,10 +38,10 @@
         <span class="cyber-badge badge-htb">HARDENED</span> SNMPv3
       </div>
       <ul class="secure-list">
-        <li><strong>Auth:</strong> Cryptographic USM (MD5/SHA).</li>
-        <li><strong>Encryption:</strong> Full payload <span class="highlight-htb">AES</span> / DES.</li>
-        <li><strong>Control:</strong> Granular VACM OID scoping.</li>
-        <li><strong>Status:</strong> Modern enterprise standard.</li>
+        <li><strong>Auth:</strong> Kriptografik USM (MD5/SHA).</li>
+        <li><strong>Encryption:</strong> Tam payload şifrelemesi (<span class="highlight-htb">AES</span> / DES).</li>
+        <li><strong>Control:</strong> Detaylı VACM OID kapsamlama.</li>
+        <li><strong>Status:</strong> Modern kurumsal standart.</li>
       </ul>
     </div>
   </div>

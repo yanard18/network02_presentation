@@ -36,6 +36,7 @@
   "19_snmp_versions.html",
   "21_snmp_enumeration.html",
   "22_ftp_overview.html",
+  "22a0_ftp_use_cases.html",
   "22a_ftp_architecture.html",
   "23_ftp_active_mode.html",
   "23a_ftp_passive_mode.html",
@@ -49,7 +50,6 @@
   "27_arp_cache_poisoning.html",
   "29_arp_brainstorm_impacts.html",
   "30_arp_limitations.html",
-  "31_arp_tryhackme_lab.html",
   "32_dhcp_overview.html",
   "32a_dhcp_wireshark.html",
   "33_dhcp_attacks_overview.html",
@@ -59,6 +59,7 @@
   "35_dhcp_rogue_server.html",
   "35a_dhcp_rogue_server_img.html",
   "36_dhcp_snooping.html",
+  "36_dns_cache_poisoning_title.html",
   "36a_dns_intro.html",
   "37_dns_overview.html",
   "38_dns_cache_poisoning_theory.html",
@@ -75,5 +76,9 @@
   "42_dns_firewall_evasion_starter_pistols.html",
   "43_source_port_randomization_defeats.html",
   "44_trap_reset_poison_cgnat.html",
+  "45_network_hardening_title.html",
+  "46_macro_vs_micro_segmentation.html",
+  "47_microsegmentation_enforcement.html",
+  "48_why_microsegmentation_works.html",
   "summary.html"
 ]

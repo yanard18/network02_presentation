@@ -1,0 +1,52 @@
+<!-- SLIDE 47: Microsegmentation Enforcement Approaches -->
+<section>
+  <h2><i class="fa-solid fa-sliders highlight-htb"></i> Micro Segmentation: Kural Uygulama Yaklaşımları</h2>
+  <p class="slide-subtitle">
+    Güvenlik sınırlarını tek bir çevre firewall'undan doğrudan iş yüklerine indiren 3 temel yöntem.
+  </p>
+
+  <div class="grid-3">
+    <!-- Card 1: Agent-Based -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">HOST LEVEL</span> Agent-Based
+      </div>
+      <p style="margin-bottom: 0.6rem; color: var(--text-muted); font-size: 0.88em;">
+        İş yükü üzerine yüklenen yazılım ajanı ile izolasyon.
+      </p>
+      <ul style="font-size: 0.85em;">
+        <li>Her host ve container üzerine hafif bir yazılım agent'ı kurulur.</li>
+        <li>İzolasyon ve erişim kuralları doğrudan işletim sistemi / süreç seviyesinde uygulanır.</li>
+        <li>Ağ altyapısından bağımsız olarak yüksek hassasiyette güvenlik sağlar.</li>
+      </ul>
+    </div>
+
+    <!-- Card 2: Network-Based -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-cyan">INFRASTRUCTURE</span> Network-Based
+      </div>
+      <p style="margin-bottom: 0.6rem; color: var(--text-muted); font-size: 0.88em;">
+        Ağ katmanında ve sanallaştırma altyapısında denetim.
+      </p>
+      <ul style="font-size: 0.85em;">
+        <li>Denetim hypervisor virtual switch'leri, load balancer'lar veya SDN controller katmanında gerçekleşir.</li>
+        <li>Paketler ağ hattında ilerlerken denetlenir ve engellenir. Korunan server sistemlerine hiçbir şey kurulmaz.</li>
+      </ul>
+    </div>
+
+    <!-- Card 3: Native Cloud Controls -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-purple">CLOUD NATIVE</span> Native Cloud Controls
+      </div>
+      <p style="margin-bottom: 0.6rem; color: var(--text-muted); font-size: 0.88em;">
+        Bulut sağlayıcılarının yerleşik güvenlik mekanizmaları.
+      </p>
+      <ul style="font-size: 0.85em;">
+        <li>AWS Security Groups veya Azure Network Security Groups (NSG) gibi yerleşik özellikler kullanılır.</li>
+        <li>İzolasyon sınırları bulut sağlayıcısının alt yapı dokusu (cloud fabric) tarafından yönetilir.</li>
+      </ul>
+    </div>
+  </div>
+</section>

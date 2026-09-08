@@ -1,0 +1,32 @@
+<!-- SLIDE 16b: SNMP Communication Principles -->
+<section>
+  <h2><i class="fa-solid fa-diagram-project highlight-htb"></i> SNMP İletişim Prensipleri</h2>
+
+  <div class="grid-2" style="align-items: center; gap: 2rem;">
+    <!-- Left Column: Plain Text Description -->
+    <div style="display: flex; flex-direction: column; gap: 1.5rem; font-size: 1.1rem; line-height: 1.7; color: var(--text-main); text-align: left;">
+      <div>
+        <h3 style="color: var(--htb-green); font-size: 1.25rem; margin-bottom: 0.4rem;">
+          <i class="fa-solid fa-server"></i> UDP Port 161 (Polling & Commands)
+        </h3>
+        <p style="margin: 0;">
+          SNMP packet'ları <strong>monitoring data</strong> taşır ve <strong>UDP port 161</strong> üzerinden <strong>agent</strong>'lara yönetim komutları iletir.
+        </p>
+      </div>
+
+      <div>
+        <h3 style="color: var(--accent-cyan); font-size: 1.25rem; margin-bottom: 0.4rem;">
+          <i class="fa-solid fa-bell"></i> UDP Port 162 (Traps & Notifications)
+        </h3>
+        <p style="margin: 0;">
+          Opsiyonel olarak <strong>UDP port 162</strong> üzerinden <strong>trap</strong> mekanizmasını kullanır. Cihazlarda bir <strong>event</strong> meydana geldiğinde, SNMP bu <strong>notification</strong> verilerini <strong>client</strong> cihazlara anında iletir.
+        </p>
+      </div>
+    </div>
+
+    <!-- Right Column: Diagram Image -->
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+      <img src="media/SNMP_communication_principles_diagram.PNG" alt="SNMP Communication Principles Diagram" style="width: 100%; max-height: 320px; object-fit: contain; border-radius: 8px; display: block;" />
+    </div>
+  </div>
+</section>

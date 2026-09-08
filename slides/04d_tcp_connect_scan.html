@@ -15,7 +15,7 @@
         </div>
         <ul style="margin-bottom: 0.6rem;">
           <li><strong>Full Handshake:</strong> Completes the complete TCP 3-way handshake (<code style="color: var(--htb-green);">SYN</code> &rarr; <code style="color: var(--htb-green);">SYN-ACK</code> &rarr; <code style="color: var(--htb-green);">ACK</code>).</li>
-          <li><strong>Unprivileged Execution:</strong> Used automatically when raw packets are unavailable (running Nmap without <code style="color: var(--htb-green);">sudo</code>) or scanning IPv6 networks.</li>
+          <li><strong>Unprivileged Execution:</strong> Used automatically when raw packets are unavailable (running Nmap without <code style="color: var(--htb-green);">sudo</code>).</li>
           <li><strong>Berkeley Sockets API:</strong> Issues standard OS system calls (<code style="color: var(--accent-cyan);">connect()</code>), identical to web browsers.</li>
         </ul>
       </div>
@@ -26,7 +26,6 @@
         </div>
         <ul class="threat-list" style="margin-bottom: 0;">
           <li><strong>Application Logging:</strong> Because a full TCP session is established, target applications are highly likely to log the connection event.</li>
-          <li><strong>IDS / IPS Detection:</strong> Intrusion Detection Systems easily detect both SYN and Connect scans due to high-rate connection attempts.</li>
         </ul>
       </div>
     </div>

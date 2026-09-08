@@ -2,7 +2,7 @@
 <section>
   <h2><i class="fa-solid fa-code highlight-htb"></i> Protocol Signaling: TELNET Commands & IAC</h2>
   <p class="slide-subtitle">
-    In-band session negotiation using the Interpret As Command (IAC) byte prefix.
+    TELNET komutları, bağlantıyı yapılandırmak için kullanılır ve kullanıcıya hissettirilmeden çalışır.
   </p>
 
   <div class="grid-2">
@@ -12,10 +12,10 @@
         <span class="cyber-badge badge-htb">IN-BAND SIGNALING</span> The IAC Prefix
       </div>
       <ul>
-        <li><strong>Shared Data Channel:</strong> Commands share the active terminal byte stream.</li>
-        <li><strong>IAC Prefix:</strong> Escaped by <span class="highlight-htb">IAC</span> byte (decimal <code style="color: var(--htb-green);">255</code> / hex <code style="color: var(--htb-green);">0xFF</code>).</li>
-        <li><strong>User Transparency:</strong> Intercepted silently without rendering control characters.</li>
-        <li><strong>Option Negotiation:</strong> Dynamic handshake for echo, terminal type, & window size.</li>
+        <li><strong>Shared Data Channel:</strong> Komutlar, aktif terminal byte stream'ini paylaşır.</li>
+        <li><strong>IAC Prefix:</strong> <span class="highlight-htb">IAC</span> byte'ı (decimal <code style="color: var(--htb-green);">255</code> / hex <code style="color: var(--htb-green);">0xFF</code>) ile başlatılır.</li>
+        <li><strong>User Transparency:</strong> Control character'ları ekrana yansıtılmadan sessizce yakalanır ve işlenir.</li>
+        <li><strong>Option Negotiation:</strong> Echo, terminal type ve window size için dinamik handshake sağlar.</li>
       </ul>
     </div>
 

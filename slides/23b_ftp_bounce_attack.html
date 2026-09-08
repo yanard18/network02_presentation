@@ -2,7 +2,7 @@
 <section>
   <h2><i class="fa-solid fa-user-ninja highlight-htb"></i> FTP Bounce Attack</h2>
   <p class="slide-subtitle">
-    Abusing FTP PORT commands to proxy malicious traffic through vulnerable FTP servers.
+    Zararlı trafiği proxy etmek için FTP PORT komutunun zafiyetli FTP server yapıları üzerinde kötüye kullanılması.
   </p>
 
   <div class="grid-2" style="align-items: center;">
@@ -12,9 +12,9 @@
         <span class="cyber-badge badge-red">PROTOCOL ABUSE</span> Indirect Proxying
       </div>
       <ul>
-        <li><strong>Vector:</strong> Attacker issues <code style="color: var(--htb-green);">PORT</code> command instructing FTP server to connect to a third-party target.</li>
-        <li><strong>Impact:</strong> Bypasses internal firewalls, masks attacker IP, and enables internal port scanning.</li>
-        <li><strong>Mitigation:</strong> Disable proxying in daemon config & enforce passive mode only.</li>
+        <li><strong>Saldırı Vektörü:</strong> Saldırgan, FTP server sistemini üçüncü taraf bir hedefe bağlanmaya yönlendiren <code style="color: var(--htb-green);">PORT</code> komutunu gönderir.</li>
+        <li><strong>Etki:</strong> İç firewall sistemlerini aşar, saldırgan IP adresini gizler ve dahili port scanning yapılmasını sağlar.</li>
+        <li><strong>Önlem:</strong> Daemon konfigürasyonunda proxying engellenmeli ve yalnızca passive mode zorunlu kılınmalıdır.</li>
       </ul>
     </div>
 
@@ -24,7 +24,7 @@
         <img src="media/ftp_bounce_attack.png" alt="FTP Bounce Attack" style="max-height: 350px; width: 100%; display: block; object-fit: contain;">
       </div>
       <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">
-        <i class="fa-solid fa-bug highlight-red"></i> <strong>Bounce Relay:</strong> Intermediate FTP server relays commands to victim host.
+        <i class="fa-solid fa-bug highlight-red"></i> <strong>Bounce Relay:</strong> Aracı FTP server, komutları kurban host sistemine aktarır.
       </div>
     </div>
   </div>

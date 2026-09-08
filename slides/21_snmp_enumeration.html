@@ -2,7 +2,7 @@
 <section>
   <h2><i class="fa-solid fa-magnifying-glass-location highlight-htb"></i> Active Reconnaissance: SNMP Enumeration</h2>
   <p class="slide-subtitle">
-    Querying target SNMP agents using <code style="color: var(--htb-green);">snmpwalk</code> to extract system telemetry.
+    Sistem telemetrisini elde etmek için <code style="color: var(--htb-green);">snmpwalk</code> kullanarak hedef SNMP agent'larını query etme.
   </p>
 
   <div class="grid-2">
@@ -22,7 +22,7 @@ IF-MIB::ifDescr.1 = STRING: eth0
 IF-MIB::ifDescr.2 = STRING: eth1 (Internal 10.10.10.0/24)</code></pre>
       <div style="background: var(--htb-bg-card); border: 1px solid var(--htb-border); border-radius: 6px; padding: 0.5rem 0.7rem; margin-top: 0.4rem; text-align: left;">
         <span style="font-size: 0.78em; color: var(--text-muted);">
-          <i class="fa-solid fa-server highlight-htb"></i> <strong>Recon Role:</strong> When running <code style="color: var(--htb-green);">snmpwalk</code>, your host acts as the <strong>SNMP Manager</strong> querying the target <strong>Agent</strong>.
+          <i class="fa-solid fa-server highlight-htb"></i> <strong>Recon Rolü:</strong> <code style="color: var(--htb-green);">snmpwalk</code> çalıştırırken host'unuz, hedef <strong>Agent</strong>'ı query eden <strong>SNMP Manager</strong> olarak hareket eder.
         </span>
       </div>
     </div>
@@ -30,14 +30,14 @@ IF-MIB::ifDescr.2 = STRING: eth1 (Internal 10.10.10.0/24)</code></pre>
     <!-- Card: High-Value Discovery OIDs -->
     <div class="cyber-card">
       <div class="card-title">
-        <span class="cyber-badge badge-htb">RECON CHECKLIST</span> High-Value Discovery OIDs
+        <span class="cyber-badge badge-htb">RECON KONTROL LİSTESİ</span> Yüksek Değerli Discovery OID'leri
       </div>
       <ul>
-        <li><strong>System Info:</strong> <code style="color: var(--htb-green);">sysDescr</code> &rarr; OS distribution & kernel version.</li>
-        <li><strong>Admin Contacts:</strong> <code style="color: var(--htb-green);">sysContact</code> / <code style="color: var(--htb-green);">sysName</code> &rarr; Admin emails & hostnames.</li>
-        <li><strong>Interfaces:</strong> <code style="color: var(--htb-green);">ifDescr</code> / <code style="color: var(--htb-green);">ifPhysAddress</code> &rarr; Maps internal NICs & subnets.</li>
-        <li><strong>Processes & Software:</strong> <code style="color: var(--htb-green);">hrSWRunName</code> &rarr; Active daemons & packages.</li>
-        <li><strong>Routing Tables:</strong> <code style="color: var(--htb-green);">ipRouteDest</code> &rarr; Internal network topology.</li>
+        <li><strong>Sistem Bilgisi:</strong> <code style="color: var(--htb-green);">sysDescr</code> &rarr; OS dağıtımı ve kernel versiyonu.</li>
+        <li><strong>Admin Kontakları:</strong> <code style="color: var(--htb-green);">sysContact</code> / <code style="color: var(--htb-green);">sysName</code> &rarr; Admin e-postaları ve hostname'ler.</li>
+        <li><strong>Interface'ler:</strong> <code style="color: var(--htb-green);">ifDescr</code> / <code style="color: var(--htb-green);">ifPhysAddress</code> &rarr; Dahili NIC'leri ve subnet'leri haritalandırır.</li>
+        <li><strong>Süreçler & Yazılım:</strong> <code style="color: var(--htb-green);">hrSWRunName</code> &rarr; Aktif daemon'lar ve paketler.</li>
+        <li><strong>Routing Tabloları:</strong> <code style="color: var(--htb-green);">ipRouteDest</code> &rarr; Dahili network topolojisi.</li>
       </ul>
     </div>
   </div>

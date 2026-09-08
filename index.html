@@ -32,9 +32,9 @@
     </h3>
     
     <div style="display: flex; justify-content: center; gap: 1.8rem; font-family: var(--font-mono); font-size: 0.95rem;">
-      <span class="cyber-badge badge-htb"><i class="fa-solid fa-network-wired"></i> Ağ Temelleri & Protokoller</span>
-      <span class="cyber-badge badge-red"><i class="fa-solid fa-bug"></i> Zafiyetler & Saldırılar</span>
-      <span class="cyber-badge badge-purple"><i class="fa-solid fa-lock"></i> Savunma & Sertleştirme</span>
+      <span class="cyber-badge badge-htb"><i class="fa-solid fa-network-wired"></i> Network Discovery</span>
+      <span class="cyber-badge badge-red"><i class="fa-solid fa-bug"></i> Network Attacks</span>
+      <span class="cyber-badge badge-purple"><i class="fa-solid fa-lock"></i> Hardening</span>
     </div>
   </div>
 </section>
@@ -42,7 +42,7 @@
       <!-- Loaded from slides/agenda.html -->
 <!-- SLIDE 2: Presentation Roadmap / Agenda -->
 <section>
-  <h2><i class="fa-solid fa-list-check highlight-htb"></i> Presentation Roadmap & Agenda</h2>
+  <h2><i class="fa-solid fa-list-check highlight-htb"></i> Sunum Yol Haritasi</h2>
   <p class="slide-subtitle">
     This presentation is structured into 3 core logical blocks:
   </p>
@@ -55,16 +55,19 @@
         <li><strong>Topic 1.1:</strong> What is Nmap?</li>
         <li><strong>Topic 1.2:</strong> Why We Need Nmap</li>
         <li><strong>Topic 1.3:</strong> Scan Types & Techniques</li>
+        <li><strong>Topic 1.4:</strong> Masscan</li>
       </ul>
     </div>
 
     <!-- BLOCK 2 -->
     <div class="cyber-card">
-      <div class="card-title"><span class="cyber-badge badge-cyan">BLOCK 2</span> Vulnerabilities & Attacks</div>
+      <div class="card-title"><span class="cyber-badge badge-cyan">BLOCK 2</span> Network Attacks</div>
       <ul style="margin-bottom: 0;">
-        <li><strong>Topic 2.1:</strong> Port Exploitation</li>
-        <li><strong>Topic 2.2:</strong> Service Misconfigurations</li>
-        <li><strong>Topic 2.3:</strong> Protocol Weaknesses</li>
+        <li><strong>Topic 2.1:</strong> ARP Poison</li>
+        <li><strong>Topic 2.2:</strong> DHCP Attacks</li>
+        <li><strong>Topic 2.3:</strong> DNS Cache Poison</li>
+        <li><strong>Topic 2.4:</strong> VLAN Hopping</li>
+        <li><strong>Topic 2.5:</strong> Vulnerable Services</li>
       </ul>
     </div>
 
@@ -72,9 +75,7 @@
     <div class="cyber-card">
       <div class="card-title"><span class="cyber-badge badge-purple">BLOCK 3</span> Defense & Hardening</div>
       <ul style="margin-bottom: 0;">
-        <li><strong>Topic 3.1:</strong> Firewall Rules & IDS/IPS</li>
-        <li><strong>Topic 3.2:</strong> Port Hardening</li>
-        <li><strong>Topic 3.3:</strong> Best Practices & Mitigation</li>
+        <li><strong>Topic 3.1:</strong> Microsegmentation</li>
       </ul>
     </div>
   </div>
@@ -138,9 +139,6 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
       <div class="card-title">
         <span class="cyber-badge badge-htb">VISIBILITY</span> Ağ Envanteri
       </div>
-      <p style="margin-bottom: 0.6rem; color: var(--text-muted); font-size: 0.9em;">
-        Eksiksiz ağ farkındalığı ve kontrolü sağlar.
-      </p>
       <ul>
         <li>Bağlı tüm sistemleri ve aktif IP aralıklarını haritalandırır.</li>
         <li>Yetkisiz veya kural dışı (rogue) cihazları anında tespit eder.</li>
@@ -153,9 +151,6 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
       <div class="card-title">
         <span class="cyber-badge badge-red">AUDITING</span> Zafiyet Analizi
       </div>
-      <p style="margin-bottom: 0.6rem; color: var(--text-muted); font-size: 0.9em;">
-        Saldırganlardan önce potansiyel saldırı yüzeylerini belirler.
-      </p>
       <ul class="threat-list">
         <li>Açıkta kalan veya gereksiz açık portları ortaya çıkarır.</li>
         <li>Yamalanmamış ve güncel olmayan servis sürümlerini işaretler.</li>
@@ -168,9 +163,6 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
       <div class="card-title">
         <span class="cyber-badge badge-cyan">DEFENSE</span> Politika Doğrulama
       </div>
-      <p style="margin-bottom: 0.6rem; color: var(--text-muted); font-size: 0.9em;">
-        Güvenlik kontrollerini ve erişim kurallarını doğrular.
-      </p>
       <ul class="secure-list">
         <li>Firewall filtrelemesini ve ACL verimliliğini test eder.</li>
         <li>Ağ segmentasyonu kontrollerini doğrular.</li>
@@ -387,8 +379,7 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
           <span class="cyber-badge badge-cyan">RETRANSMISSION</span> Ağ Üzerinde Yeniden Deneme
         </div>
         <ul>
-          <li><strong>Yavaş Ağlar ve Yeniden Denemeler:</strong> Hedef veya ağ yavaş/filtrelenmiş olduğunda, TCP vazgeçmeden önce birden fazla <code style="color: var(--htb-green);">SYN</code> paketi gönderir.</li>
-          <li><strong>Prob Yeniden Denemesi:</strong> Filtrelenmiş NetBIOS portu <code style="color: var(--htb-green);">139</code> üzerindeki SYN tarama örneğinde problar tekrar gönderilir.</li>
+          <li><strong>Retransmission:</strong> Hedef veya ağ yavaş/filtrelenmiş olduğunda, TCP vazgeçmeden önce birden fazla <code style="color: var(--htb-green);">SYN</code> paketi gönderir.</li>
         </ul>
       </div>
     </div>
@@ -439,7 +430,7 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
         </div>
         <ul style="margin-bottom: 0.6rem;">
           <li><strong>Full Handshake:</strong> Completes the complete TCP 3-way handshake (<code style="color: var(--htb-green);">SYN</code> &rarr; <code style="color: var(--htb-green);">SYN-ACK</code> &rarr; <code style="color: var(--htb-green);">ACK</code>).</li>
-          <li><strong>Unprivileged Execution:</strong> Used automatically when raw packets are unavailable (running Nmap without <code style="color: var(--htb-green);">sudo</code>) or scanning IPv6 networks.</li>
+          <li><strong>Unprivileged Execution:</strong> Used automatically when raw packets are unavailable (running Nmap without <code style="color: var(--htb-green);">sudo</code>).</li>
           <li><strong>Berkeley Sockets API:</strong> Issues standard OS system calls (<code style="color: var(--accent-cyan);">connect()</code>), identical to web browsers.</li>
         </ul>
       </div>
@@ -450,7 +441,6 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
         </div>
         <ul class="threat-list" style="margin-bottom: 0;">
           <li><strong>Application Logging:</strong> Because a full TCP session is established, target applications are highly likely to log the connection event.</li>
-          <li><strong>IDS / IPS Detection:</strong> Intrusion Detection Systems easily detect both SYN and Connect scans due to high-rate connection attempts.</li>
         </ul>
       </div>
     </div>
@@ -1381,55 +1371,14 @@ sudo nmap 10.10.11.20 --script http-enum,smb-os-discovery</code></pre>
 <!-- SLIDE 10: Introduction to Masscan -->
 <section>
   <h2><i class="fa-solid fa-gauge-simple-high highlight-htb"></i> Introduction to Masscan</h2>
-  <p class="slide-subtitle">
-    The fastest Internet-scale port scanner: scanning the entire IPv4 Internet in under 6 minutes.
-  </p>
 
-  <div class="grid-2" style="align-items: stretch; gap: 1.4rem;">
-    
-    <!-- Left Column: The Scale Problem & Need -->
-    <div style="display: flex; flex-direction: column; gap: 1rem;">
-      <div class="cyber-card threat">
-        <div class="card-title">
-          <span class="cyber-badge badge-red">THE SCALE PROBLEM</span> Why Nmap Struggles at Scale
-        </div>
-        <ul class="threat-list" style="margin-bottom: 0.5rem;">
-          <li><strong>Nmap Bottlenecks:</strong> Nmap relies on synchronous tracking and OS kernel socket stacks. Scanning large subnets (<code style="color: var(--accent-red);">/16</code> or <code style="color: var(--accent-red);">/8</code>) takes days or weeks.</li>
-          <li><strong>Resource Limits:</strong> OS network stacks overhead caps packet rates and causes memory limits when scanning millions of targets simultaneously.</li>
-        </ul>
-      </div>
-
-      <div class="cyber-card secure">
-        <div class="card-title">
-          <span class="cyber-badge badge-htb">MASSCAN SOLUTION</span> Custom Asynchronous Engine
-        </div>
-        <ul class="secure-list" style="margin-bottom: 0;">
-          <li><strong>10 Million pps:</strong> Capable of transmitting 10,000,000 packets per second (`10 Mpps`).</li>
-          <li><strong>Internet-Wide Scanning:</strong> Scans the entire IPv4 address space (<code style="color: var(--htb-green);">0.0.0.0/0</code>) for open ports in under 6 minutes.</li>
-        </ul>
-      </div>
+  <div style="max-width: 900px; margin: 3rem auto 0 auto; text-align: center;">
+    <div style="margin-bottom: 1.5rem;">
+      <span class="cyber-badge badge-htb" style="font-size: 1rem; padding: 0.4rem 0.8rem;">INTERNET-SCALE SCANNER</span>
     </div>
-
-    <!-- Right Column: Architecture & Features -->
-    <div class="cyber-card" style="display: flex; flex-direction: column; justify-content: space-between;">
-      <div>
-        <div class="card-title">
-          <span class="cyber-badge badge-cyan">ARCHITECTURE</span> How Masscan Achieves Speed
-        </div>
-        
-        <ul style="margin-bottom: 0.8rem; font-size: 0.9em;">
-          <li><strong>Custom TCP/IP Stack:</strong> Bypasses the OS kernel networking stack completely using raw socket drivers (<code style="color: var(--accent-cyan);">PF_RING</code> / <code style="color: var(--accent-cyan);">libpcap</code>).</li>
-          <li><strong>Asynchronous Transmit/Receive:</strong> Transmits raw SYN probes continuously on a dedicated thread without waiting for replies. Responses are handled independently by a receiver thread.</li>
-          <li><strong>Lockless Ring Buffers:</strong> Eliminates thread lock contention and memory allocation bottlenecks.</li>
-        </ul>
-      </div>
-
-      <!-- Key Highlight Banner -->
-      <div style="padding: 0.65rem 0.9rem; background: rgba(45, 226, 230, 0.1); border-left: 3px solid var(--accent-cyan); border-radius: 4px; font-size: 0.84em; color: var(--text-main);">
-        <i class="fa-solid fa-bolt highlight-cyan"></i> <strong>Masscan Syntax:</strong> Designed intentionally with Nmap-like CLI options for instant familiarity.
-      </div>
-    </div>
-
+    <p style="font-size: 1.4rem; line-height: 1.8; color: var(--text-main); margin: 0;">
+      Masscan, <strong>Internet-scale</strong> bir <strong>port scanner</strong>'dır. Tek bir makineden saniyede 10 milyon paket ileterek tüm Internet'i 5 dakikadan kısa bir sürede tarayabilir.
+    </p>
   </div>
 </section>
 
@@ -1437,101 +1386,59 @@ sudo nmap 10.10.11.20 --script http-enum,smb-os-discovery</code></pre>
 <!-- SLIDE 11: Nmap vs Masscan Comparison -->
 <section>
   <h2><i class="fa-solid fa-scale-balanced highlight-htb"></i> Nmap vs. Masscan Comparison</h2>
-  <p class="slide-subtitle">
-    Architectural differences, feature tradeoffs, and the optimal combined reconnaissance workflow.
+
+  <!-- Description Text -->
+  <p style="font-size: 1.05rem; line-height: 1.7; color: var(--text-main); margin-bottom: 1.8rem; text-align: center;">
+    Masscan, kendi <strong>custom TCP stack</strong>'ini kullandığı için bağlantıları işlemek üzere <strong>operating system</strong>'i beklemez. Paketleri <strong>asynchronously</strong> göndererek tüm <strong>internet</strong>'i altı dakikadan kısa bir sürede tarayabilir; ancak bu hıza ulaşmak için analitik derinliğin (<strong>analytical depth</strong>) neredeyse tamamını feda eder.
   </p>
 
-  <div class="grid-2" style="align-items: stretch; gap: 1.4rem;">
+  <!-- Comparison Table -->
+  <div class="cyber-card" style="padding: 1.2rem 1.5rem;">
+    <div class="card-title" style="margin-bottom: 1rem;">
+      <span class="cyber-badge badge-htb">FEATURE MATRIX</span> Nmap vs. Masscan
+    </div>
     
-    <!-- Left Column: Feature Comparison Table -->
-    <div class="cyber-card" style="display: flex; flex-direction: column; justify-content: space-between;">
-      <div>
-        <div class="card-title">
-          <span class="cyber-badge badge-htb">ARCHITECTURAL DIFFERENCES</span> Feature Matrix
-        </div>
-        
-        <table style="width: 100%; border-collapse: collapse; font-size: 0.8em; margin-top: 0.5rem; color: var(--text-main);">
-          <thead>
-            <tr style="border-bottom: 2px solid var(--htb-border); text-align: left;">
-              <th style="padding: 6px 8px; color: var(--text-white); font-family: var(--font-heading);">Feature</th>
-              <th style="padding: 6px 8px; color: var(--accent-cyan); font-family: var(--font-heading);">Nmap</th>
-              <th style="padding: 6px 8px; color: var(--htb-green); font-family: var(--font-heading);">Masscan</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
-              <td style="padding: 7px 8px;"><strong>Architecture</strong></td>
-              <td style="padding: 7px 8px;">Synchronous / OS Sockets</td>
-              <td style="padding: 7px 8px;">Asynchronous Raw Stack</td>
-            </tr>
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
-              <td style="padding: 7px 8px;"><strong>Max Scan Rate</strong></td>
-              <td style="padding: 7px 8px;">~1k – 10k pps</td>
-              <td style="padding: 7px 8px; color: var(--htb-green); font-weight: 700;">Up to 10M pps</td>
-            </tr>
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
-              <td style="padding: 7px 8px;"><strong>Primary Purpose</strong></td>
-              <td style="padding: 7px 8px;">Deep auditing & fingerprinting</td>
-              <td style="padding: 7px 8px;">Rapid internet-scale discovery</td>
-            </tr>
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
-              <td style="padding: 7px 8px;"><strong>Service Detection</strong></td>
-              <td style="padding: 7px 8px; color: var(--htb-green); font-weight: 700;">Full Engine (<code style="color: var(--htb-green);">-sV</code>)</td>
-              <td style="padding: 7px 8px;">Basic Banners (<code style="color: var(--accent-cyan);">--banners</code>)</td>
-            </tr>
-            <tr>
-              <td style="padding: 7px 8px;"><strong>Scripting & OS</strong></td>
-              <td style="padding: 7px 8px;">NSE Scripts & OS Detection</td>
-              <td style="padding: 7px 8px;">None (Port discovery only)</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div style="margin-top: 0.8rem; font-size: 0.8em; color: var(--text-muted); padding: 0.45rem 0.75rem; background: rgba(7, 14, 27, 0.6); border-radius: 4px;">
-        <i class="fa-solid fa-circle-info highlight-cyan"></i> Masscan trades script depth for raw speed; Nmap trades speed for exhaustive analytical depth.
-      </div>
-    </div>
-
-    <!-- Right Column: Optimal Recce Workflow -->
-    <div style="display: flex; flex-direction: column; gap: 1rem;">
-      <div class="cyber-card secure">
-        <div class="card-title">
-          <span class="cyber-badge badge-htb">BEST PRACTICE</span> Hybrid Reconnaissance Workflow
-        </div>
-        <p style="font-size: 0.88em; color: var(--text-muted); margin-bottom: 0.6rem;">
-          Combine both tools for maximum efficiency when auditing large enterprise networks:
-        </p>
-
-        <div style="display: flex; flex-direction: column; gap: 0.7rem; font-size: 0.86em;">
-          <div style="border-left: 3px solid var(--htb-green); padding-left: 0.8rem;">
-            <strong style="color: var(--htb-green);">Phase 1: Rapid Masscan Enumeration</strong>
-            <div style="color: var(--text-main);">Run Masscan at high rate across large CIDR blocks (<code style="color: var(--htb-green);">/16</code>) to instantly identify live hosts & open ports.</div>
-          </div>
-          <div style="border-left: 3px solid var(--accent-cyan); padding-left: 0.8rem;">
-            <strong style="color: var(--accent-cyan);">Phase 2: Targeted Nmap Auditing</strong>
-            <div style="color: var(--text-main);">Feed Masscan open IP/port output directly into Nmap (<code style="color: var(--accent-cyan);">nmap -iL targets.txt -sV -sC</code>) for deep vulnerability analysis.</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Command Pipe Example -->
-      <div>
-        <div class="terminal-header" style="padding: 0.35rem 0.8rem;">
-          <span class="terminal-dot dot-red"></span>
-          <span class="terminal-dot dot-yellow"></span>
-          <span class="terminal-dot dot-green"></span>
-          <span class="terminal-title">Phase 1 & Phase 2 Recon Workflow</span>
-        </div>
-        <pre style="margin: 0;"><code class="language-bash" style="padding: 0.75rem 1rem; font-size: 0.78em;"># Step 1: Rapid discovery with Masscan
-masscan -p80,443,8080 10.0.0.0/16 --rate 50000 -oG masscan.gnmap
-
-# Step 2: Feed discovered hosts into Nmap
-nmap -iL live_targets.txt -sV -sC -oA target_audit</code></pre>
-      </div>
-
-    </div>
-
+    <table style="width: 100%; border-collapse: collapse; font-size: 0.88em; color: var(--text-main);">
+      <thead>
+        <tr style="border-bottom: 2px solid var(--htb-border); text-align: left;">
+          <th style="padding: 10px 12px; color: var(--text-white); font-family: var(--font-heading);">Feature</th>
+          <th style="padding: 10px 12px; color: var(--htb-green); font-family: var(--font-heading);">Masscan</th>
+          <th style="padding: 10px 12px; color: var(--accent-cyan); font-family: var(--font-heading);">Nmap</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+          <td style="padding: 10px 12px;"><strong>Architecture</strong></td>
+          <td style="padding: 10px 12px;">Custom TCP stack (Stateless)</td>
+          <td style="padding: 10px 12px;">OS Network Stack (Stateful)</td>
+        </tr>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+          <td style="padding: 10px 12px;"><strong>Speed / Scale</strong></td>
+          <td style="padding: 10px 12px;">Extreme (Internet-scale, millions of IPs)</td>
+          <td style="padding: 10px 12px;">Moderate (Subnets, targeted hosts)</td>
+        </tr>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+          <td style="padding: 10px 12px;"><strong>OS Fingerprinting</strong></td>
+          <td style="padding: 10px 12px;">No</td>
+          <td style="padding: 10px 12px;">Yes (-O)</td>
+        </tr>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+          <td style="padding: 10px 12px;"><strong>Service Detection</strong></td>
+          <td style="padding: 10px 12px;">Basic banner grabbing only</td>
+          <td style="padding: 10px 12px;">Deep protocol probing (-sV)</td>
+        </tr>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+          <td style="padding: 10px 12px;"><strong>Scripting Engine</strong></td>
+          <td style="padding: 10px 12px;">None</td>
+          <td style="padding: 10px 12px;">Yes (NSE scripts for vulns/auth)</td>
+        </tr>
+        <tr>
+          <td style="padding: 10px 12px;"><strong>Network Impact</strong></td>
+          <td style="padding: 10px 12px; color: var(--accent-red);">Very High (Can crash network hardware)</td>
+          <td style="padding: 10px 12px; color: var(--htb-green);">Controlled (Dynamically adjusts timing)</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </section>
 
@@ -1556,16 +1463,6 @@ nmap -iL live_targets.txt -sV -sC -oA target_audit</code></pre>
           <li><code style="color: var(--accent-cyan);">--banners</code> Enables TCP banner grabbing (grabs HTTP Server headers, SSH version strings, etc.).</li>
           <li><code style="color: var(--accent-purple);">--exclude &lt;ip&gt;</code> Excludes sensitive IP addresses or subnets from the scan range.</li>
           <li><code style="color: var(--accent-yellow);">-oJ &lt;filename&gt;</code> Saves scan results in structured JSON format for automated parsing.</li>
-        </ul>
-      </div>
-
-      <div class="cyber-card threat">
-        <div class="card-title">
-          <span class="cyber-badge badge-red">RATE TUNING PITFALL</span> Bandwidth Oversaturation Risk
-        </div>
-        <ul class="threat-list" style="margin-bottom: 0; font-size: 0.86em;">
-          <li><strong>Local Router Saturation:</strong> Setting <code style="color: var(--accent-red);">--rate</code> higher than your local connection or ISP uplink can handle causes dropped packets.</li>
-          <li><strong>False Negatives:</strong> Dropped incoming <code style="color: var(--htb-green);">SYN-ACK</code> packets lead to missed open ports. Always benchmark bandwidth before setting rates over <code style="color: var(--accent-red);">100,000 pps</code>.</li>
         </ul>
       </div>
     </div>
@@ -1602,6 +1499,32 @@ sudo masscan 10.0.0.0/8 -p80 --excludefile exclude.txt --rate 50000</code></pre>
 
     </div>
 
+  </div>
+</section>
+
+      <!-- Loaded from slides/12a_when_to_use_masscan.html -->
+<!-- SLIDE 12a: When to Use Masscan -->
+<section>
+  <h2><i class="fa-solid fa-circle-question highlight-htb"></i> When to Use Masscan?</h2>
+
+  <div style="max-width: 900px; margin: 3rem auto 0 auto; text-align: center;">
+    <div style="margin-bottom: 1.8rem;">
+      <span class="cyber-badge badge-htb" style="font-size: 1rem; padding: 0.4rem 0.8rem;">INTERNET-SCALE DISCOVERY</span>
+    </div>
+    <p style="font-size: 1.35rem; line-height: 1.8; color: var(--text-main); margin: 0;">
+      Masscan, tek bir makine üzerinde derinlemesine <strong>enumeration</strong> yapmak yerine, geniş <strong>network ranges</strong> üzerinde kapsamlı bir <strong>initial discovery</strong> yürütmeniz gerektiğinde kullanılmalıdır. Diğer araçların gerektirdiği sürenin çok küçük bir kısmında, yüzlerce veya binlerce <strong>IP address</strong> genelinde açık portları (<strong>open ports</strong>) tespit etmek üzere tasarlanmıştır.
+    </p>
+  </div>
+</section>
+
+      <!-- Loaded from slides/13b_zafiyetli_network_protokolleri.html -->
+<!-- SLIDE: Section Title - Zafiyetli Network Protokolleri -->
+<section data-background-gradient="radial-gradient(circle, rgba(159,239,0,0.12) 0%, rgba(11,18,31,1) 100%)">
+  <div style="text-align: center;">
+    <span class="cyber-badge badge-red" style="margin-bottom: 1.5rem; font-size: 0.9rem;">
+      <i class="fa-solid fa-bug"></i> BLOCK 2 // NETWORK ATTACKS
+    </span>
+    <h1 style="font-size: 3.4em; margin-bottom: 0.4em;">Network <span class="htb-highlight">Attacks</span></h1>
   </div>
 </section>
 
@@ -1649,6 +1572,49 @@ uid=1000(admin) gid=1000(admin)</code></pre>
   </div>
 </section>
 
+      <!-- Loaded from slides/14_0_why_telnet.html -->
+<!-- SLIDE 14_0: Why Telnet Was Needed & What It Solved -->
+<section>
+  <h2><i class="fa-solid fa-circle-question highlight-htb"></i> Telnet: Neden İhtiyaç Duyuldu ve Neyi Çözdü?</h2>
+
+  <div style="display: flex; flex-direction: column; gap: 1.8rem; text-align: left; font-size: 1.15rem; line-height: 1.7; max-width: 950px; margin: 2rem auto 0 auto; color: var(--text-main);">
+    
+    <!-- Section 1 -->
+    <div>
+      <h3 style="color: var(--accent-red); font-size: 1.4rem; margin-bottom: 0.6rem;">
+        <i class="fa-solid fa-triangle-exclamation"></i> 1. Telnet Öncesindeki Problem
+      </h3>
+      <ul style="margin-left: 1.5rem; margin-bottom: 0;">
+        <li style="margin-bottom: 0.5rem;">
+          <strong>Fiziksel Yakınlık Zorunluluğu:</strong> CLI console erişimi için cihazların yanındaki dedicated terminallerde oturmak gerekiyordu.
+        </li>
+        <li>
+          <strong>Standart Eksikliği:</strong> Farklı üreticilerin (IBM, DEC, Unix) uyumsuz terminal standartları nedeniyle ortak uzaktan yönetim yoktu.
+        </li>
+      </ul>
+    </div>
+
+    <!-- Section 2 -->
+    <div>
+      <h3 style="color: var(--htb-green); font-size: 1.4rem; margin-bottom: 0.6rem;">
+        <i class="fa-solid fa-circle-check"></i> 2. Telnet Neyi Çözdü?
+      </h3>
+      <ol style="margin-left: 1.5rem; margin-bottom: 0;">
+        <li style="margin-bottom: 0.6rem;">
+          <strong>Evrensel Remote Access (NVT):</strong> RFC 854 standartlarıyla donanım ve OS bağımsız ortak iletişim sağladı.
+        </li>
+        <li style="margin-bottom: 0.6rem;">
+          <strong>TCP/IP ile Remote Administration:</strong> Fiziksel erişim olmadan uzaktaki sunucularda log in olma, komut çalıştırma ve yönetim imkanı sundu.
+        </li>
+        <li>
+          <strong>Resource Sharing:</strong> Merkezi mainframe'lerdeki pahalı işlem gücünün uzaktan paylaşılmasını sağladı.
+        </li>
+      </ol>
+    </div>
+
+  </div>
+</section>
+
       <!-- Loaded from slides/14a_telnet_authentication.html -->
 <!-- SLIDE 14a: Telnet Authentication Architecture -->
 <section>
@@ -1657,7 +1623,7 @@ uid=1000(admin) gid=1000(admin)</code></pre>
     How Telnet delegates user authentication to the host operating system.
   </p>
 
-  <div class="grid-2">
+  <div style="max-width: 800px; margin: 0 auto;">
     <!-- Card 1: Protocol Limitation -->
     <div class="cyber-card threat">
       <div class="card-title">
@@ -1670,50 +1636,6 @@ uid=1000(admin) gid=1000(admin)</code></pre>
         <li><strong>OS Delegation:</strong> <code style="color: var(--htb-green);">telnetd</code> hands off login prompt directly to host <code style="color: var(--accent-cyan);">'/bin/login'</code>.</li>
       </ul>
     </div>
-
-    <!-- Card 2: Execution Flow -->
-    <div class="cyber-card">
-      <div class="card-title">
-        <span class="cyber-badge badge-cyan">EXECUTION FLOW</span> Telnet Session Lifecycle
-      </div>
-
-      <div class="diagram-box-cyan" style="padding: 1rem; text-align: left; margin-top: 0.4rem; background: var(--htb-bg-terminal); border: 1px solid var(--accent-cyan); border-radius: 8px;">
-        <!-- Step 1 -->
-        <div style="display: flex; align-items: center; margin-bottom: 0.65rem; gap: 0.8rem; background: rgba(255, 255, 255, 0.04); padding: 0.5rem 0.8rem; border-radius: 6px; border-left: 3px solid var(--htb-green);">
-          <span style="background: var(--htb-green); color: var(--htb-bg-dark); font-weight: 700; font-family: var(--font-mono); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85em; flex-shrink: 0;">1</span>
-          <div style="font-size: 0.85em; line-height: 1.3; color: var(--text-main);">
-            <strong style="color: var(--text-white);">TCP Connect:</strong> 3-way handshake to <span class="highlight-htb">TCP/23</span>.
-          </div>
-        </div>
-
-        <!-- Step 2 -->
-        <div style="display: flex; align-items: center; margin-bottom: 0.65rem; gap: 0.8rem; background: rgba(255, 255, 255, 0.04); padding: 0.5rem 0.8rem; border-radius: 6px; border-left: 3px solid var(--accent-cyan);">
-          <span style="background: var(--accent-cyan); color: var(--htb-bg-dark); font-weight: 700; font-family: var(--font-mono); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85em; flex-shrink: 0;">2</span>
-          <div style="font-size: 0.85em; line-height: 1.3; color: var(--text-main);">
-            <strong style="color: var(--text-white);">PTY Allocation:</strong> Server <code style="color: var(--htb-green);">telnetd</code> spawns virtual terminal.
-          </div>
-        </div>
-
-        <!-- Step 3 -->
-        <div style="display: flex; align-items: center; margin-bottom: 0.65rem; gap: 0.8rem; background: rgba(255, 255, 255, 0.04); padding: 0.5rem 0.8rem; border-radius: 6px; border-left: 3px solid var(--accent-purple);">
-          <span style="background: var(--accent-purple); color: var(--text-white); font-weight: 700; font-family: var(--font-mono); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85em; flex-shrink: 0;">3</span>
-          <div style="font-size: 0.85em; line-height: 1.3; color: var(--text-main);">
-            <strong style="color: var(--text-white);">OS Handoff:</strong> Invokes host <code style="color: var(--accent-cyan);">'/bin/login'</code> process.
-          </div>
-        </div>
-
-        <!-- Step 4 -->
-        <div style="display: flex; align-items: center; gap: 0.8rem; background: rgba(255, 255, 255, 0.04); padding: 0.5rem 0.8rem; border-radius: 6px; border-left: 3px solid var(--accent-red);">
-          <span style="background: var(--accent-red); color: var(--text-white); font-weight: 700; font-family: var(--font-mono); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85em; flex-shrink: 0;">4</span>
-          <div style="font-size: 0.85em; line-height: 1.3; color: var(--text-main);">
-            <strong style="color: var(--text-white);">Cleartext Auth:</strong> User creds passed unencrypted to OS PAM.
-          </div>
-        </div>
-      </div>
-      <p style="font-size: 0.8em; color: var(--text-muted); text-align: center; margin-top: 0.5rem; margin-bottom: 0;">
-        <i class="fa-solid fa-triangle-exclamation highlight-yellow"></i> Authentication occurs outside the protocol payload scope.
-      </p>
-    </div>
   </div>
 </section>
 
@@ -1722,7 +1644,7 @@ uid=1000(admin) gid=1000(admin)</code></pre>
 <section>
   <h2><i class="fa-solid fa-code highlight-htb"></i> Protocol Signaling: TELNET Commands & IAC</h2>
   <p class="slide-subtitle">
-    In-band session negotiation using the Interpret As Command (IAC) byte prefix.
+    TELNET komutları, bağlantıyı yapılandırmak için kullanılır ve kullanıcıya hissettirilmeden çalışır.
   </p>
 
   <div class="grid-2">
@@ -1732,10 +1654,10 @@ uid=1000(admin) gid=1000(admin)</code></pre>
         <span class="cyber-badge badge-htb">IN-BAND SIGNALING</span> The IAC Prefix
       </div>
       <ul>
-        <li><strong>Shared Data Channel:</strong> Commands share the active terminal byte stream.</li>
-        <li><strong>IAC Prefix:</strong> Escaped by <span class="highlight-htb">IAC</span> byte (decimal <code style="color: var(--htb-green);">255</code> / hex <code style="color: var(--htb-green);">0xFF</code>).</li>
-        <li><strong>User Transparency:</strong> Intercepted silently without rendering control characters.</li>
-        <li><strong>Option Negotiation:</strong> Dynamic handshake for echo, terminal type, & window size.</li>
+        <li><strong>Shared Data Channel:</strong> Komutlar, aktif terminal byte stream'ini paylaşır.</li>
+        <li><strong>IAC Prefix:</strong> <span class="highlight-htb">IAC</span> byte'ı (decimal <code style="color: var(--htb-green);">255</code> / hex <code style="color: var(--htb-green);">0xFF</code>) ile başlatılır.</li>
+        <li><strong>User Transparency:</strong> Control character'ları ekrana yansıtılmadan sessizce yakalanır ve işlenir.</li>
+        <li><strong>Option Negotiation:</strong> Echo, terminal type ve window size için dinamik handshake sağlar.</li>
       </ul>
     </div>
 
@@ -1767,38 +1689,49 @@ IAC (255) + WILL (251) + ECHO (1) --> \xff\xfb\x01</code></pre>
 </section>
 
       <!-- Loaded from slides/15_telnet_threats_botnets.html -->
-<!-- SLIDE 15: Telnet Threats & IoT Botnets -->
+<!-- SLIDE 15: Mirai Botnet -->
 <section>
-  <h2><i class="fa-solid fa-bug highlight-red"></i> Insecure Design & IoT Botnets</h2>
+  <h2><i class="fa-solid fa-bug highlight-red"></i> Mirai Botnet</h2>
   <p class="slide-subtitle">
-    Unencrypted traffic makes Telnet a prime target for credential sniffing and botnet hijacking.
+    Linux tabanlı IoT cihazlarını hedef alan ve tarihin en yıkıcı DDoS saldırılarını gerçekleştiren zararlı yazılım.
   </p>
 
-  <div class="grid-2">
-    <!-- Card 1: Security Weaknesses -->
-    <div class="cyber-card threat">
-      <div class="card-title">
-        <span class="cyber-badge badge-red">PROTOCOL RISKS</span> Severe Flaws
+  <div class="grid-3" style="align-items: stretch; gap: 1.2rem;">
+    <!-- Card 1: Overview & Discovery -->
+    <div class="cyber-card threat" style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title">
+          <span class="cyber-badge badge-red">OVERVIEW</span> Genel Tanım & Keşif
+        </div>
+        <ul class="threat-list" style="font-size: 0.85em;">
+          <li><strong>Tanım:</strong> Linux çalıştıran IP kameralar ve ev router'larını uzaktan kontrol edilen botlara dönüştürür.</li>
+          <li><strong>Köken & İsim:</strong> İsmini Japonca "gelecek" (未来) kelimesinden ve <em>Mirai Nikki</em> animesinden alır.</li>
+          <li><strong>Keşif (Ağustos 2016):</strong> <em>MalwareMustDie</em> grubu tarafından tespit edildi.</li>
+          <li><strong>Açık Kaynak Kod:</strong> Hack Forums sızıntısı sonrası diğer malware projelerine uyarlandı.</li>
+        </ul>
       </div>
-      <ul class="threat-list">
-        <li><strong>Plaintext Traffic:</strong> Unencrypted passwords, keystrokes, & CLI outputs.</li>
-        <li><strong>Easy Sniffing:</strong> Intercepted via Wireshark or <code style="color: var(--accent-red);">tcpdump</code>.</li>
-        <li><strong>No Server Identity:</strong> Lacks digital certificates or host verification.</li>
-        <li><strong>MitM Risk:</strong> Susceptible to ARP spoofing & credential harvesting.</li>
-      </ul>
     </div>
 
-    <!-- Card 2: Mirai Botnet -->
-    <div class="cyber-card threat">
-      <div class="card-title">
-        <span class="cyber-badge badge-red">BOTNET VECTOR</span> Mirai Exploitation
+    <!-- Card 2: Historic Attacks -->
+    <div class="cyber-card threat" style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title">
+          <span class="cyber-badge badge-red">ATTACKS</span> Tarihi Saldırılar
+        </div>
+        <ul class="threat-list" style="font-size: 0.85em;">
+          <li><strong>İlk Kullanım:</strong> Minecraft sunucuları ve koruma firmalarına saldırıldı.</li>
+          <li><strong>KrebsOnSecurity & OVH (Eylül 2016):</strong> Rekor ölçekte DDoS saldırıları düzenlendi.</li>
+          <li><strong>Dyn Saldırısı (Ekim 2016):</strong> DNS sağlayıcısı Dyn felç edilerek Twitter, Netflix ve Reddit erişilemez kılındı.</li>
+        </ul>
       </div>
-      <ul class="threat-list">
-        <li><strong>IoT Exposure:</strong> Active by default on IP cameras, routers, & DVRs.</li>
-        <li><strong>Default Creds:</strong> Weak factory logins (<code style="color: var(--accent-red);">admin/admin</code>, <code style="color: var(--accent-red);">root/123456</code>).</li>
-        <li><strong>Mirai Botnet:</strong> Scans <span class="highlight-red">TCP/23 & 2323</span> to brute-force & infect devices.</li>
-        <li><strong>DDoS Impact:</strong> Recruited millions of IoT nodes for record terabit attacks.</li>
-      </ul>
+    </div>
+
+    <!-- Direct Image Display -->
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: 100%;">
+      <img src="media/mirai_nikki.jpg" alt="Mirai Nikki" style="width: 100%; height: auto; max-height: 320px; object-fit: contain; border-radius: 8px; display: block;" />
+      <p style="font-size: 0.78em; color: var(--text-muted); margin-top: 0.6rem;">
+        <i class="fa-solid fa-film highlight-cyan"></i> <em>Mirai Nikki</em> (2011)
+      </p>
     </div>
   </div>
 </section>
@@ -1808,24 +1741,73 @@ IAC (255) + WILL (251) + ECHO (1) --> \xff\xfb\x01</code></pre>
 <section>
   <h2><i class="fa-solid fa-shield-halved highlight-htb"></i> Secure Alternative: Telnet vs. SSH</h2>
   <p class="slide-subtitle">
-    Hardening steps to eliminate cleartext remote access.
+    Cleartext remote access kullanımını kaldırmak için hardening adımları.
   </p>
 
   <div class="slide-center" style="max-width: 840px; text-align: left; margin-top: 1.8rem;">
     <ul class="secure-list" style="font-size: 1.1em; line-height: 1.7;">
       <li style="margin-bottom: 1.1rem;">
-        <strong>Decommission Daemons:</strong> Stop and purge <code style="color: var(--htb-green);">telnetd</code> across servers, switches, & IoT nodes.
+        <strong>Decommission Daemons:</strong> Server'lar, switch'ler ve IoT node'larında <code style="color: var(--htb-green);">telnetd</code> servisini durdurun ve tamamen kaldırın.
       </li>
       <li style="margin-bottom: 1.1rem;">
-        <strong>Firewall Filtering:</strong> Block inbound traffic on <span class="highlight-htb">TCP 23</span> & <span class="highlight-cyan">TCP 2323</span>.
+        <strong>Firewall Filtering:</strong> <span class="highlight-htb">TCP 23</span> ve <span class="highlight-cyan">TCP 2323</span> portlarındaki inbound trafiği engelleyin.
       </li>
       <li style="margin-bottom: 1.1rem;">
-        <strong>Deploy SSH Keys:</strong> Mandate SSH key pairs (<code style="color: var(--htb-green);">ed25519</code>) and disable password auth.
+        <strong>Deploy SSH Keys:</strong> SSH key pair kullanımını (<code style="color: var(--htb-green);">ed25519</code>) zorunlu kılın ve password auth'u devre dışı bırakın.
       </li>
       <li style="margin-bottom: 1.1rem;">
-        <strong>VLAN Isolation:</strong> Isolate legacy management interfaces on dedicated, restricted VLANs.
+        <strong>VLAN Isolation:</strong> Eski management interface'lerini dedicated, kısıtlı VLAN'lar üzerinde izole edin.
       </li>
     </ul>
+  </div>
+</section>
+
+      <!-- Loaded from slides/16a_whats_snmp.html -->
+<!-- SLIDE 16a: What's SNMP -->
+<section>
+  <h2><i class="fa-solid fa-circle-question highlight-htb"></i> SNMP</h2>
+
+  <div style="max-width: 900px; margin: 3rem auto 0 auto; text-align: center;">
+    <div style="margin-bottom: 1.8rem;">
+      <span class="cyber-badge badge-htb" style="font-size: 1rem; padding: 0.4rem 0.8rem;">NETWORK MANAGEMENT</span>
+    </div>
+    <p style="font-size: 1.35rem; line-height: 1.8; color: var(--text-main); margin: 0;">
+      <strong>Simple Network Management Protocol (SNMP)</strong>, network cihazlarını <strong>monitor</strong> etmek amacıyla geliştirilmiştir. <strong>Monitoring</strong> işlevine ek olarak, bu protokol cihazları uzaktan <strong>configure</strong> etmek için de kullanılabilir. Güncel sürümü <strong>SNMPv3</strong>'tür.
+    </p>
+  </div>
+</section>
+
+      <!-- Loaded from slides/16b_snmp_communication.html -->
+<!-- SLIDE 16b: SNMP Communication Principles -->
+<section>
+  <h2><i class="fa-solid fa-diagram-project highlight-htb"></i> SNMP İletişim Prensipleri</h2>
+
+  <div class="grid-2" style="align-items: center; gap: 2rem;">
+    <!-- Left Column: Plain Text Description -->
+    <div style="display: flex; flex-direction: column; gap: 1.5rem; font-size: 1.1rem; line-height: 1.7; color: var(--text-main); text-align: left;">
+      <div>
+        <h3 style="color: var(--htb-green); font-size: 1.25rem; margin-bottom: 0.4rem;">
+          <i class="fa-solid fa-server"></i> UDP Port 161 (Polling & Commands)
+        </h3>
+        <p style="margin: 0;">
+          SNMP packet'ları <strong>monitoring data</strong> taşır ve <strong>UDP port 161</strong> üzerinden <strong>agent</strong>'lara yönetim komutları iletir.
+        </p>
+      </div>
+
+      <div>
+        <h3 style="color: var(--accent-cyan); font-size: 1.25rem; margin-bottom: 0.4rem;">
+          <i class="fa-solid fa-bell"></i> UDP Port 162 (Traps & Notifications)
+        </h3>
+        <p style="margin: 0;">
+          Opsiyonel olarak <strong>UDP port 162</strong> üzerinden <strong>trap</strong> mekanizmasını kullanır. Cihazlarda bir <strong>event</strong> meydana geldiğinde, SNMP bu <strong>notification</strong> verilerini <strong>client</strong> cihazlara anında iletir.
+        </p>
+      </div>
+    </div>
+
+    <!-- Right Column: Diagram Image -->
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+      <img src="media/SNMP_communication_principles_diagram.PNG" alt="SNMP Communication Principles Diagram" style="width: 100%; max-height: 320px; object-fit: contain; border-radius: 8px; display: block;" />
+    </div>
   </div>
 </section>
 
@@ -1834,28 +1816,28 @@ IAC (255) + WILL (251) + ECHO (1) --> \xff\xfb\x01</code></pre>
 <section>
   <h2><i class="fa-solid fa-network-wired highlight-htb"></i> SNMP Protocol Fundamentals</h2>
   <p class="slide-subtitle">
-    Remote telemetry, device health monitoring, and administrative configuration.
+    Remote telemetry, cihaz sağlığı monitoring'i ve idari configuration işlemleri.
   </p>
 
   <div class="grid-2">
     <!-- Card 1: Core Fundamentals -->
     <div class="cyber-card">
       <div class="card-title">
-        <span class="cyber-badge badge-htb">ARCHITECTURE</span> Core Concepts
+        <span class="cyber-badge badge-htb">MİMARİ</span> Core Concepts
       </div>
       <ul>
-        <li><strong>Purpose:</strong> Monitors hardware health & configures network nodes.</li>
-        <li><strong>Architecture:</strong> <span class="highlight-htb">SNMP Manager</span> (NMS) polls <span class="highlight-cyan">SNMP Agents</span>.</li>
-        <li><strong>UDP 161:</strong> Active queries (<code style="color: var(--htb-green);">GET</code> / <code style="color: var(--htb-green);">SET</code>) & responses.</li>
-        <li><strong>UDP 162:</strong> Unprompted event alerts (<span class="highlight-purple">SNMP Traps</span>).</li>
-        <li><strong>Ecosystem:</strong> Routers, switches, firewalls, servers, & modems.</li>
+        <li><strong>Amaç:</strong> Hardware sağlığını monitor eder ve network node'larını configure eder.</li>
+        <li><strong>Mimari:</strong> <span class="highlight-htb">SNMP Manager</span> (NMS), <span class="highlight-cyan">SNMP Agent</span>'ları poll eder.</li>
+        <li><strong>UDP 161:</strong> Aktif query'ler (<code style="color: var(--htb-green);">GET</code> / <code style="color: var(--htb-green);">SET</code>) ve yanıtlar.</li>
+        <li><strong>UDP 162:</strong> Sorgusuz event uyarısı bildirimleri (<span class="highlight-purple">SNMP Traps</span>).</li>
+        <li><strong>Ekosistem:</strong> Router'lar, switch'ler, firewall'lar, server'lar ve modem'ler.</li>
       </ul>
     </div>
 
     <!-- Card 2: Workflow Diagram -->
     <div class="cyber-card">
       <div class="card-title">
-        <span class="cyber-badge badge-cyan">TELEMETRY FLOW</span> Manager &leftrightarrow; Agent Model
+        <span class="cyber-badge badge-cyan">TELEMETRİ AKIŞI</span> Manager &leftrightarrow; Agent Model
       </div>
 
       <div class="diagram-box-cyan" style="padding: 1rem; text-align: center; margin-top: 0.4rem;">
@@ -1889,7 +1871,7 @@ IAC (255) + WILL (251) + ECHO (1) --> \xff\xfb\x01</code></pre>
         </div>
 
         <div class="diagram-caption" style="font-size: 0.8em; line-height: 1.3;">
-          <i class="fa-solid fa-circle-info highlight-cyan"></i> <strong>Traps vs. Polling:</strong> Requests are active/synchronous; Traps are unprompted agent event notifications.
+          <i class="fa-solid fa-circle-info highlight-cyan"></i> <strong>Traps vs. Polling:</strong> Request'ler aktif ve senkrondur; Trap'ler ise sorgusuz agent event notification'larıdır.
         </div>
       </div>
     </div>
@@ -1901,20 +1883,20 @@ IAC (255) + WILL (251) + ECHO (1) --> \xff\xfb\x01</code></pre>
 <section>
   <h2><i class="fa-solid fa-sitemap highlight-htb"></i> Data Structuring: MIB & OID</h2>
   <p class="slide-subtitle">
-    Management Information Base (MIB) translation and Object Identifier (OID) hierarchy.
+    Management Information Base (MIB) çevirisi ve Object Identifier (OID) hiyerarşisi.
   </p>
 
   <div class="grid-2">
     <!-- Card 1: MIB & OID -->
     <div class="cyber-card">
       <div class="card-title">
-        <span class="cyber-badge badge-htb">DATA SCHEMA</span> MIB & OID Concepts
+        <span class="cyber-badge badge-htb">VERİ ŞEMASI</span> MIB & OID Kavramları
       </div>
       <ul>
-        <li><strong>MIB (Data Dictionary):</strong> Maps numeric OIDs to human-readable names.</li>
-        <li><strong>OID (Tree Path):</strong> Dot-separated integers marking position in global namespace tree.</li>
-        <li><strong>Path Depth:</strong> Longer chain = more specific hardware attribute.</li>
-        <li><strong>Standardization:</strong> Universal schema across Cisco, Linux, & Windows devices.</li>
+        <li><strong>MIB (Data Dictionary):</strong> Sayısal OID'leri okunabilir isimlere eşler (map eder).</li>
+        <li><strong>OID (Tree Path):</strong> Noktayla ayrılmış, global namespace ağacındaki konumu belirten tamsayılar.</li>
+        <li><strong>Path Depth:</strong> Daha uzun zincir = daha spesifik hardware niteliği.</li>
+        <li><strong>Standartlaşma:</strong> Cisco, Linux ve Windows cihazlarında evrensel şema standartlaşması.</li>
       </ul>
     </div>
 
@@ -1926,15 +1908,15 @@ IAC (255) + WILL (251) + ECHO (1) --> \xff\xfb\x01</code></pre>
         <span class="terminal-dot dot-green"></span>
         <span class="terminal-title">MIB Translation Output</span>
       </div>
-      <pre><code class="language-bash"># WITHOUT MIB (Raw Numeric Chain):
+      <pre><code class="language-bash"># MIB OLMADAN (Ham Sayısal Zincir):
 1.3.6.1.2.1.1.1.0 = STRING: Linux target 5.15.0
 
-# WITH MIB (Human-Readable Symbol):
+# MIB İLE (Okunabilir Sembol):
 SNMPv2-MIB::sysDescr.0 = STRING: Linux target 5.15.0</code></pre>
 
       <div class="diagram-box-purple" style="margin-top: 0.6rem; padding: 0.75rem; text-align: left;">
         <div style="font-size: 0.82em; line-height: 1.4; color: var(--text-main);">
-          <strong style="color: var(--accent-purple); font-size: 0.9em;"><i class="fa-solid fa-folder-tree"></i> OID Tree Resolution:</strong><br>
+          <strong style="color: var(--accent-purple); font-size: 0.9em;"><i class="fa-solid fa-folder-tree"></i> OID Ağaç Çözümlemesi:</strong><br>
           <code style="color: var(--htb-green); font-size: 0.95em;">.1.3.6.1.2.1.1.1.0</code><br>
           <span style="color: var(--text-muted); font-size: 0.85em;">
             iso(1) &rarr; org(3) &rarr; dod(6) &rarr; internet(1) &rarr; mgmt(2) &rarr; mib-2(1) &rarr; system(1) &rarr; sysDescr(1) &rarr; 0
@@ -1950,7 +1932,7 @@ SNMPv2-MIB::sysDescr.0 = STRING: Linux target 5.15.0</code></pre>
 <section>
   <h2><i class="fa-solid fa-layer-group highlight-htb"></i> SNMP Protocol Evolution</h2>
   <p class="slide-subtitle">
-    Security & capability differences across protocol generations.
+    Protokol jenerasyonları arasındaki güvenlik ve yetenek farkları.
   </p>
 
   <div class="grid-3">
@@ -1960,10 +1942,10 @@ SNMPv2-MIB::sysDescr.0 = STRING: Linux target 5.15.0</code></pre>
         <span class="cyber-badge badge-red">LEGACY</span> SNMPv1
       </div>
       <ul class="threat-list">
-        <li><strong>Auth:</strong> Plaintext <span class="highlight-red">Community Strings</span>.</li>
-        <li><strong>Encryption:</strong> <span class="highlight-red">None</span> (cleartext payload).</li>
-        <li><strong>Features:</strong> Basic <code style="color: var(--htb-green);">GET</code>/<code style="color: var(--htb-green);">SET</code> (32-bit counters).</li>
-        <li><strong>Risk:</strong> Vulnerable to network sniffing.</li>
+        <li><strong>Auth:</strong> Plaintext <span class="highlight-red">Community String</span>'ler.</li>
+        <li><strong>Encryption:</strong> <span class="highlight-red">Yok</span> (cleartext payload).</li>
+        <li><strong>Features:</strong> Temel <code style="color: var(--htb-green);">GET</code>/<code style="color: var(--htb-green);">SET</code> (32-bit counter'lar).</li>
+        <li><strong>Risk:</strong> Network sniffing saldırılarına karşı savunmasız.</li>
       </ul>
     </div>
 
@@ -1974,9 +1956,9 @@ SNMPv2-MIB::sysDescr.0 = STRING: Linux target 5.15.0</code></pre>
       </div>
       <ul>
         <li><strong>Auth:</strong> Community-based (<code style="color: var(--accent-yellow);">v2c</code>).</li>
-        <li><strong>Encryption:</strong> <span class="highlight-red">None</span> (plain text strings).</li>
-        <li><strong>Features:</strong> Added <code style="color: var(--htb-green);">GETBULK</code> & 64-bit counters.</li>
-        <li><strong>Status:</strong> Prevalent in internal LANs.</li>
+        <li><strong>Encryption:</strong> <span class="highlight-red">Yok</span> (plain text string'ler).</li>
+        <li><strong>Features:</strong> <code style="color: var(--htb-green);">GETBULK</code> desteği ve 64-bit counter'lar eklendi.</li>
+        <li><strong>Status:</strong> İç LAN ağlarında oldukça yaygın.</li>
       </ul>
     </div>
 
@@ -1986,10 +1968,10 @@ SNMPv2-MIB::sysDescr.0 = STRING: Linux target 5.15.0</code></pre>
         <span class="cyber-badge badge-htb">HARDENED</span> SNMPv3
       </div>
       <ul class="secure-list">
-        <li><strong>Auth:</strong> Cryptographic USM (MD5/SHA).</li>
-        <li><strong>Encryption:</strong> Full payload <span class="highlight-htb">AES</span> / DES.</li>
-        <li><strong>Control:</strong> Granular VACM OID scoping.</li>
-        <li><strong>Status:</strong> Modern enterprise standard.</li>
+        <li><strong>Auth:</strong> Kriptografik USM (MD5/SHA).</li>
+        <li><strong>Encryption:</strong> Tam payload şifrelemesi (<span class="highlight-htb">AES</span> / DES).</li>
+        <li><strong>Control:</strong> Detaylı VACM OID kapsamlama.</li>
+        <li><strong>Status:</strong> Modern kurumsal standart.</li>
       </ul>
     </div>
   </div>
@@ -2000,7 +1982,7 @@ SNMPv2-MIB::sysDescr.0 = STRING: Linux target 5.15.0</code></pre>
 <section>
   <h2><i class="fa-solid fa-magnifying-glass-location highlight-htb"></i> Active Reconnaissance: SNMP Enumeration</h2>
   <p class="slide-subtitle">
-    Querying target SNMP agents using <code style="color: var(--htb-green);">snmpwalk</code> to extract system telemetry.
+    Sistem telemetrisini elde etmek için <code style="color: var(--htb-green);">snmpwalk</code> kullanarak hedef SNMP agent'larını query etme.
   </p>
 
   <div class="grid-2">
@@ -2020,7 +2002,7 @@ IF-MIB::ifDescr.1 = STRING: eth0
 IF-MIB::ifDescr.2 = STRING: eth1 (Internal 10.10.10.0/24)</code></pre>
       <div style="background: var(--htb-bg-card); border: 1px solid var(--htb-border); border-radius: 6px; padding: 0.5rem 0.7rem; margin-top: 0.4rem; text-align: left;">
         <span style="font-size: 0.78em; color: var(--text-muted);">
-          <i class="fa-solid fa-server highlight-htb"></i> <strong>Recon Role:</strong> When running <code style="color: var(--htb-green);">snmpwalk</code>, your host acts as the <strong>SNMP Manager</strong> querying the target <strong>Agent</strong>.
+          <i class="fa-solid fa-server highlight-htb"></i> <strong>Recon Rolü:</strong> <code style="color: var(--htb-green);">snmpwalk</code> çalıştırırken host'unuz, hedef <strong>Agent</strong>'ı query eden <strong>SNMP Manager</strong> olarak hareket eder.
         </span>
       </div>
     </div>
@@ -2028,14 +2010,14 @@ IF-MIB::ifDescr.2 = STRING: eth1 (Internal 10.10.10.0/24)</code></pre>
     <!-- Card: High-Value Discovery OIDs -->
     <div class="cyber-card">
       <div class="card-title">
-        <span class="cyber-badge badge-htb">RECON CHECKLIST</span> High-Value Discovery OIDs
+        <span class="cyber-badge badge-htb">RECON KONTROL LİSTESİ</span> Yüksek Değerli Discovery OID'leri
       </div>
       <ul>
-        <li><strong>System Info:</strong> <code style="color: var(--htb-green);">sysDescr</code> &rarr; OS distribution & kernel version.</li>
-        <li><strong>Admin Contacts:</strong> <code style="color: var(--htb-green);">sysContact</code> / <code style="color: var(--htb-green);">sysName</code> &rarr; Admin emails & hostnames.</li>
-        <li><strong>Interfaces:</strong> <code style="color: var(--htb-green);">ifDescr</code> / <code style="color: var(--htb-green);">ifPhysAddress</code> &rarr; Maps internal NICs & subnets.</li>
-        <li><strong>Processes & Software:</strong> <code style="color: var(--htb-green);">hrSWRunName</code> &rarr; Active daemons & packages.</li>
-        <li><strong>Routing Tables:</strong> <code style="color: var(--htb-green);">ipRouteDest</code> &rarr; Internal network topology.</li>
+        <li><strong>Sistem Bilgisi:</strong> <code style="color: var(--htb-green);">sysDescr</code> &rarr; OS dağıtımı ve kernel versiyonu.</li>
+        <li><strong>Admin Kontakları:</strong> <code style="color: var(--htb-green);">sysContact</code> / <code style="color: var(--htb-green);">sysName</code> &rarr; Admin e-postaları ve hostname'ler.</li>
+        <li><strong>Interface'ler:</strong> <code style="color: var(--htb-green);">ifDescr</code> / <code style="color: var(--htb-green);">ifPhysAddress</code> &rarr; Dahili NIC'leri ve subnet'leri haritalandırır.</li>
+        <li><strong>Süreçler & Yazılım:</strong> <code style="color: var(--htb-green);">hrSWRunName</code> &rarr; Aktif daemon'lar ve paketler.</li>
+        <li><strong>Routing Tabloları:</strong> <code style="color: var(--htb-green);">ipRouteDest</code> &rarr; Dahili network topolojisi.</li>
       </ul>
     </div>
   </div>
@@ -2046,20 +2028,20 @@ IF-MIB::ifDescr.2 = STRING: eth1 (Internal 10.10.10.0/24)</code></pre>
 <section>
   <h2><i class="fa-solid fa-folder-open highlight-htb"></i> FTP Protocol Overview</h2>
   <p class="slide-subtitle">
-    1970s legacy protocol for remote file management and directory operations.
+    1970'lerden günümüze remote file management ve dizin işlemleri için kullanılan miras protokol.
   </p>
 
   <div class="grid-2" style="align-items: center;">
     <!-- Key Points Card -->
     <div class="cyber-card">
       <div class="card-title">
-        <span class="cyber-badge badge-htb">SPECS</span> Core Architecture
+        <span class="cyber-badge badge-htb">ÖZELLİKLER</span> Core Architecture
       </div>
       <ul>
-        <li><strong>Origin:</strong> RFC 114 (1971); foundational TCP/IP file protocol.</li>
-        <li><strong>Client-Server Model:</strong> Client initiates; server hosts files.</li>
-        <li><strong>Operations:</strong> File transfer, directory listings, & file management.</li>
-        <li><strong>Persistence:</strong> <span class="highlight-htb">1.6M+ devices</span> exposed globally on Port 21.</li>
+        <li><strong>Origin:</strong> RFC 114 (1971); temel TCP/IP file transfer protokolü.</li>
+        <li><strong>Client-Server Model:</strong> Client başlatır; server dosyaları barındırır.</li>
+        <li><strong>Operations:</strong> File transfer, directory listing ve dosya yönetimi işlemleri.</li>
+        <li><strong>Persistence:</strong> <span class="highlight-htb">1.6M+ cihaz</span> dünya genelinde Port 21 üzerinde açık durumda.</li>
       </ul>
     </div>
 
@@ -2069,8 +2051,63 @@ IF-MIB::ifDescr.2 = STRING: eth1 (Internal 10.10.10.0/24)</code></pre>
         <img src="media/shodan_ftp.png" alt="Shodan FTP Search" style="max-height: 350px; width: 100%; display: block; border-radius: 4px; object-fit: contain;">
       </div>
       <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">
-        <i class="fa-solid fa-globe highlight-htb"></i> <strong>Shodan Telemetry:</strong> Over 1.6 Million FTP daemons reachable worldwide.
+        <i class="fa-solid fa-globe highlight-htb"></i> <strong>Shodan Telemetry:</strong> Dünya çapında 1.6 milyondan fazla erişilebilir FTP daemon'ı.
       </div>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/22a0_ftp_use_cases.html -->
+<!-- SLIDE 22a0: FTP Use Cases & Adoption -->
+<section>
+  <h2><i class="fa-solid fa-server highlight-htb"></i> FTP Kullanım Alanları ve Sektörel İhtiyaçlar</h2>
+  <p class="slide-subtitle">
+    Web hosting, kurumsal veri hatları, ağ cihazları ve toplu dosya aktarımı.
+  </p>
+
+  <div class="grid-2">
+    <!-- Card 1: Web Hosting & Content Management -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">HOSTING</span> Web Deployment
+      </div>
+      <ul style="font-size: 0.88em; margin-top: 0.4rem;">
+        <li>FileZilla ve WinSCP gibi FTP client araçlarıyla HTML, CSS ve PHP aktarımı.</li>
+        <li>WordPress, cPanel ve IIS platformlarında dosya ve medya yönetimi.</li>
+      </ul>
+    </div>
+
+    <!-- Card 2: Enterprise Data Pipelines & Batch Processing -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-cyan">ENTERPRISE</span> Batch Processing & Backup
+      </div>
+      <ul style="font-size: 0.88em; margin-top: 0.4rem;">
+        <li>Bankacılık ve perakendede günlük transaction logları, DB verileri ve EDI fatura aktarımı.</li>
+        <li>Otomatik backup daemon sistemleriyle offsite snapshot transferi.</li>
+      </ul>
+    </div>
+
+    <!-- Card 3: Network Equipment & Embedded Systems -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-yellow">INFRASTRUCTURE</span> TFTP & Provisioning
+      </div>
+      <ul style="font-size: 0.88em; margin-top: 0.4rem;">
+        <li>Cisco ve Juniper router/switch cihazlarında <code style="color: var(--htb-green);">startup-config</code> ve firmware güncellemeleri.</li>
+        <li>Diskless sistemlerde PXE boot ve IP telefonlarda VoIP provisioning.</li>
+      </ul>
+    </div>
+
+    <!-- Card 4: Internal Mass Data Sharing -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-purple">STORAGE</span> Internal File Servers
+      </div>
+      <ul style="font-size: 0.88em; margin-top: 0.4rem;">
+        <li>Büyük ISO imajları, yazılım paketleri ve public veri kümelerinin FTP mirror dağıtımı.</li>
+        <li>Kurum içi yüksek boyutlu dosya transferleri.</li>
+      </ul>
     </div>
   </div>
 </section>
@@ -2080,7 +2117,7 @@ IF-MIB::ifDescr.2 = STRING: eth1 (Internal 10.10.10.0/24)</code></pre>
 <section>
   <h2><i class="fa-solid fa-network-wired highlight-htb"></i> FTP Control Connection</h2>
   <p class="slide-subtitle">
-    Persistent TCP control channel for command exchange and session management.
+    Komut değişimi ve oturum yönetimi sağlayan kalıcı TCP control channel.
   </p>
 
   <div class="grid-2" style="align-items: center;">
@@ -2090,10 +2127,10 @@ IF-MIB::ifDescr.2 = STRING: eth1 (Internal 10.10.10.0/24)</code></pre>
         <span class="cyber-badge badge-cyan">CONTROL STREAM</span> TCP Port 21
       </div>
       <ul>
-        <li><strong>Connection:</strong> Client opens TCP handshake to <span class="highlight-htb">Port 21</span>.</li>
-        <li><strong>Command Exchange:</strong> Carries ASCII commands (<code style="color: var(--htb-green);">USER</code>, <code style="color: var(--htb-green);">PASS</code>, <code style="color: var(--htb-green);">LIST</code>).</li>
-        <li><strong>Persistent Channel:</strong> Remains open throughout the entire FTP session.</li>
-        <li><strong>Separation:</strong> Control and actual file data streams are completely decoupled.</li>
+        <li><strong>Bağlantı:</strong> Client, <span class="highlight-htb">Port 21</span> üzerine TCP handshake başlatır.</li>
+        <li><strong>Komut Alışverişi:</strong> ASCII komutlarını taşır (<code style="color: var(--htb-green);">USER</code>, <code style="color: var(--htb-green);">PASS</code>, <code style="color: var(--htb-green);">LIST</code>).</li>
+        <li><strong>Kalıcı Kanal:</strong> Tüm FTP session boyunca açık kalır.</li>
+        <li><strong>Kanal Ayrımı:</strong> Control ve gerçek dosya data stream yapıları birbirinden tamamen bağımsızdır.</li>
       </ul>
     </div>
 
@@ -2103,7 +2140,7 @@ IF-MIB::ifDescr.2 = STRING: eth1 (Internal 10.10.10.0/24)</code></pre>
         <img src="media/ftp_connection.png" alt="FTP Control Connection" style="max-height: 350px; width: 100%; display: block; object-fit: contain;">
       </div>
       <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">
-        <i class="fa-solid fa-diagram-project highlight-cyan"></i> <strong>TCP Control Connection:</strong> Handshake & Command Pipe.
+        <i class="fa-solid fa-diagram-project highlight-cyan"></i> <strong>TCP Control Connection:</strong> Handshake ve Command Pipe.
       </div>
     </div>
   </div>
@@ -2114,7 +2151,7 @@ IF-MIB::ifDescr.2 = STRING: eth1 (Internal 10.10.10.0/24)</code></pre>
 <section>
   <h2><i class="fa-solid fa-arrow-left-long highlight-htb"></i> Active FTP Mode</h2>
   <p class="slide-subtitle">
-    Server-initiated data stream and perimeter firewall obstacles.
+    Server tarafından başlatılan data stream ve çevre firewall engelleri.
   </p>
 
   <div class="grid-2" style="align-items: center;">
@@ -2124,9 +2161,9 @@ IF-MIB::ifDescr.2 = STRING: eth1 (Internal 10.10.10.0/24)</code></pre>
         <span class="cyber-badge badge-red">ACTIVE MODE</span> Server &rarr; Client Connection
       </div>
       <ul>
-        <li><strong>Mechanism:</strong> Server connects from <span class="highlight-htb">TCP 20</span> back to client's ephemeral port.</li>
-        <li><strong>Firewall Block:</strong> Internet firewalls block unprompted inbound client connections (<span class="highlight-red">bind shell risk</span>).</li>
-        <li><strong>Network Constraint:</strong> Only viable when client & server share the <span class="highlight-yellow">same flat local network</span>.</li>
+        <li><strong>Çalışma Mekanizması:</strong> Client <code style="color: var(--htb-green);">PORT</code> komutu gönderir; server <span class="highlight-htb">TCP 20</span> portundan client ephemeral portuna TCP SYN bağlantısı başlatır.</li>
+        <li><strong>Firewall Engeli:</strong> Firewall ve NAT yapıları, dışarıdan gelen talep edilmemiş inbound TCP SYN paketlerini engeller — <span class="highlight-red">reverse connection riski</span>.</li>
+        <li><strong>Ağ Kısıtlaması:</strong> Yalnızca client ve server <span class="highlight-yellow">aynı yerel ağda</span> bulunduğunda veya özel ALG / firewall kurallarıyla çalışır.</li>
       </ul>
     </div>
 
@@ -2136,7 +2173,7 @@ IF-MIB::ifDescr.2 = STRING: eth1 (Internal 10.10.10.0/24)</code></pre>
         <img src="media/ftp_active.png" alt="Active FTP Mode" style="max-height: 350px; width: 100%; display: block; object-fit: contain;">
       </div>
       <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">
-        <i class="fa-solid fa-shield-cat highlight-red"></i> <strong>Firewall Block:</strong> Incoming TCP 20 data stream rejected at client perimeter.
+        <i class="fa-solid fa-shield-cat highlight-red"></i> <strong>Firewall Engeli:</strong> Gelen TCP 20 data stream, client tarafında reddedilir.
       </div>
     </div>
   </div>
@@ -2147,7 +2184,7 @@ IF-MIB::ifDescr.2 = STRING: eth1 (Internal 10.10.10.0/24)</code></pre>
 <section>
   <h2><i class="fa-solid fa-arrow-right-long highlight-htb"></i> Passive FTP Mode</h2>
   <p class="slide-subtitle">
-    Client-initiated data stream designed for firewall evasion.
+    Firewall evasion için tasarlanmış, client tarafından başlatılan data stream.
   </p>
 
   <div class="grid-2" style="align-items: center;">
@@ -2157,9 +2194,9 @@ IF-MIB::ifDescr.2 = STRING: eth1 (Internal 10.10.10.0/24)</code></pre>
         <span class="cyber-badge badge-cyan">PASSIVE MODE</span> Client &rarr; Server Connection
       </div>
       <ul>
-        <li><strong>Mechanism:</strong> Client issues <code style="color: var(--htb-green);">PASV</code>; server assigns high-port for client-initiated data stream.</li>
-        <li><strong>Firewall Evasion:</strong> Outbound client connection bypasses perimeter filters (<span class="highlight-cyan">reverse shell concept</span>).</li>
-        <li><strong>Modern Challenge:</strong> <span class="highlight-purple">Zero-Trust</span> internal segmentation increasingly filters high-port traffic.</li>
+        <li><strong>Çalışma Mekanizması:</strong> Client <code style="color: var(--htb-green);">PASV</code> komutunu gönderir; server, client tarafından başlatılacak data stream için yüksek bir port atar.</li>
+        <li><strong>Firewall Evasion:</strong> Outbound client bağlantısı çevre filtrelerini aşar — <span class="highlight-cyan">reverse shell mantığı</span>.</li>
+        <li><strong>Modern Zorluk:</strong> <span class="highlight-purple">Zero-Trust</span> iç ağ segmentasyonu, yüksek port trafiğini giderek daha fazla filtrelemektedir.</li>
       </ul>
     </div>
 
@@ -2169,7 +2206,7 @@ IF-MIB::ifDescr.2 = STRING: eth1 (Internal 10.10.10.0/24)</code></pre>
         <img src="media/ftp_passive.png" alt="Passive FTP Mode" style="max-height: 350px; width: 100%; display: block; object-fit: contain;">
       </div>
       <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">
-        <i class="fa-solid fa-unlock highlight-cyan"></i> <strong>Firewall Solution:</strong> Client initiates both Control & Data channels outbound.
+        <i class="fa-solid fa-unlock highlight-cyan"></i> <strong>Firewall Çözümü:</strong> Client hem Control hem de Data kanallarını outbound olarak başlatır.
       </div>
     </div>
   </div>
@@ -2180,7 +2217,7 @@ IF-MIB::ifDescr.2 = STRING: eth1 (Internal 10.10.10.0/24)</code></pre>
 <section>
   <h2><i class="fa-solid fa-triangle-exclamation highlight-htb"></i> Temel FTP Saldırı Türleri</h2>
   <p class="slide-subtitle">
-    Anonim giriş, parola kaba kuvvet (brute force) ve şifresiz ağ dinleme (sniffing) tehditleri.
+    Anonymous access, brute force ve cleartext sniffing tehditleri.
   </p>
 
   <div class="grid-3">
@@ -2194,7 +2231,7 @@ IF-MIB::ifDescr.2 = STRING: eth1 (Internal 10.10.10.0/24)</code></pre>
       </p>
       <ul class="threat-list">
         <li>Kullanıcı adı olarak <code style="color: var(--htb-green);">anonymous</code> veya <code style="color: var(--htb-green);">ftp</code> kullanılır.</li>
-        <li>Hassas sistem dosyalarının sızmasına veya yetkisiz dosya yüklenmesine (RCE) yol açabilir.</li>
+        <li>Hassas sistem dosyalarının sızmasına veya RCE için yetkisiz dosya yüklenmesine yol açabilir.</li>
       </ul>
     </div>
 
@@ -2207,8 +2244,8 @@ IF-MIB::ifDescr.2 = STRING: eth1 (Internal 10.10.10.0/24)</code></pre>
         Kimlik doğrulama mekanizmasına yönelik otomatik parola denemeleri.
       </p>
       <ul class="threat-list">
-        <li>Hydra veya Medusa gibi araçlarla hızlı sözlük (dictionary) saldırıları düzenlenir.</li>
-        <li>Account lockout veya rate-limiting bulunmayan FTP sunucularında yüksek başarı oranına sahiptir.</li>
+        <li>Hydra veya Medusa gibi araçlarla hızlı dictionary attacks düzenlenir.</li>
+        <li>Account lockout veya rate-limiting bulunmayan FTP server yapılarında yüksek başarı oranına sahiptir.</li>
       </ul>
     </div>
 
@@ -2222,7 +2259,7 @@ IF-MIB::ifDescr.2 = STRING: eth1 (Internal 10.10.10.0/24)</code></pre>
       </p>
       <ul class="threat-list">
         <li>FTP, kullanıcı adı ve parolaları (<code style="color: var(--htb-green);">USER</code> / <code style="color: var(--htb-green);">PASS</code>) açık metin olarak iletir.</li>
-        <li>Wireshark veya tcpdump ile yerel ağ (LAN) üzerindeki tüm oturum bilgileri ve aktarılan dosyalar yakalanabilir.</li>
+        <li>Wireshark veya tcpdump ile LAN üzerindeki tüm session bilgileri ve aktarılan dosyalar yakalanabilir.</li>
       </ul>
     </div>
   </div>
@@ -2233,7 +2270,7 @@ IF-MIB::ifDescr.2 = STRING: eth1 (Internal 10.10.10.0/24)</code></pre>
 <section>
   <h2><i class="fa-solid fa-user-ninja highlight-htb"></i> FTP Bounce Attack</h2>
   <p class="slide-subtitle">
-    Abusing FTP PORT commands to proxy malicious traffic through vulnerable FTP servers.
+    Zararlı trafiği proxy etmek için FTP PORT komutunun zafiyetli FTP server yapıları üzerinde kötüye kullanılması.
   </p>
 
   <div class="grid-2" style="align-items: center;">
@@ -2243,9 +2280,9 @@ IF-MIB::ifDescr.2 = STRING: eth1 (Internal 10.10.10.0/24)</code></pre>
         <span class="cyber-badge badge-red">PROTOCOL ABUSE</span> Indirect Proxying
       </div>
       <ul>
-        <li><strong>Vector:</strong> Attacker issues <code style="color: var(--htb-green);">PORT</code> command instructing FTP server to connect to a third-party target.</li>
-        <li><strong>Impact:</strong> Bypasses internal firewalls, masks attacker IP, and enables internal port scanning.</li>
-        <li><strong>Mitigation:</strong> Disable proxying in daemon config & enforce passive mode only.</li>
+        <li><strong>Saldırı Vektörü:</strong> Saldırgan, FTP server sistemini üçüncü taraf bir hedefe bağlanmaya yönlendiren <code style="color: var(--htb-green);">PORT</code> komutunu gönderir.</li>
+        <li><strong>Etki:</strong> İç firewall sistemlerini aşar, saldırgan IP adresini gizler ve dahili port scanning yapılmasını sağlar.</li>
+        <li><strong>Önlem:</strong> Daemon konfigürasyonunda proxying engellenmeli ve yalnızca passive mode zorunlu kılınmalıdır.</li>
       </ul>
     </div>
 
@@ -2255,7 +2292,7 @@ IF-MIB::ifDescr.2 = STRING: eth1 (Internal 10.10.10.0/24)</code></pre>
         <img src="media/ftp_bounce_attack.png" alt="FTP Bounce Attack" style="max-height: 350px; width: 100%; display: block; object-fit: contain;">
       </div>
       <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">
-        <i class="fa-solid fa-bug highlight-red"></i> <strong>Bounce Relay:</strong> Intermediate FTP server relays commands to victim host.
+        <i class="fa-solid fa-bug highlight-red"></i> <strong>Bounce Relay:</strong> Aracı FTP server, komutları kurban host sistemine aktarır.
       </div>
     </div>
   </div>
@@ -2266,7 +2303,7 @@ IF-MIB::ifDescr.2 = STRING: eth1 (Internal 10.10.10.0/24)</code></pre>
 <section>
   <h2><i class="fa-solid fa-bolt highlight-htb"></i> Lightweight Transfer: TFTP Protocol</h2>
   <p class="slide-subtitle">
-    Connectionless, stripped-down file transfer for network device configuration and bootstrapping.
+    Ağ cihazı konfigürasyonu ve bootstrapping için bağlantısız, minimalist dosya aktarımı.
   </p>
 
   <div class="grid-2">
@@ -2276,10 +2313,10 @@ IF-MIB::ifDescr.2 = STRING: eth1 (Internal 10.10.10.0/24)</code></pre>
         <span class="cyber-badge badge-htb">ARCHITECTURE</span> TFTP vs. FTP
       </div>
       <ul>
-        <li><strong>Purpose:</strong> Lightweight transfer for firmware, router configs, & PXE boot images.</li>
-        <li><strong>Transport Protocol:</strong> Operates over <span class="highlight-htb">UDP 69</span> (initial handshake) + dynamic UDP data ports.</li>
-        <li><strong>Connectionless:</strong> No delivery guarantees or error control &rarr; <span class="highlight-yellow">faster but less reliable</span>.</li>
-        <li><strong>Security Risk:</strong> <span class="highlight-red">Inherently insecure</span> — zero authentication or encryption capabilities.</li>
+        <li><strong>Kullanım Amacı:</strong> Firmware, router konfigürasyonları ve PXE boot imajları için hafif dosya aktarımı.</li>
+        <li><strong>Taşıma Protokolü:</strong> <span class="highlight-htb">UDP 69</span> (ilk handshake) ve dinamik UDP data portları üzerinden çalışır.</li>
+        <li><strong>Connectionless Yapı:</strong> İletim garantisi veya hata kontrolü barındırmaz &rarr; <span class="highlight-yellow">daha hızlı fakat daha az güvenilir</span>.</li>
+        <li><strong>Güvenlik Riski:</strong> <span class="highlight-red">Doğal olarak güvensizdir</span> — kimlik doğrulama veya şifreleme mekanizması yoktur.</li>
       </ul>
     </div>
 
@@ -2298,7 +2335,7 @@ tftp> get router-running.cfg
 Received 4096 bytes in 0.1 seconds
 tftp> quit</code></pre>
       <p style="font-size: 0.8em; color: var(--text-muted); text-align: center; margin-top: -0.4rem;">
-        <i class="fa-solid fa-triangle-exclamation highlight-yellow"></i> <strong>Unauthenticated:</strong> Direct file retrieval without login prompt.
+        <i class="fa-solid fa-triangle-exclamation highlight-yellow"></i> <strong>Kimlik Doğrulamasız:</strong> Login istemi olmadan doğrudan dosya çekme.
       </p>
     </div>
   </div>
@@ -2309,7 +2346,7 @@ tftp> quit</code></pre>
 <section>
   <h2><i class="fa-solid fa-magnifying-glass-location highlight-htb"></i> Reconnaissance: FTP & TFTP Enumeration</h2>
   <p class="slide-subtitle">
-    Discovering service configurations, anonymous access, and unauthenticated file shares.
+    Servis konfigürasyonlarını, anonymous access durumunu ve kimlik doğrulamasız dosya paylaşımlarını keşfetme.
   </p>
 
   <div class="grid-2">
@@ -2329,7 +2366,7 @@ tftp> quit</code></pre>
 69/udp open  tftp    tftp-hpa 5.2</code></pre>
       <div style="background: var(--htb-bg-card); border: 1px solid var(--htb-border); border-radius: 6px; padding: 0.5rem 0.7rem; margin-top: 0.4rem; text-align: left;">
         <span style="font-size: 0.78em; color: var(--text-muted);">
-          <i class="fa-solid fa-shield-halved highlight-htb"></i> <strong>Recon Strategy:</strong> Probe port 21 (TCP) for FTP daemons and port 69 (UDP) for TFTP servers.
+          <i class="fa-solid fa-shield-halved highlight-htb"></i> <strong>Recon Stratejisi:</strong> FTP daemon servisleri için port 21 (TCP) ve TFTP server sistemleri için port 69 (UDP) taraması yapılır.
         </span>
       </div>
     </div>
@@ -2340,10 +2377,10 @@ tftp> quit</code></pre>
         <span class="cyber-badge badge-htb">RECON CHECKLIST</span> Enumeration Vectors
       </div>
       <ul>
-        <li><strong>Service Banners:</strong> Extract daemon type & version info (<code style="color: var(--htb-green);">vsftpd</code>, <code style="color: var(--htb-green);">ProFTPD</code>).</li>
-        <li><strong>Anonymous Login:</strong> Test default <code style="color: var(--htb-green);">anonymous:anonymous</code> credentials.</li>
-        <li><strong>Directory Audit:</strong> Check read/write access with <code style="color: var(--htb-green);">LIST</code>, <code style="color: var(--htb-green);">PWD</code>, and <code style="color: var(--htb-green);">CWD</code> commands.</li>
-        <li><strong>TFTP File Harvesting:</strong> Probe UDP 69 for sensitive backup configs (<code style="color: var(--htb-green);">startup-config</code>, <code style="color: var(--htb-green);">id_rsa</code>).</li>
+        <li><strong>Service Banners:</strong> Daemon tipi ve versiyon bilgilerini elde etme (<code style="color: var(--htb-green);">vsftpd</code>, <code style="color: var(--htb-green);">ProFTPD</code>).</li>
+        <li><strong>Anonymous Login:</strong> Varsayılan <code style="color: var(--htb-green);">anonymous:anonymous</code> kimlik bilgilerini test etme.</li>
+        <li><strong>Dizin Denetimi:</strong> <code style="color: var(--htb-green);">LIST</code>, <code style="color: var(--htb-green);">PWD</code> ve <code style="color: var(--htb-green);">CWD</code> komutlarıyla okuma/yazma yetkilerini kontrol etme.</li>
+        <li><strong>TFTP Dosya Toplama:</strong> Hassas yedek konfigürasyonları için UDP 69 portunu sorgulama (<code style="color: var(--htb-green);">startup-config</code>, <code style="color: var(--htb-green);">id_rsa</code>).</li>
       </ul>
     </div>
   </div>
@@ -2533,51 +2570,6 @@ tftp> quit</code></pre>
   </div>
 </section>
 
-      <!-- Loaded from slides/31_arp_tryhackme_lab.html -->
-<!-- SLIDE 31: Unified Interactive TryHackMe Lab -->
-<section>
-  <h2><i class="fa-solid fa-laptop-code highlight-htb"></i> İnteraktif Lab: TryHackMe ile Canlı Uygulama</h2>
-  <p class="slide-subtitle">
-    Laboratuvar ortamını başlatıp hedef ve ağ geçidi arasındaki trafiği hep birlikte ele geçiriyoruz.
-  </p>
-
-  <div class="grid-2">
-    <!-- Card 1: Adım Adım Akış -->
-    <div class="cyber-card secure">
-      <div class="card-title">
-        <span class="cyber-badge badge-htb">TALİMATLAR</span> 4 Adımda Lab Akışı
-      </div>
-      <ul class="secure-list" style="margin-bottom: 0;">
-        <li><strong>1. Odaya Bağlanın:</strong> THM VPN veya AttackBox ile laboratuvar hedefini başlatın.</li>
-        <li><strong>2. İlk Durumu Gözlemleyin:</strong> Kurban terminalinde mevcut tabloyu listeleyin: <code style="color: var(--htb-green);">arp -a</code></li>
-        <li><strong>3. Zehirlemeyi Başlatın:</strong> Saldırgan makinede yönlendirmeyi açıp arpspoof aracını çalıştırın.</li>
-        <li><strong>4. Wireshark ile Analiz Edin:</strong> Kurbanda tablonun değişimini ve geçen HTTP trafiğini izleyin.</li>
-      </ul>
-    </div>
-
-    <!-- Card 2: Terminal Komutları -->
-    <div>
-      <div class="terminal-header">
-        <span class="terminal-dot dot-red"></span>
-        <span class="terminal-dot dot-yellow"></span>
-        <span class="terminal-dot dot-green"></span>
-        <span class="terminal-title">user@attackbox:~# lab-commands</span>
-      </div>
-      <pre><code class="language-bash"># 1. IP Yönlendirmeyi Etkinleştir
-sudo sysctl -w net.ipv4.ip_forward=1
-
-# 2. Kurban ve Gateway Arasına Gir
-sudo arpspoof -i eth0 -t &lt;TARGET_IP&gt; &lt;GATEWAY_IP&gt;
-sudo arpspoof -i eth0 -t &lt;GATEWAY_IP&gt; &lt;TARGET_IP&gt;
-
-# 3. Paketleri Dinle & Filtrele
-wireshark &  # Filtre: arp || http</code></pre>
-      <div style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-muted); margin-top: 0.4rem; text-align: center;">
-        <i class="fa-solid fa-lightbulb highlight-yellow"></i> <strong>İpucu:</strong> Wireshark'ta <code style="color: var(--accent-cyan);">arp.duplicate-address-detected</code> uyarısını arayın.
-      </div>
-    </div>
-  </div>
-</section>
 
       <!-- Loaded from slides/32_dhcp_overview.html -->
 <!-- SLIDE 32: What is DHCP & DORA Process -->
@@ -2794,6 +2786,24 @@ wireshark &  # Filtre: arp || http</code></pre>
         </p>
       </div>
     </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/36_dns_cache_poisoning_title.html -->
+<!-- SLIDE 36_title: DNS Cache Poisoning Title -->
+<section>
+  <h2><i class="fa-solid fa-skull-crossbones highlight-htb"></i> DNS Cache Poisoning</h2>
+  <p class="slide-subtitle" style="text-align: center; margin-bottom: 1.5rem;">
+    Saldırganın DNS resolver önbelleğine sahte IP kayıtları enjekte ederek kullanıcıları sahte sunuculara yönlendirmesi.
+  </p>
+
+  <div class="cyber-card threat" style="max-width: 750px; margin: 1.5rem auto 0 auto; text-align: center; padding: 1.5rem;">
+    <div class="card-title" style="justify-content: center; font-size: 1.2em; margin-bottom: 1rem;">
+      <span class="cyber-badge badge-red">ATTACK OVERVIEW</span> Sahte Adres Yönlendirmesi
+    </div>
+    <p style="font-size: 1em; color: var(--text-muted); line-height: 1.6; margin-bottom: 0;">
+      DNS Cache Poisoning, DNS resolver sunucusuna yetkisiz sahte yanıtlar enjekte ederek meşru alan adlarının (ör. <code>bank.com</code>) saldırganın kontrolündeki sahte IP adresine yönlendirilmesidir.
+    </p>
   </div>
 </section>
 
@@ -3309,6 +3319,161 @@ ADDITIONAL SECTION: (Glue Record)
 
   <div style="margin-top: 0.8rem; padding: 0.5rem 0.8rem; background: var(--htb-bg-terminal); border-left: 4px solid var(--accent-cyan); border-radius: 4px; font-size: 0.78em; color: var(--text-main);">
     <i class="fa-solid fa-circle-info highlight-cyan"></i> <strong>Önemli Ölümcül Kusur:</strong> İçerideki DNS sunucusu port 41000'i korusa bile, saldırgan NAT cihazının dışarıya açtığı 55000 portunu hedefler. NAT cihazı gelen paketi otomatik olarak iç sunucunun 41000 portuna yönlendirir!
+  </div>
+</section>
+
+      <!-- Loaded from slides/45_network_hardening_title.html -->
+<!-- SLIDE 45: Block 3 Title - Network Hardening -->
+<section class="title-slide">
+  <div style="text-align: center; margin-top: 3rem;">
+    <span class="cyber-badge badge-htb" style="font-size: 1.1em; padding: 0.5rem 1.2rem;">BLOCK 3</span>
+    <h1 style="font-size: 2.8em; margin-top: 1rem; color: var(--htb-green);"><i class="fa-solid fa-shield-halved"></i> Network Hardening</h1>
+    <p class="slide-subtitle" style="font-size: 1.3em; color: var(--text-muted); max-width: 800px; margin: 1.5rem auto;">
+      Ağ Güvenliği Sertleştirme, Zero Trust Mimarisi ve İş Yükü İzolasyon Stratejileri.
+    </p>
+  </div>
+</section>
+
+      <!-- Loaded from slides/46_macro_vs_micro_segmentation.html -->
+<!-- SLIDE 46: Macro vs Micro Segmentation -->
+<section>
+  <h2><i class="fa-solid fa-cubes highlight-htb"></i> Macro vs. Micro Segmentation</h2>
+  <p class="slide-subtitle">
+    Geleneksel çevre güvenliğinden iş yükü seviyesinde Zero Trust mimarisine geçiş.
+  </p>
+
+  <div class="grid-2" style="align-items: flex-start;">
+    <!-- Comparison Cards -->
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      <!-- Macro Segmentation Card -->
+      <div class="cyber-card threat">
+        <div class="card-title">
+          <span class="cyber-badge badge-red">MACRO SEGMENTATION</span> North-South Trafik
+        </div>
+        <ul style="font-size: 0.85em;">
+          <li><strong>Geleneksel Yaklaşım:</strong> Ağı fiziksel topoloji veya cihaz tiplerine göre geniş bölgelere ayırır (ör. Guest WiFi, Corp LAN, IT vs. OT).</li>
+          <li><strong>Bileşenler:</strong> Geleneksel firewall, router ve VLAN yapılarını kullanır.</li>
+          <li><strong>Temel Zafiyet:</strong> <span class="highlight-red">Implicit Trust</span> (Örtülü Güven). Bölge içine sızan bir saldırgan, VLAN içerisindeki tüm iş yükleriyle serbestçe iletişim kurabilir.</li>
+        </ul>
+      </div>
+
+      <!-- Micro Segmentation Card -->
+      <div class="cyber-card secure">
+        <div class="card-title">
+          <span class="cyber-badge badge-cyan">MICRO SEGMENTATION</span> East-West Trafik
+        </div>
+        <ul style="font-size: 0.85em;">
+          <li><strong>Zero Trust Yaklaşımı:</strong> Güvenliği fiziksel ağdan bağımsız hale getirerek doğrudan yazılım ve iş yükü seviyesinde uygular.</li>
+          <li><strong>Principle of Least Privilege:</strong> Trafiği en düşük yetki prensibine göre sınırlar.</li>
+          <li><strong>Çözüm:</strong> Aynı rack veya VLAN içindeki iki server dahi açıkça izin verilmedikçe iletişim kuramaz. <span class="highlight-cyan">Lateral movement</span> engellenir.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Architectural Diagram -->
+    <div style="text-align: center;">
+      <div style="background: var(--htb-bg-card); padding: 8px; border-radius: 8px; border: 1px solid var(--accent-cyan); box-shadow: 0 0 15px rgba(45, 226, 230, 0.2); display: inline-block;">
+        <img src="media/microsegmentation_diagram.jpg" alt="Macro vs Micro Segmentation Diagram" style="max-height: 380px; width: 100%; display: block; border-radius: 4px; object-fit: contain;">
+      </div>
+      <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">
+        <i class="fa-solid fa-diagram-project highlight-cyan"></i> <strong>Ağ Yönü:</strong> North-South (Client-Server) vs. East-West (Workload-Workload).
+      </div>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/47_microsegmentation_enforcement.html -->
+<!-- SLIDE 47: Microsegmentation Enforcement Approaches -->
+<section>
+  <h2><i class="fa-solid fa-sliders highlight-htb"></i> Micro Segmentation: Kural Uygulama Yaklaşımları</h2>
+  <p class="slide-subtitle">
+    Güvenlik sınırlarını tek bir çevre firewall'undan doğrudan iş yüklerine indiren 3 temel yöntem.
+  </p>
+
+  <div class="grid-3">
+    <!-- Card 1: Agent-Based -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">HOST LEVEL</span> Agent-Based
+      </div>
+      <p style="margin-bottom: 0.6rem; color: var(--text-muted); font-size: 0.88em;">
+        İş yükü üzerine yüklenen yazılım ajanı ile izolasyon.
+      </p>
+      <ul style="font-size: 0.85em;">
+        <li>Her host ve container üzerine hafif bir yazılım agent'ı kurulur.</li>
+        <li>İzolasyon ve erişim kuralları doğrudan işletim sistemi / süreç seviyesinde uygulanır.</li>
+        <li>Ağ altyapısından bağımsız olarak yüksek hassasiyette güvenlik sağlar.</li>
+      </ul>
+    </div>
+
+    <!-- Card 2: Network-Based -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-cyan">INFRASTRUCTURE</span> Network-Based
+      </div>
+      <p style="margin-bottom: 0.6rem; color: var(--text-muted); font-size: 0.88em;">
+        Ağ katmanında ve sanallaştırma altyapısında denetim.
+      </p>
+      <ul style="font-size: 0.88em;">
+        <li>Denetim hypervisor virtual switch'leri, load balancer'lar veya SDN controller katmanında gerçekleşir.</li>
+        <li>Paketler ağ hattında ilerlerken denetlenir ve engellenir. Korunan server sistemlerine hiçbir şey kurulmaz.</li>
+      </ul>
+    </div>
+
+    <!-- Card 3: Native Cloud Controls -->
+    <div class="cyber-card">
+      <div class="card-title">
+        <span class="cyber-badge badge-purple">CLOUD NATIVE</span> Native Cloud Controls
+      </div>
+      <p style="margin-bottom: 0.6rem; color: var(--text-muted); font-size: 0.88em;">
+        Bulut sağlayıcılarının yerleşik güvenlik mekanizmaları.
+      </p>
+      <ul style="font-size: 0.85em;">
+        <li>AWS Security Groups veya Azure Network Security Groups (NSG) gibi yerleşik özellikler kullanılır.</li>
+        <li>İzolasyon sınırları bulut sağlayıcısının alt yapı dokusu (cloud fabric) tarafından yönetilir.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/48_why_microsegmentation_works.html -->
+<!-- SLIDE 48: Why Microsegmentation Works -->
+<section>
+  <h2><i class="fa-solid fa-bullseye highlight-htb"></i> Micro Segmentation: Stratejik Avantajlar</h2>
+  <p class="slide-subtitle">
+    Granular erişim politikaları ve dinamik altyapı uyumluluğu.
+  </p>
+
+  <div class="grid-2">
+    <!-- Card 1: Granular Security -->
+    <div class="cyber-card secure">
+      <div class="card-title">
+        <span class="cyber-badge badge-cyan">PINPOINT RULES</span> Granular Security
+      </div>
+      <p style="margin-bottom: 0.6rem; color: var(--text-muted); font-size: 0.88em;">
+        Uygulama bağlamı sayesinde nokta atışı cerrahi politikalar.
+      </p>
+      <ul style="font-size: 0.88em;">
+        <li>"Subnet A, Subnet B ile konuşabilir" gibi geniş kurallar yerine spesifik kural tanımları yapılır.</li>
+        <li>Örnek: <em>"Yalnızca haftalık payroll süreci HR veritabanına sorgu atabilir."</em></li>
+        <li>Gereksiz tüm port ve protokol erişimlerini kapatarak saldırı yüzeyini daraltır.</li>
+      </ul>
+    </div>
+
+    <!-- Card 2: Dynamic Adaptation -->
+    <div class="cyber-card secure">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">IDENTITY OVER IP</span> Dynamic Adaptation
+      </div>
+      <p style="margin-bottom: 0.6rem; color: var(--text-muted); font-size: 0.88em;">
+        IP adresleri yerine kimlik ve etiket tabanlı kural yönetimi.
+      </p>
+      <ul style="font-size: 0.88em;">
+        <li>Kubernetes gibi modern mimarilerde container yapılar saniyeler içinde açılıp kapanır ve rastgele IP alır.</li>
+        <li>IP adresine dayalı yazılan static kurallar anında geçersiz kalır.</li>
+        <li>Micro Segmentation; etiket (label), kimlik ve rol bazlı politikalar ile dinamik ortamlara anında uyum sağlar.</li>
+      </ul>
+    </div>
   </div>
 </section>
 

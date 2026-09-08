@@ -2,28 +2,28 @@
 <section>
   <h2><i class="fa-solid fa-network-wired highlight-htb"></i> SNMP Protocol Fundamentals</h2>
   <p class="slide-subtitle">
-    Remote telemetry, device health monitoring, and administrative configuration.
+    Remote telemetry, cihaz sağlığı monitoring'i ve idari configuration işlemleri.
   </p>
 
   <div class="grid-2">
     <!-- Card 1: Core Fundamentals -->
     <div class="cyber-card">
       <div class="card-title">
-        <span class="cyber-badge badge-htb">ARCHITECTURE</span> Core Concepts
+        <span class="cyber-badge badge-htb">MİMARİ</span> Core Concepts
       </div>
       <ul>
-        <li><strong>Purpose:</strong> Monitors hardware health & configures network nodes.</li>
-        <li><strong>Architecture:</strong> <span class="highlight-htb">SNMP Manager</span> (NMS) polls <span class="highlight-cyan">SNMP Agents</span>.</li>
-        <li><strong>UDP 161:</strong> Active queries (<code style="color: var(--htb-green);">GET</code> / <code style="color: var(--htb-green);">SET</code>) & responses.</li>
-        <li><strong>UDP 162:</strong> Unprompted event alerts (<span class="highlight-purple">SNMP Traps</span>).</li>
-        <li><strong>Ecosystem:</strong> Routers, switches, firewalls, servers, & modems.</li>
+        <li><strong>Amaç:</strong> Hardware sağlığını monitor eder ve network node'larını configure eder.</li>
+        <li><strong>Mimari:</strong> <span class="highlight-htb">SNMP Manager</span> (NMS), <span class="highlight-cyan">SNMP Agent</span>'ları poll eder.</li>
+        <li><strong>UDP 161:</strong> Aktif query'ler (<code style="color: var(--htb-green);">GET</code> / <code style="color: var(--htb-green);">SET</code>) ve yanıtlar.</li>
+        <li><strong>UDP 162:</strong> Sorgusuz event uyarısı bildirimleri (<span class="highlight-purple">SNMP Traps</span>).</li>
+        <li><strong>Ekosistem:</strong> Router'lar, switch'ler, firewall'lar, server'lar ve modem'ler.</li>
       </ul>
     </div>
 
     <!-- Card 2: Workflow Diagram -->
     <div class="cyber-card">
       <div class="card-title">
-        <span class="cyber-badge badge-cyan">TELEMETRY FLOW</span> Manager &leftrightarrow; Agent Model
+        <span class="cyber-badge badge-cyan">TELEMETRİ AKIŞI</span> Manager &leftrightarrow; Agent Model
       </div>
 
       <div class="diagram-box-cyan" style="padding: 1rem; text-align: center; margin-top: 0.4rem;">
@@ -57,7 +57,7 @@
         </div>
 
         <div class="diagram-caption" style="font-size: 0.8em; line-height: 1.3;">
-          <i class="fa-solid fa-circle-info highlight-cyan"></i> <strong>Traps vs. Polling:</strong> Requests are active/synchronous; Traps are unprompted agent event notifications.
+          <i class="fa-solid fa-circle-info highlight-cyan"></i> <strong>Traps vs. Polling:</strong> Request'ler aktif ve senkrondur; Trap'ler ise sorgusuz agent event notification'larıdır.
         </div>
       </div>
     </div>

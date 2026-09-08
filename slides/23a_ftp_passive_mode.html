@@ -2,7 +2,7 @@
 <section>
   <h2><i class="fa-solid fa-arrow-right-long highlight-htb"></i> Passive FTP Mode</h2>
   <p class="slide-subtitle">
-    Client-initiated data stream designed for firewall evasion.
+    Firewall evasion için tasarlanmış, client tarafından başlatılan data stream.
   </p>
 
   <div class="grid-2" style="align-items: center;">
@@ -12,9 +12,9 @@
         <span class="cyber-badge badge-cyan">PASSIVE MODE</span> Client &rarr; Server Connection
       </div>
       <ul>
-        <li><strong>Mechanism:</strong> Client issues <code style="color: var(--htb-green);">PASV</code>; server assigns high-port for client-initiated data stream.</li>
-        <li><strong>Firewall Evasion:</strong> Outbound client connection bypasses perimeter filters (<span class="highlight-cyan">reverse shell concept</span>).</li>
-        <li><strong>Modern Challenge:</strong> <span class="highlight-purple">Zero-Trust</span> internal segmentation increasingly filters high-port traffic.</li>
+        <li><strong>Çalışma Mekanizması:</strong> Client <code style="color: var(--htb-green);">PASV</code> komutunu gönderir; server, client tarafından başlatılacak data stream için yüksek bir port atar.</li>
+        <li><strong>Firewall Evasion:</strong> Outbound client bağlantısı çevre filtrelerini aşar — <span class="highlight-cyan">reverse shell mantığı</span>.</li>
+        <li><strong>Modern Zorluk:</strong> <span class="highlight-purple">Zero-Trust</span> iç ağ segmentasyonu, yüksek port trafiğini giderek daha fazla filtrelemektedir.</li>
       </ul>
     </div>
 
@@ -24,7 +24,7 @@
         <img src="media/ftp_passive.png" alt="Passive FTP Mode" style="max-height: 350px; width: 100%; display: block; object-fit: contain;">
       </div>
       <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">
-        <i class="fa-solid fa-unlock highlight-cyan"></i> <strong>Firewall Solution:</strong> Client initiates both Control & Data channels outbound.
+        <i class="fa-solid fa-unlock highlight-cyan"></i> <strong>Firewall Çözümü:</strong> Client hem Control hem de Data kanallarını outbound olarak başlatır.
       </div>
     </div>
   </div>

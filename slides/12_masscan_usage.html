@@ -20,16 +20,6 @@
           <li><code style="color: var(--accent-yellow);">-oJ &lt;filename&gt;</code> Saves scan results in structured JSON format for automated parsing.</li>
         </ul>
       </div>
-
-      <div class="cyber-card threat">
-        <div class="card-title">
-          <span class="cyber-badge badge-red">RATE TUNING PITFALL</span> Bandwidth Oversaturation Risk
-        </div>
-        <ul class="threat-list" style="margin-bottom: 0; font-size: 0.86em;">
-          <li><strong>Local Router Saturation:</strong> Setting <code style="color: var(--accent-red);">--rate</code> higher than your local connection or ISP uplink can handle causes dropped packets.</li>
-          <li><strong>False Negatives:</strong> Dropped incoming <code style="color: var(--htb-green);">SYN-ACK</code> packets lead to missed open ports. Always benchmark bandwidth before setting rates over <code style="color: var(--accent-red);">100,000 pps</code>.</li>
-        </ul>
-      </div>
     </div>
 
     <!-- Right Column: Command Examples & Terminal -->

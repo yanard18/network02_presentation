@@ -2,7 +2,7 @@
 <section>
   <h2><i class="fa-solid fa-bolt highlight-htb"></i> Lightweight Transfer: TFTP Protocol</h2>
   <p class="slide-subtitle">
-    Connectionless, stripped-down file transfer for network device configuration and bootstrapping.
+    Ağ cihazı konfigürasyonu ve bootstrapping için bağlantısız, minimalist dosya aktarımı.
   </p>
 
   <div class="grid-2">
@@ -12,10 +12,10 @@
         <span class="cyber-badge badge-htb">ARCHITECTURE</span> TFTP vs. FTP
       </div>
       <ul>
-        <li><strong>Purpose:</strong> Lightweight transfer for firmware, router configs, & PXE boot images.</li>
-        <li><strong>Transport Protocol:</strong> Operates over <span class="highlight-htb">UDP 69</span> (initial handshake) + dynamic UDP data ports.</li>
-        <li><strong>Connectionless:</strong> No delivery guarantees or error control &rarr; <span class="highlight-yellow">faster but less reliable</span>.</li>
-        <li><strong>Security Risk:</strong> <span class="highlight-red">Inherently insecure</span> — zero authentication or encryption capabilities.</li>
+        <li><strong>Kullanım Amacı:</strong> Firmware, router konfigürasyonları ve PXE boot imajları için hafif dosya aktarımı.</li>
+        <li><strong>Taşıma Protokolü:</strong> <span class="highlight-htb">UDP 69</span> (ilk handshake) ve dinamik UDP data portları üzerinden çalışır.</li>
+        <li><strong>Connectionless Yapı:</strong> İletim garantisi veya hata kontrolü barındırmaz &rarr; <span class="highlight-yellow">daha hızlı fakat daha az güvenilir</span>.</li>
+        <li><strong>Güvenlik Riski:</strong> <span class="highlight-red">Doğal olarak güvensizdir</span> — kimlik doğrulama veya şifreleme mekanizması yoktur.</li>
       </ul>
     </div>
 
@@ -34,7 +34,7 @@ tftp> get router-running.cfg
 Received 4096 bytes in 0.1 seconds
 tftp> quit</code></pre>
       <p style="font-size: 0.8em; color: var(--text-muted); text-align: center; margin-top: -0.4rem;">
-        <i class="fa-solid fa-triangle-exclamation highlight-yellow"></i> <strong>Unauthenticated:</strong> Direct file retrieval without login prompt.
+        <i class="fa-solid fa-triangle-exclamation highlight-yellow"></i> <strong>Kimlik Doğrulamasız:</strong> Login istemi olmadan doğrudan dosya çekme.
       </p>
     </div>
   </div>

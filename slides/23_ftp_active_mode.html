@@ -2,7 +2,7 @@
 <section>
   <h2><i class="fa-solid fa-arrow-left-long highlight-htb"></i> Active FTP Mode</h2>
   <p class="slide-subtitle">
-    Server-initiated data stream and perimeter firewall obstacles.
+    Server tarafından başlatılan data stream ve çevre firewall engelleri.
   </p>
 
   <div class="grid-2" style="align-items: center;">
@@ -12,9 +12,9 @@
         <span class="cyber-badge badge-red">ACTIVE MODE</span> Server &rarr; Client Connection
       </div>
       <ul>
-        <li><strong>Mechanism:</strong> Server connects from <span class="highlight-htb">TCP 20</span> back to client's ephemeral port.</li>
-        <li><strong>Firewall Block:</strong> Internet firewalls block unprompted inbound client connections (<span class="highlight-red">bind shell risk</span>).</li>
-        <li><strong>Network Constraint:</strong> Only viable when client & server share the <span class="highlight-yellow">same flat local network</span>.</li>
+        <li><strong>Çalışma Mekanizması:</strong> Client <code style="color: var(--htb-green);">PORT</code> komutu gönderir; server <span class="highlight-htb">TCP 20</span> portundan client ephemeral portuna TCP SYN bağlantısı başlatır.</li>
+        <li><strong>Firewall Engeli:</strong> Firewall ve NAT yapıları, dışarıdan gelen talep edilmemiş inbound TCP SYN paketlerini engeller — <span class="highlight-red">reverse connection riski</span>.</li>
+        <li><strong>Ağ Kısıtlaması:</strong> Yalnızca client ve server <span class="highlight-yellow">aynı yerel ağda</span> bulunduğunda veya özel ALG / firewall kurallarıyla çalışır.</li>
       </ul>
     </div>
 
@@ -24,7 +24,7 @@
         <img src="media/ftp_active.png" alt="Active FTP Mode" style="max-height: 350px; width: 100%; display: block; object-fit: contain;">
       </div>
       <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">
-        <i class="fa-solid fa-shield-cat highlight-red"></i> <strong>Firewall Block:</strong> Incoming TCP 20 data stream rejected at client perimeter.
+        <i class="fa-solid fa-shield-cat highlight-red"></i> <strong>Firewall Engeli:</strong> Gelen TCP 20 data stream, client tarafında reddedilir.
       </div>
     </div>
   </div>
