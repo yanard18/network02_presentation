@@ -1,8 +1,8 @@
 <!-- SLIDE 12: Masscan Commands & Rate Control -->
 <section>
-  <h2><i class="fa-solid fa-terminal highlight-htb"></i> Masscan Commands & Rate Control</h2>
+  <h2><i class="fa-solid fa-terminal highlight-htb"></i> Masscan Komutları ve Hız Kontrolü</h2>
   <p class="slide-subtitle">
-    Essential CLI syntax, key configuration flags, and packet rate tuning best practices.
+    Temel CLI sentaksı, ana konfigürasyon flag'leri ve paket hızı optimizasyon pratikleri.
   </p>
 
   <div class="grid-2" style="align-items: stretch; gap: 1.4rem;">
@@ -11,13 +11,13 @@
     <div style="display: flex; flex-direction: column; gap: 1rem;">
       <div class="cyber-card">
         <div class="card-title">
-          <span class="cyber-badge badge-htb">CLI OPTIONS</span> Essential Configuration Flags
+          <span class="cyber-badge badge-htb">CLI SEÇENEKLERİ</span> Temel Konfigürasyon Flag'leri
         </div>
         <ul style="margin-bottom: 0.6rem; font-size: 0.88em;">
-          <li><code style="color: var(--htb-green);">--rate &lt;pps&gt;</code> Specifies transmit rate in packets per second (e.g. <code style="color: var(--htb-green);">--rate 100000</code>).</li>
-          <li><code style="color: var(--accent-cyan);">--banners</code> Enables TCP banner grabbing (grabs HTTP Server headers, SSH version strings, etc.).</li>
-          <li><code style="color: var(--accent-purple);">--exclude &lt;ip&gt;</code> Excludes sensitive IP addresses or subnets from the scan range.</li>
-          <li><code style="color: var(--accent-yellow);">-oJ &lt;filename&gt;</code> Saves scan results in structured JSON format for automated parsing.</li>
+          <li><code style="color: var(--htb-green);">--rate &lt;pps&gt;</code> Saniyedeki paket iletim hızını (packets per second) belirler (ör. <code style="color: var(--htb-green);">--rate 100000</code>).</li>
+          <li><code style="color: var(--accent-cyan);">--banners</code> TCP banner grabbing özelliğini etkinleştirir (HTTP Server header'larını, SSH sürüm bilgilerini vb. yakalar).</li>
+          <li><code style="color: var(--accent-purple);">--exclude &lt;ip&gt;</code> Hassas IP adreslerini veya subnet'leri tarama aralığından hariç tutar.</li>
+          <li><code style="color: var(--accent-yellow);">-oJ &lt;filename&gt;</code> Tarama sonuçlarını otomasyon süreçleri için yapılandırılmış JSON formatında kaydeder.</li>
         </ul>
       </div>
     </div>
@@ -31,12 +31,12 @@
           <span class="terminal-dot dot-red"></span>
           <span class="terminal-dot dot-yellow"></span>
           <span class="terminal-dot dot-green"></span>
-          <span class="terminal-title">Full Port Range Subnet Scan</span>
+          <span class="terminal-title">Tüm Port Aralığında Subnet Taraması</span>
         </div>
-        <pre style="margin: 0;"><code class="language-bash" style="padding: 0.75rem 1rem; font-size: 0.76em;"># Scan top web ports across a /16 subnet at 100,000 pps
+        <pre style="margin: 0;"><code class="language-bash" style="padding: 0.75rem 1rem; font-size: 0.76em;"># Bir /16 subnet üzerindeki popüler web portlarını 100.000 pps hızında tara
 sudo masscan -p80,443 10.10.0.0/16 --rate 100000 -oJ web_scan.json
 
-# Full 65,535 port scan with banner grabbing
+# Banner grabbing etkinleştirilmiş 65.535 portluk tam tarama
 sudo masscan -p1-65535 10.10.20.0/24 --banners --rate 25000</code></pre>
       </div>
 
@@ -46,9 +46,9 @@ sudo masscan -p1-65535 10.10.20.0/24 --banners --rate 25000</code></pre>
           <span class="terminal-dot dot-red"></span>
           <span class="terminal-dot dot-yellow"></span>
           <span class="terminal-dot dot-green"></span>
-          <span class="terminal-title">Scanning with Exclusion File</span>
+          <span class="terminal-title">Hariç Tutma (Exclusion) Dosyası ile Tarama</span>
         </div>
-        <pre style="margin: 0;"><code class="language-bash" style="padding: 0.75rem 1rem; font-size: 0.76em;"># Exclude sensitive domain controllers & gateways
+        <pre style="margin: 0;"><code class="language-bash" style="padding: 0.75rem 1rem; font-size: 0.76em;"># Hassas domain controller ve gateway cihazlarını hariç tut
 sudo masscan 10.0.0.0/8 -p80 --excludefile exclude.txt --rate 50000</code></pre>
       </div>
 
@@ -56,3 +56,4 @@ sudo masscan 10.0.0.0/8 -p80 --excludefile exclude.txt --rate 50000</code></pre>
 
   </div>
 </section>
+

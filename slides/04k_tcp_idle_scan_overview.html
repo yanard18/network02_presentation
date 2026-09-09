@@ -2,7 +2,7 @@
 <section>
   <h2><i class="fa-solid fa-user-secret highlight-htb"></i> TCP Idle Scan (<code style="color: var(--htb-green);">-sI</code>)</h2>
   <p class="slide-subtitle">
-    "Blind" port scanning technique that bounces forged packets off an innocent zombie host.
+    Forged paketleri masum bir zombie host üzerinden sektiren "blind" port tarama tekniği.
   </p>
 
   <div class="grid-2" style="align-items: stretch; gap: 1.4rem;">
@@ -13,22 +13,22 @@
       <!-- Blind Scanning Concept -->
       <div class="cyber-card">
         <div class="card-title">
-          <span class="cyber-badge badge-htb">BLIND SCANNING</span> Evasion & Spoofing
+          <span class="cyber-badge badge-htb">BLIND SCANNING</span> Evasion ve Spoofing
         </div>
         <ul style="margin-bottom: 0.6rem;">
-          <li><strong>Zero Direct Packets:</strong> Attacker scans target without sending a single packet from their own IP address directly to the target.</li>
-          <li><strong>Zombie Host Bouncing:</strong> Traffic is bounced off an idle "zombie" host. Target IDS logs will list the innocent zombie as the attacker.</li>
+          <li><strong>Sıfır Doğrudan Paket:</strong> Saldırgan, kendi IP adresinden hedefe doğrudan tek bir paket bile göndermeden hedefi tarar.</li>
+          <li><strong>Zombie Host Üzerinden Sektirme:</strong> Trafik, boşta (idle) duran bir "zombie" host üzerinden sektirilir. Hedef IDS logları masum zombie host'u saldırgan olarak kaydeder.</li>
         </ul>
       </div>
 
       <!-- Packet Forging Logic -->
       <div class="cyber-card secure">
         <div class="card-title">
-          <span class="cyber-badge badge-cyan">RAW PACKETS</span> Forging the SYN Probe
+          <span class="cyber-badge badge-cyan">RAW PACKETS</span> SYN Probe Paketini Forged Oluşturma
         </div>
         <ul class="secure-list" style="margin-bottom: 0;">
-          <li><strong>Craft TCP Payload:</strong> Sets <code style="color: var(--htb-green);">SYN = 1</code> requesting target port connection.</li>
-          <li><strong>IP Header Spoofing:</strong> Sets <strong>Destination IP</strong> = Target IP, and <strong>Source IP</strong> = Zombie IP!</li>
+          <li><strong>TCP Payload Oluşturma:</strong> Hedef port bağlantısı talep etmek için <code style="color: var(--htb-green);">SYN = 1</code> olarak ayarlar.</li>
+          <li><strong>IP Header Spoofing:</strong> <strong>Destination IP</strong> = Target IP ve <strong>Source IP</strong> = Zombie IP olarak ayarlar!</li>
         </ul>
       </div>
 
@@ -41,7 +41,7 @@
       <div style="background: #ffffff; padding: 10px; border-radius: 8px; border: 1px solid var(--htb-border); box-shadow: 0 0 20px var(--htb-green-glow); text-align: center;">
         <img src="media/idle_scan_ip_id_field.png" alt="IP Header ID Field" style="max-height: 170px; width: 100%; display: block; object-fit: contain;">
         <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #333333; font-weight: 600; margin-top: 6px;">
-          <i class="fa-solid fa-barcode" style="color: #2e7d32;"></i> 16-Bit IP Packet Identification Field (Increments Sequentially)
+          <i class="fa-solid fa-barcode" style="color: #2e7d32;"></i> 16-Bit IP Packet Identification (IP ID) Alanı (Sırayla Artar)
         </div>
       </div>
 
@@ -62,3 +62,4 @@ PORT   STATE SERVICE
 
   </div>
 </section>
+

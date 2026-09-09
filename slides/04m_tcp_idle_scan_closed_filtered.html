@@ -1,8 +1,8 @@
 <!-- SLIDE: TCP Idle Scan Closed & Filtered Ports -->
 <section>
-  <h2><i class="fa-solid fa-ban highlight-htb"></i> Idle Scan: Closed & Filtered Ports</h2>
+  <h2><i class="fa-solid fa-ban highlight-htb"></i> Idle Scan: Closed ve Filtered Portlar</h2>
   <p class="slide-subtitle">
-    Comparing packet traces and IP ID increment behaviors (+1) for closed and filtered target ports.
+    Closed ve filtered hedef portlar için packet trace izleri ve IP ID artış davranışlarının (+1) karşılaştırılması.
   </p>
 
   <div class="grid-2" style="align-items: stretch; gap: 1.4rem;">
@@ -11,17 +11,17 @@
     <div style="display: flex; flex-direction: column; gap: 0.8rem;">
       <div class="cyber-card threat" style="padding: 0.9rem 1.1rem;">
         <div class="card-title" style="font-size: 1.05em; margin-bottom: 0.4rem;">
-          <span class="cyber-badge badge-red">INCREMENT +1</span> Closed Port Sequence
+          <span class="cyber-badge badge-red">ARTIŞ +1</span> Closed Port Akışı
         </div>
         <p style="margin: 0; font-size: 0.84em; color: var(--text-main); line-height: 1.45;">
-          Target sends an unsolicited <code style="color: var(--accent-red);">RST</code> to zombie. Zombie ignores it and sends no packet. Zombie IP ID increments by only <strong>+1</strong> during final probe.
+          Hedef, zombie'ye talep edilmemiş bir <code style="color: var(--accent-red);">RST</code> gönderir. Zombie bunu yok sayar ve paket göndermez. Son probe sırasında zombie IP ID değeri yalnızca <strong>+1</strong> kadar artar.
         </p>
       </div>
 
       <div style="background: #ffffff; padding: 8px; border-radius: 8px; border: 1px solid var(--htb-border-red); box-shadow: 0 0 15px rgba(255, 46, 99, 0.2); text-align: center;">
         <img src="media/idle_scan_closed.png" alt="Idle Scan Closed Port Diagram" style="max-height: 200px; width: 100%; display: block; object-fit: contain;">
         <div style="font-family: var(--font-mono); font-size: 0.7rem; color: #333333; font-weight: 600; margin-top: 4px;">
-          <i class="fa-solid fa-xmark-circle" style="color: #c62828;"></i> Closed Port Trace (Target sends RST &rarr; Zombie ignores)
+          <i class="fa-solid fa-xmark-circle" style="color: #c62828;"></i> Closed Port Trace (Target RST gönderir &rarr; Zombie yok sayar)
         </div>
       </div>
     </div>
@@ -30,20 +30,21 @@
     <div style="display: flex; flex-direction: column; gap: 0.8rem;">
       <div class="cyber-card" style="padding: 0.9rem 1.1rem;">
         <div class="card-title" style="font-size: 1.05em; margin-bottom: 0.4rem;">
-          <span class="cyber-badge badge-purple">INCREMENT +1</span> Filtered Port Sequence
+          <span class="cyber-badge badge-purple">ARTIŞ +1</span> Filtered Port Akışı
         </div>
         <p style="margin: 0; font-size: 0.84em; color: var(--text-main); line-height: 1.45;">
-          Target firewall drops packet. Zombie receives nothing and sends no packet. Zombie IP ID increments by <strong>+1</strong> during final probe (indistinguishable from closed).
+          Hedef firewall paketi drop eder. Zombie hiçbir şey almaz ve paket göndermez. Son probe sırasında zombie IP ID değeri <strong>+1</strong> kadar artar (closed durumundan ayırt edilemez).
         </p>
       </div>
 
       <div style="background: #ffffff; padding: 8px; border-radius: 8px; border: 1px solid var(--htb-border); box-shadow: 0 0 15px rgba(157, 78, 221, 0.25); text-align: center;">
         <img src="media/idle_scan_filtered.png" alt="Idle Scan Filtered Port Diagram" style="max-height: 200px; width: 100%; display: block; object-fit: contain;">
         <div style="font-family: var(--font-mono); font-size: 0.7rem; color: #333333; font-weight: 600; margin-top: 4px;">
-          <i class="fa-solid fa-filter" style="color: #6a1b9a;"></i> Filtered Port Trace (Firewall drops &rarr; Zombie unaware)
+          <i class="fa-solid fa-filter" style="color: #6a1b9a;"></i> Filtered Port Trace (Firewall drop eder &rarr; Zombie habersiz kalır)
         </div>
       </div>
     </div>
 
   </div>
 </section>
+

@@ -1,8 +1,8 @@
 <!-- SLIDE: Firewall Evasion & Spoofing Flags -->
 <section>
-  <h2><i class="fa-solid fa-user-secret highlight-htb"></i> Firewall Evasion & Spoofing</h2>
+  <h2><i class="fa-solid fa-user-secret highlight-htb"></i> Firewall Evasion ve Spoofing</h2>
   <p class="slide-subtitle">
-    Bypassing firewall packet filters and masking source origins:
+    Firewall paket filtrelerini atlatma ve kaynak adres kimliğini gizleme:
   </p>
 
   <div style="display: flex; flex-direction: column; gap: 1.2rem; text-align: left; max-width: 1050px; margin: 0 auto;">
@@ -11,9 +11,9 @@
     <div style="display: grid; grid-template-columns: 220px 1fr; gap: 1.2rem; align-items: start; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 1rem;">
       <div><code style="color: var(--accent-red); font-size: 0.95rem; font-weight: 700;">--source-port</code></div>
       <div style="font-size: 0.95em; color: var(--text-main);">
-        Changes the source port to bypass firewall rules (e.g. <code style="color: var(--htb-green);">--source-port 53</code>).
+        Firewall kurallarını atlatmak için kaynak portu değiştirir (örneğin <code style="color: var(--htb-green);">--source-port 53</code>).
         <p style="margin-top: 0.5rem; color: var(--text-muted); font-style: italic; font-size: 0.92em;">
-          "If the traffic is coming FROM port 53 (DNS), it must be legitimate DNS traffic. Let it through."
+          "Eğer trafik port 53 (DNS) üzerinden geliyorsa, meşru bir DNS trafiğidir. Geçişine izin ver."
         </p>
       </div>
     </div>
@@ -22,9 +22,10 @@
     <div style="display: grid; grid-template-columns: 220px 1fr; gap: 1.2rem; align-items: start; padding-bottom: 0.2rem;">
       <div><code style="color: var(--accent-red); font-size: 0.95rem; font-weight: 700;">-S</code></div>
       <div style="font-size: 0.95em; color: var(--text-main);">
-        Spoofs the source IP address of scan packets to conceal the true scanner identity.
+        Gerçek tarayıcı kimliğini gizlemek için tarama paketlerinin kaynak IP adresini spoof eder.
       </div>
     </div>
 
   </div>
 </section>
+

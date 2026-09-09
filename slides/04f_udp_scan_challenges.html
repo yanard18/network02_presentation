@@ -1,8 +1,8 @@
 <!-- SLIDE: UDP Scan Challenges & Verification -->
 <section>
-  <h2><i class="fa-solid fa-triangle-exclamation highlight-htb"></i> UDP Challenges & Verification Tricks</h2>
+  <h2><i class="fa-solid fa-triangle-exclamation highlight-htb"></i> UDP Zorlukları ve Doğrulama Yöntemleri</h2>
   <p class="slide-subtitle">
-    Overcoming ICMP rate limiting, resolving open|filtered ambiguity, and manual hop-count analysis.
+    ICMP rate limiting engelini aşma, open|filtered belirsizliğini çözme ve manuel hop-count analizi.
   </p>
 
   <div class="grid-2" style="align-items: stretch; gap: 1.4rem;">
@@ -13,22 +13,22 @@
       <!-- ICMP Rate Limiting Threat Card -->
       <div class="cyber-card threat">
         <div class="card-title">
-          <span class="cyber-badge badge-red">ICMP RATE LIMITING</span> The Speed Pitfall
+          <span class="cyber-badge badge-red">ICMP RATE LIMITING</span> Hız Tuzağı
         </div>
         <ul class="threat-list" style="margin-bottom: 0.5rem;">
-          <li><strong>Kernel Caps:</strong> Operating systems limit ICMP error generation rate (e.g., Linux caps ICMP unreachable at ~1/sec).</li>
-          <li><strong>High Scan Rates Backfire:</strong> Forcing fast scans with <code style="color: var(--accent-red);">--min-rate 1000</code> causes targets to drop ICMP error packets, turning <span class="cyber-badge badge-red" style="font-size: 0.7rem;">closed</span> ports into false <span class="cyber-badge badge-yellow" style="font-size: 0.7rem;">open|filtered</span> results.</li>
+          <li><strong>Kernel Sınırlamaları:</strong> İşletim sistemleri ICMP hata paketlerinin üretilme hızını sınırlar (örneğin Linux, ICMP unreachable paketlerini saniyede ~1 ile sınırlar).</li>
+          <li><strong>Yüksek Tarama Hızlarının Olumsuz Etkisi:</strong> <code style="color: var(--accent-red);">--min-rate 1000</code> ile hızlı taramaya zorlamak hedefin ICMP hata paketlerini drop etmesine neden olur; bu da <span class="cyber-badge badge-red" style="font-size: 0.7rem;">closed</span> portların yanlışlıkla <span class="cyber-badge badge-yellow" style="font-size: 0.7rem;">open|filtered</span> olarak görünmesine yol açar.</li>
         </ul>
       </div>
 
       <!-- Service Probes Solution Card -->
       <div class="cyber-card secure">
         <div class="card-title">
-          <span class="cyber-badge badge-htb">SOLUTIONS</span> Service Probes (<code style="color: var(--htb-green);">-sV</code>)
+          <span class="cyber-badge badge-htb">ÇÖZÜMLER</span> Service Probe'ları (<code style="color: var(--htb-green);">-sV</code>)
         </div>
         <ul class="secure-list" style="margin-bottom: 0;">
-          <li><strong>Payload-Based Probing:</strong> Enabling <code style="color: var(--htb-green);">-sV</code> (or <code style="color: var(--htb-green);">-A</code>) loads <code style="color: var(--accent-cyan);">nmap-service-probes</code>.</li>
-          <li><strong>Payload Trigger:</strong> Sends real protocol payloads (e.g. DNS queries, SNMP requests) instead of empty packets, triggering real UDP replies to confirm <span class="cyber-badge badge-htb" style="font-size: 0.7rem;">open</span> ports.</li>
+          <li><strong>Payload Tabanlı Probing:</strong> <code style="color: var(--htb-green);">-sV</code> (veya <code style="color: var(--htb-green);">-A</code>) parametresini etkinleştirmek <code style="color: var(--accent-cyan);">nmap-service-probes</code> dosyasını yükler.</li>
+          <li><strong>Payload Tetikleme:</strong> Boş paketler yerine gerçek protokol payload'ları (örneğin DNS sorguları, SNMP istekleri) göndererek gerçek UDP yanıtlarını tetikler ve <span class="cyber-badge badge-htb" style="font-size: 0.7rem;">open</span> portları doğrular.</li>
         </ul>
       </div>
 
@@ -38,10 +38,10 @@
     <div class="cyber-card" style="display: flex; flex-direction: column; justify-content: space-between;">
       <div>
         <div class="card-title">
-          <span class="cyber-badge badge-purple">MANUAL TRICK</span> Nping Hop-Count Analysis
+          <span class="cyber-badge badge-purple">MANUEL YÖNTEM</span> Nping Hop-Count Analizi
         </div>
         <p style="font-size: 0.88em; color: var(--text-muted); margin-bottom: 0.6rem;">
-          Use <code style="color: var(--accent-cyan);">nping</code> to disambiguate <span class="cyber-badge badge-yellow" style="font-size: 0.7rem;">open|filtered</span> ports by comparing traceroute hop counts against a known closed port:
+          <span class="cyber-badge badge-yellow" style="font-size: 0.7rem;">open|filtered</span> portlardaki belirsizliği gidermek için <code style="color: var(--accent-cyan);">nping</code> ile traceroute hop count değerlerini bilinen closed bir port ile karşılaştırın:
         </p>
 
         <!-- Code Snippet -->
@@ -49,19 +49,20 @@
           <span class="terminal-dot dot-red"></span>
           <span class="terminal-dot dot-yellow"></span>
           <span class="terminal-dot dot-green"></span>
-          <span class="terminal-title">Compare Hop Counts on Target</span>
+          <span class="terminal-title">Hedef Üzerinde Hop Count Karşılaştırması</span>
         </div>
-        <pre style="margin: 0;"><code class="language-bash" style="padding: 0.7rem; font-size: 0.75em;"># Test suspected open|filtered port
+        <pre style="margin: 0;"><code class="language-bash" style="padding: 0.7rem; font-size: 0.75em;"># Şüpheli open|filtered portu test et
 nping --udp --traceroute -c 13 -p 53 target.htb
 
-# Test known closed port
+# Bilinen closed portu test et
 nping --udp --traceroute -c 13 -p 54 target.htb</code></pre>
 
         <ul style="margin-top: 0.8rem; margin-bottom: 0; font-size: 0.88em;">
-          <li><strong>Analysis:</strong> If the hop count on port 53 matches the closed port (54), the target received the probe and dropped the ICMP reply $\rightarrow$ port 53 is actually <strong>closed</strong>.</li>
+          <li><strong>Analiz:</strong> Port 53 üzerindeki hop count değeri closed port (54) ile eşleşiyorsa, hedef probe paketini almış ancak ICMP yanıtını drop etmiştir $\rightarrow$ port 53 aslında <strong>closed</strong> durumundadır.</li>
         </ul>
       </div>
     </div>
 
   </div>
 </section>
+

@@ -1,24 +1,25 @@
 <!-- SLIDE 16: Telnet vs SSH & Protocol Hardening -->
 <section>
-  <h2><i class="fa-solid fa-shield-halved highlight-htb"></i> Secure Alternative: Telnet vs. SSH</h2>
+  <h2><i class="fa-solid fa-shield-halved highlight-htb"></i> Güvenli Alternatif: Telnet vs SSH</h2>
   <p class="slide-subtitle">
-    Cleartext remote access kullanımını kaldırmak için hardening adımları.
+    Cleartext uzaktan erişim kullanımını sonlandırmak için hardening adımları.
   </p>
 
   <div class="slide-center" style="max-width: 840px; text-align: left; margin-top: 1.8rem;">
     <ul class="secure-list" style="font-size: 1.1em; line-height: 1.7;">
       <li style="margin-bottom: 1.1rem;">
-        <strong>Decommission Daemons:</strong> Server'lar, switch'ler ve IoT node'larında <code style="color: var(--htb-green);">telnetd</code> servisini durdurun ve tamamen kaldırın.
+        <strong>Daemon'ları Devre Dışı Bırakma:</strong> Sunucular, switch'ler ve IoT node'larında <code style="color: var(--htb-green);">telnetd</code> servisini durdurun ve tamamen kaldırın.
       </li>
       <li style="margin-bottom: 1.1rem;">
-        <strong>Firewall Filtering:</strong> <span class="highlight-htb">TCP 23</span> ve <span class="highlight-cyan">TCP 2323</span> portlarındaki inbound trafiği engelleyin.
+        <strong>Firewall Filtreleme:</strong> <span class="highlight-htb">TCP 23</span> ve <span class="highlight-cyan">TCP 2323</span> portlarındaki inbound trafiği engelleyin.
       </li>
       <li style="margin-bottom: 1.1rem;">
-        <strong>Deploy SSH Keys:</strong> SSH key pair kullanımını (<code style="color: var(--htb-green);">ed25519</code>) zorunlu kılın ve password auth'u devre dışı bırakın.
+        <strong>SSH Key Dağıtımı:</strong> SSH key pair kullanımını (<code style="color: var(--htb-green);">ed25519</code>) zorunlu kılın ve password auth özelliğini devre dışı bırakın.
       </li>
       <li style="margin-bottom: 1.1rem;">
-        <strong>VLAN Isolation:</strong> Eski management interface'lerini dedicated, kısıtlı VLAN'lar üzerinde izole edin.
+        <strong>VLAN İzolasyonu:</strong> Eski management interface'lerini dedicated, kısıtlı VLAN'lar üzerinde izole edin.
       </li>
     </ul>
   </div>
 </section>
+

@@ -1,0 +1,44 @@
+<!-- SLIDE 44g: Macrosegmentation vs Microsegmentation -->
+<section>
+  <h2><i class="fa-solid fa-code-compare highlight-htb"></i> Macrosegmentation vs. Microsegmentation</h2>
+  <p class="slide-subtitle">
+    Geleneksel ağ segmentasyonu ile modern mikro segmentasyon yaklaşımlarının karşılaştırılması.
+  </p>
+
+  <div class="grid-2" style="align-items: center; gap: 1.4rem; margin-top: 1rem;">
+    <!-- Left Column: Comparison Cards -->
+    <div style="display: flex; flex-direction: column; gap: 0.9rem;">
+      <!-- Macrosegmentation -->
+      <div class="cyber-card threat" style="padding: 0.9rem 1.1rem;">
+        <div class="card-title" style="font-size: 1.05em; margin-bottom: 0.4rem;">
+          <span class="cyber-badge badge-red">TRADITIONAL</span> Macrosegmentation
+        </div>
+        <ul class="threat-list" style="font-size: 0.82em; margin-bottom: 0;">
+          <li><strong>Odak Noktası:</strong> North-South trafiğini (ağ sınırları ve VLAN geçişlerini) kontrol eder.</li>
+          <li><strong>Granularity:</strong> Coarse-grained (IP adresi, subnet ve VLAN seviyesinde geniş segmentler).</li>
+          <li><strong>Kısıtlama:</strong> Aynı subnet içindeki East-West trafiğini denetleyemez; tek bir host ihlal edildiğinde tüm subnet riske girer.</li>
+        </ul>
+      </div>
+
+      <!-- Microsegmentation -->
+      <div class="cyber-card secure" style="padding: 0.9rem 1.1rem;">
+        <div class="card-title" style="font-size: 1.05em; margin-bottom: 0.4rem;">
+          <span class="cyber-badge badge-htb">ZERO TRUST</span> Microsegmentation
+        </div>
+        <ul class="secure-list" style="font-size: 0.82em; margin-bottom: 0;">
+          <li><strong>Odak Noktası:</strong> East-West trafiğini (sunucular ve workload'lar arası iç trafiği) kontrol eder.</li>
+          <li><strong>Granularity:</strong> Fine-grained (kimlik, etiket, süreç ve uygulama bazlı hassas sınırlar).</li>
+          <li><strong>Avantaj:</strong> Aynı IP subnet'i üzerindeki workload'ları bile izole eder; lateral movement hamlelerini durdurur.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Right Column: Diagram Image -->
+    <div style="background: #ffffff; padding: 10px; border-radius: 8px; border: 1px solid var(--htb-border); box-shadow: 0 0 20px var(--htb-green-glow); text-align: center;">
+      <img src="media/microsegmentation-vs-network-segmentation-DP2.jpg.webp" alt="Macrosegmentation vs Microsegmentation Diagram" style="max-height: 380px; width: 100%; display: block; object-fit: contain;">
+      <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #333333; font-weight: 600; margin-top: 6px;">
+        <i class="fa-solid fa-diagram-project" style="color: #2e7d32;"></i> Network-Level (Macro) vs. Workload-Level (Micro) Isolation
+      </div>
+    </div>
+  </div>
+</section>

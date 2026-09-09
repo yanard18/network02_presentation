@@ -125,7 +125,6 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
   </div>
 </section>
 
-
       <!-- Loaded from slides/03_nmap_live_target.html -->
 <!-- SLIDE: Nmap Basic Scan -->
 <section>
@@ -371,7 +370,7 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
 <section>
   <h2><i class="fa-solid fa-link highlight-htb"></i> TCP Connect Scan (<code style="color: var(--htb-green);">-sT</code>)</h2>
   <p class="slide-subtitle">
-    The standard full-connection scan used when raw socket privileges are unavailable.
+    Raw socket yetkilerinin bulunmadığı durumlarda kullanılan standart full connection taraması.
   </p>
 
   <div class="grid-2" style="align-items: center; gap: 1.5rem;">
@@ -380,21 +379,21 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
     <div style="display: flex; flex-direction: column; gap: 1rem;">
       <div class="cyber-card">
         <div class="card-title">
-          <span class="cyber-badge badge-htb">FULL HANDSHAKE</span> Key Characteristics
+          <span class="cyber-badge badge-htb">FULL HANDSHAKE</span> Temel Özellikler
         </div>
         <ul style="margin-bottom: 0.6rem;">
-          <li><strong>Full Handshake:</strong> Completes the complete TCP 3-way handshake (<code style="color: var(--htb-green);">SYN</code> &rarr; <code style="color: var(--htb-green);">SYN-ACK</code> &rarr; <code style="color: var(--htb-green);">ACK</code>).</li>
-          <li><strong>Unprivileged Execution:</strong> Used automatically when raw packets are unavailable (running Nmap without <code style="color: var(--htb-green);">sudo</code>).</li>
-          <li><strong>Berkeley Sockets API:</strong> Issues standard OS system calls (<code style="color: var(--accent-cyan);">connect()</code>), identical to web browsers.</li>
+          <li><strong>Full Handshake:</strong> TCP 3-way handshake (<code style="color: var(--htb-green);">SYN</code> &rarr; <code style="color: var(--htb-green);">SYN-ACK</code> &rarr; <code style="color: var(--htb-green);">ACK</code>) sürecini eksiksiz tamamlar.</li>
+          <li><strong>Unprivileged Execution:</strong> Raw packet erişim yetkisi olmadığında (Nmap <code style="color: var(--htb-green);">sudo</code> kullanılmadan çalıştırıldığında) otomatik olarak tercih edilir.</li>
+          <li><strong>Berkeley Sockets API:</strong> Web tarayıcılarıyla aynı şekilde işletim sisteminin standart <code style="color: var(--accent-cyan);">connect()</code> system call mekanizmasını çağırır.</li>
         </ul>
       </div>
 
       <div class="cyber-card threat">
         <div class="card-title">
-          <span class="cyber-badge badge-red">LOGGING & IDS</span> Stealth Trade-off
+          <span class="cyber-badge badge-red">LOGGING & IDS</span> Stealth Ödünleşimi
         </div>
         <ul class="threat-list" style="margin-bottom: 0;">
-          <li><strong>Application Logging:</strong> Because a full TCP session is established, target applications are highly likely to log the connection event.</li>
+          <li><strong>Application Logging:</strong> Tam bir TCP session kurulduğu için hedef uygulamaların bağlantı olayını loglama olasılığı son derece yüksektir.</li>
         </ul>
       </div>
     </div>
@@ -406,7 +405,7 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
       <div style="background: #ffffff; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--htb-border); box-shadow: 0 0 20px var(--htb-green-glow);">
         <img src="media/nmap_tcp_connect_scan.png" alt="TCP Connect Scan Diagram" style="max-height: 220px; width: 100%; display: block; object-fit: contain;">
         <div style="font-family: var(--font-mono); font-size: 0.73rem; color: #333333; font-weight: 600; margin-top: 6px;">
-          <i class="fa-solid fa-network-wired" style="color: #2e7d32;"></i> Full Handshake Exchange & Session Teardown
+          <i class="fa-solid fa-network-wired" style="color: #2e7d32;"></i> Full Handshake Akışı ve Session Teardown
         </div>
       </div>
 
@@ -416,7 +415,7 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
           <span class="terminal-dot dot-red"></span>
           <span class="terminal-dot dot-yellow"></span>
           <span class="terminal-dot dot-green"></span>
-          <span class="terminal-title">nmap -sT target.htb (Unprivileged user)</span>
+          <span class="terminal-title">nmap -sT target.htb (Unprivileged kullanıcı)</span>
         </div>
         <pre style="margin: 0;"><code class="language-bash" style="padding: 0.75rem 1rem; font-size: 0.8em;">PORT   STATE SERVICE
 22/tcp open  ssh</code></pre>
@@ -432,7 +431,7 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
 <section>
   <h2><i class="fa-solid fa-bolt highlight-htb"></i> UDP Scan (<code style="color: var(--htb-green);">-sU</code>)</h2>
   <p class="slide-subtitle">
-    Stateless UDP scanning mechanics, probe response mapping, and state determination.
+    Stateless UDP tarama mekaniği, probe yanıt haritalaması ve durum tespiti.
   </p>
 
   <div class="grid-2" style="align-items: stretch; gap: 1.4rem;">
@@ -441,23 +440,23 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
     <div class="cyber-card" style="display: flex; flex-direction: column; justify-content: space-between;">
       <div>
         <div class="card-title">
-          <span class="cyber-badge badge-htb">STATE MAPPING</span> Probe Response Rules
+          <span class="cyber-badge badge-htb">STATE MAPPING</span> Probe Yanıt Kuralları
         </div>
         
         <table style="width: 100%; border-collapse: collapse; font-size: 0.82em; margin-top: 0.6rem; color: var(--text-main);">
           <thead>
             <tr style="border-bottom: 2px solid var(--htb-border); text-align: left;">
-              <th style="padding: 6px 8px; color: var(--text-white); font-family: var(--font-heading);">Probe Response</th>
-              <th style="padding: 6px 8px; color: var(--text-white); font-family: var(--font-heading); text-align: right;">Assigned State</th>
+              <th style="padding: 6px 8px; color: var(--text-white); font-family: var(--font-heading);">Probe Yanıtı</th>
+              <th style="padding: 6px 8px; color: var(--text-white); font-family: var(--font-heading); text-align: right;">Atanan Durum</th>
             </tr>
           </thead>
           <tbody>
             <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
-              <td style="padding: 8px;">Any UDP response from target port</td>
+              <td style="padding: 8px;">Hedef porttan gelen herhangi bir UDP yanıtı</td>
               <td style="padding: 8px; text-align: right;"><span class="cyber-badge badge-htb" style="font-size: 0.72rem;">open</span></td>
             </tr>
             <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
-              <td style="padding: 8px;">No response received (after retries)</td>
+              <td style="padding: 8px;">Yanıt alınamadı (yeniden denemeler sonrasında)</td>
               <td style="padding: 8px; text-align: right;"><span class="cyber-badge badge-yellow" style="font-size: 0.72rem;">open | filtered</span></td>
             </tr>
             <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
@@ -465,7 +464,7 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
               <td style="padding: 8px; text-align: right;"><span class="cyber-badge badge-red" style="font-size: 0.72rem;">closed</span></td>
             </tr>
             <tr>
-              <td style="padding: 8px;">Other ICMP Unreachable (Code 1, 2, 9, 10, 13)</td>
+              <td style="padding: 8px;">Diğer ICMP Unreachable kodları (Code 1, 2, 9, 10, 13)</td>
               <td style="padding: 8px; text-align: right;"><span class="cyber-badge badge-purple" style="font-size: 0.72rem;">filtered</span></td>
             </tr>
           </tbody>
@@ -473,7 +472,7 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
       </div>
 
       <div style="margin-top: 0.8rem; font-size: 0.82em; color: var(--text-muted); padding: 0.5rem 0.8rem; background: rgba(7, 14, 27, 0.6); border-radius: 4px;">
-        <i class="fa-solid fa-circle-info highlight-cyan"></i> Because UDP is connectionless, open ports rarely send back confirmations to empty probes.
+        <i class="fa-solid fa-circle-info highlight-cyan"></i> UDP connectionless bir protokol olduğu için, açık portlar boş probe paketlerine nadiren yanıt doğrulaması döner.
       </div>
     </div>
 
@@ -481,11 +480,11 @@ Nmap done: 1 IP address (1 host up) scanned</code></pre>
     <div style="display: flex; flex-direction: column; gap: 1rem;">
       <div class="cyber-card">
         <div class="card-title">
-          <span class="cyber-badge badge-cyan">UDP MECHANICS</span> Empty Probes & Ambiguity
+          <span class="cyber-badge badge-cyan">UDP MECHANICS</span> Boş Probe'lar ve Belirsizlik
         </div>
         <ul style="margin-bottom: 0;">
-          <li><strong>Stateless Protocol:</strong> UDP has no TCP-like handshakes or SYN/ACK packet confirmations.</li>
-          <li><strong>Default Probes:</strong> Nmap sends empty UDP packets to most ports. If no error comes back, Nmap cannot distinguish an open port from a firewall drop $\rightarrow$ <span class="cyber-badge badge-yellow" style="font-size: 0.72rem;">open | filtered</span>.</li>
+          <li><strong>Stateless Protokol:</strong> UDP, TCP benzeri handshake mekanizmalarına veya SYN/ACK paket doğrulamalarına sahip değildir.</li>
+          <li><strong>Default Probe'lar:</strong> Nmap, portların çoğuna boş UDP paketleri gönderir. Herhangi bir hata yanıtı dönmezse, Nmap açık bir port ile firewall drop durumunu ayırt edemez &rarr; <span class="cyber-badge badge-yellow" style="font-size: 0.72rem;">open | filtered</span>.</li>
         </ul>
       </div>
 
@@ -512,9 +511,9 @@ MAC Address: 00:02:E3:14:11:02 (Lite-on)</code></pre>
       <!-- Loaded from slides/04f_udp_scan_challenges.html -->
 <!-- SLIDE: UDP Scan Challenges & Verification -->
 <section>
-  <h2><i class="fa-solid fa-triangle-exclamation highlight-htb"></i> UDP Challenges & Verification Tricks</h2>
+  <h2><i class="fa-solid fa-triangle-exclamation highlight-htb"></i> UDP Zorlukları ve Doğrulama Yöntemleri</h2>
   <p class="slide-subtitle">
-    Overcoming ICMP rate limiting, resolving open|filtered ambiguity, and manual hop-count analysis.
+    ICMP rate limiting engelini aşma, open|filtered belirsizliğini çözme ve manuel hop-count analizi.
   </p>
 
   <div class="grid-2" style="align-items: stretch; gap: 1.4rem;">
@@ -525,22 +524,22 @@ MAC Address: 00:02:E3:14:11:02 (Lite-on)</code></pre>
       <!-- ICMP Rate Limiting Threat Card -->
       <div class="cyber-card threat">
         <div class="card-title">
-          <span class="cyber-badge badge-red">ICMP RATE LIMITING</span> The Speed Pitfall
+          <span class="cyber-badge badge-red">ICMP RATE LIMITING</span> Hız Tuzağı
         </div>
         <ul class="threat-list" style="margin-bottom: 0.5rem;">
-          <li><strong>Kernel Caps:</strong> Operating systems limit ICMP error generation rate (e.g., Linux caps ICMP unreachable at ~1/sec).</li>
-          <li><strong>High Scan Rates Backfire:</strong> Forcing fast scans with <code style="color: var(--accent-red);">--min-rate 1000</code> causes targets to drop ICMP error packets, turning <span class="cyber-badge badge-red" style="font-size: 0.7rem;">closed</span> ports into false <span class="cyber-badge badge-yellow" style="font-size: 0.7rem;">open|filtered</span> results.</li>
+          <li><strong>Kernel Sınırlamaları:</strong> İşletim sistemleri ICMP hata paketlerinin üretilme hızını sınırlar (örneğin Linux, ICMP unreachable paketlerini saniyede ~1 ile sınırlar).</li>
+          <li><strong>Yüksek Tarama Hızlarının Olumsuz Etkisi:</strong> <code style="color: var(--accent-red);">--min-rate 1000</code> ile hızlı taramaya zorlamak hedefin ICMP hata paketlerini drop etmesine neden olur; bu da <span class="cyber-badge badge-red" style="font-size: 0.7rem;">closed</span> portların yanlışlıkla <span class="cyber-badge badge-yellow" style="font-size: 0.7rem;">open|filtered</span> olarak görünmesine yol açar.</li>
         </ul>
       </div>
 
       <!-- Service Probes Solution Card -->
       <div class="cyber-card secure">
         <div class="card-title">
-          <span class="cyber-badge badge-htb">SOLUTIONS</span> Service Probes (<code style="color: var(--htb-green);">-sV</code>)
+          <span class="cyber-badge badge-htb">ÇÖZÜMLER</span> Service Probe'ları (<code style="color: var(--htb-green);">-sV</code>)
         </div>
         <ul class="secure-list" style="margin-bottom: 0;">
-          <li><strong>Payload-Based Probing:</strong> Enabling <code style="color: var(--htb-green);">-sV</code> (or <code style="color: var(--htb-green);">-A</code>) loads <code style="color: var(--accent-cyan);">nmap-service-probes</code>.</li>
-          <li><strong>Payload Trigger:</strong> Sends real protocol payloads (e.g. DNS queries, SNMP requests) instead of empty packets, triggering real UDP replies to confirm <span class="cyber-badge badge-htb" style="font-size: 0.7rem;">open</span> ports.</li>
+          <li><strong>Payload Tabanlı Probing:</strong> <code style="color: var(--htb-green);">-sV</code> (veya <code style="color: var(--htb-green);">-A</code>) parametresini etkinleştirmek <code style="color: var(--accent-cyan);">nmap-service-probes</code> dosyasını yükler.</li>
+          <li><strong>Payload Tetikleme:</strong> Boş paketler yerine gerçek protokol payload'ları (örneğin DNS sorguları, SNMP istekleri) göndererek gerçek UDP yanıtlarını tetikler ve <span class="cyber-badge badge-htb" style="font-size: 0.7rem;">open</span> portları doğrular.</li>
         </ul>
       </div>
 
@@ -550,10 +549,10 @@ MAC Address: 00:02:E3:14:11:02 (Lite-on)</code></pre>
     <div class="cyber-card" style="display: flex; flex-direction: column; justify-content: space-between;">
       <div>
         <div class="card-title">
-          <span class="cyber-badge badge-purple">MANUAL TRICK</span> Nping Hop-Count Analysis
+          <span class="cyber-badge badge-purple">MANUEL YÖNTEM</span> Nping Hop-Count Analizi
         </div>
         <p style="font-size: 0.88em; color: var(--text-muted); margin-bottom: 0.6rem;">
-          Use <code style="color: var(--accent-cyan);">nping</code> to disambiguate <span class="cyber-badge badge-yellow" style="font-size: 0.7rem;">open|filtered</span> ports by comparing traceroute hop counts against a known closed port:
+          <span class="cyber-badge badge-yellow" style="font-size: 0.7rem;">open|filtered</span> portlardaki belirsizliği gidermek için <code style="color: var(--accent-cyan);">nping</code> ile traceroute hop count değerlerini bilinen closed bir port ile karşılaştırın:
         </p>
 
         <!-- Code Snippet -->
@@ -561,16 +560,16 @@ MAC Address: 00:02:E3:14:11:02 (Lite-on)</code></pre>
           <span class="terminal-dot dot-red"></span>
           <span class="terminal-dot dot-yellow"></span>
           <span class="terminal-dot dot-green"></span>
-          <span class="terminal-title">Compare Hop Counts on Target</span>
+          <span class="terminal-title">Hedef Üzerinde Hop Count Karşılaştırması</span>
         </div>
-        <pre style="margin: 0;"><code class="language-bash" style="padding: 0.7rem; font-size: 0.75em;"># Test suspected open|filtered port
+        <pre style="margin: 0;"><code class="language-bash" style="padding: 0.7rem; font-size: 0.75em;"># Şüpheli open|filtered portu test et
 nping --udp --traceroute -c 13 -p 53 target.htb
 
-# Test known closed port
+# Bilinen closed portu test et
 nping --udp --traceroute -c 13 -p 54 target.htb</code></pre>
 
         <ul style="margin-top: 0.8rem; margin-bottom: 0; font-size: 0.88em;">
-          <li><strong>Analysis:</strong> If the hop count on port 53 matches the closed port (54), the target received the probe and dropped the ICMP reply $\rightarrow$ port 53 is actually <strong>closed</strong>.</li>
+          <li><strong>Analiz:</strong> Port 53 üzerindeki hop count değeri closed port (54) ile eşleşiyorsa, hedef probe paketini almış ancak ICMP yanıtını drop etmiştir $\rightarrow$ port 53 aslında <strong>closed</strong> durumundadır.</li>
         </ul>
       </div>
     </div>
@@ -578,13 +577,12 @@ nping --udp --traceroute -c 13 -p 54 target.htb</code></pre>
   </div>
 </section>
 
-
       <!-- Loaded from slides/04h_stealth_tcp_scans.html -->
 <!-- SLIDE: TCP FIN, NULL, & Xmas Scans Overview -->
 <section>
   <h2><i class="fa-solid fa-ghost highlight-htb"></i> Stealth TCP Scans: NULL, FIN & Xmas</h2>
   <p class="slide-subtitle">
-    Advanced TCP firewall evasion techniques utilizing malformed packets based on RFC 793 compliance.
+    RFC 793 uyumluluğuna dayalı malformed paketler kullanan gelişmiş TCP firewall evasion teknikleri.
   </p>
 
   <div class="grid-2" style="align-items: stretch; gap: 1.4rem;">
@@ -593,24 +591,24 @@ nping --udp --traceroute -c 13 -p 54 target.htb</code></pre>
     <div style="display: flex; flex-direction: column; gap: 1rem;">
       <div class="cyber-card">
         <div class="card-title">
-          <span class="cyber-badge badge-htb">EVASION RATIONALE</span> Why Use Malformed Packets?
+          <span class="cyber-badge badge-htb">EVASION RATIONALE</span> Neden Malformed Paketler Kullanılır?
         </div>
         <ul style="margin-bottom: 0.6rem;">
-          <li><strong>Firewall Bypass:</strong> Non-stateful firewalls block incoming connections by dropping packets with <code style="color: var(--htb-green);">SYN</code> set and <code style="color: var(--accent-cyan);">ACK</code> cleared.</li>
-          <li><strong>Bypassing Rules:</u></strong> Sending packets without <code style="color: var(--htb-green);">SYN</code>, <code style="color: var(--accent-red);">RST</code>, or <code style="color: var(--accent-cyan);">ACK</code> flags bypasses simple SYN-filtering rules.</li>
+          <li><strong>Firewall Bypass:</strong> Non-stateful firewall yapıları, <code style="color: var(--htb-green);">SYN</code> seti aktif ve <code style="color: var(--accent-cyan);">ACK</code> temizlenmiş gelen bağlantı paketlerini drop ederek engeller.</li>
+          <li><strong>Kuralları Atlatma:</strong> <code style="color: var(--htb-green);">SYN</code>, <code style="color: var(--accent-red);">RST</code> veya <code style="color: var(--accent-cyan);">ACK</code> flag'leri içermeyen paketler göndermek, basit SYN-filtering kurallarını atlatır.</li>
         </ul>
       </div>
 
       <div class="cyber-card secure">
         <div class="card-title">
-          <span class="cyber-badge badge-cyan">RFC 793 RULE</span> OS TCP Stack Response Logic
+          <span class="cyber-badge badge-cyan">RFC 793 KURALLARI</span> İşletim Sistemi TCP Stack Yanıt Mantığı
         </div>
         <p style="font-size: 0.88em; color: var(--text-muted); margin-bottom: 0.5rem;">
-          RFC 793 dictates how compliant operating systems must handle unexpected TCP packets without SYN/RST/ACK:
+          RFC 793, standartlara uygun işletim sistemlerinin SYN/RST/ACK içermeyen beklenmeyen TCP paketlerini nasıl ele alması gerektiğini belirtir:
         </p>
         <ul class="secure-list" style="margin-bottom: 0;">
-          <li><span class="cyber-badge badge-red" style="font-size: 0.72rem;">closed</span> <strong>Closed Port:</strong> Target system MUST reply with an <code style="color: var(--accent-red);">RST</code> packet.</li>
-          <li><span class="cyber-badge badge-htb" style="font-size: 0.72rem;">open</span> <strong>Open Port:</strong> Target sees an invalid packet and <strong>silently drops it</strong> without replying.</li>
+          <li><span class="cyber-badge badge-red" style="font-size: 0.72rem;">closed</span> <strong>Closed Port:</strong> Hedef sistem bir <code style="color: var(--accent-red);">RST</code> paketi ile yanıt vermek zorundadır.</li>
+          <li><span class="cyber-badge badge-htb" style="font-size: 0.72rem;">open</span> <strong>Open Port:</strong> Hedef sistem geçersiz bir paket görür ve yanıt vermeden <strong>sessizce drop eder</strong>.</li>
         </ul>
       </div>
     </div>
@@ -624,7 +622,7 @@ nping --udp --traceroute -c 13 -p 54 target.htb</code></pre>
           <span class="cyber-badge badge-htb">FLAG: -sN</span> NULL Scan
         </div>
         <p style="margin: 0; font-size: 0.88em; color: var(--text-main);">
-          Does not set any bits at all. The TCP header flag field is completely <code style="color: var(--htb-green);">0</code>.
+          Hiçbir bit set etmez. TCP header flag alanı tamamen <code style="color: var(--htb-green);">0</code> değerindedir.
         </p>
       </div>
 
@@ -634,7 +632,7 @@ nping --udp --traceroute -c 13 -p 54 target.htb</code></pre>
           <span class="cyber-badge badge-cyan">FLAG: -sF</span> FIN Scan
         </div>
         <p style="margin: 0; font-size: 0.88em; color: var(--text-main);">
-          Sets only the TCP <code style="color: var(--accent-cyan);">FIN</code> (Finish) bit used to close connections.
+          Bağlantıları kapatmak için kullanılan yalnızca TCP <code style="color: var(--accent-cyan);">FIN</code> (Finish) bitini set eder.
         </p>
       </div>
 
@@ -644,7 +642,7 @@ nping --udp --traceroute -c 13 -p 54 target.htb</code></pre>
           <span class="cyber-badge badge-purple">FLAG: -sX</span> Xmas Scan
         </div>
         <p style="margin: 0; font-size: 0.88em; color: var(--text-main);">
-          Sets <code style="color: var(--accent-purple);">FIN</code>, <code style="color: var(--accent-purple);">PSH</code>, and <code style="color: var(--accent-purple);">URG</code> flags simultaneously ("lighting the packet up like a Christmas tree").
+          <code style="color: var(--accent-purple);">FIN</code>, <code style="color: var(--accent-purple);">PSH</code> ve <code style="color: var(--accent-purple);">URG</code> flag'lerini aynı anda set eder ("paketi bir yılbaşı ağacı gibi ışıklandırır").
         </p>
       </div>
 
@@ -656,9 +654,9 @@ nping --udp --traceroute -c 13 -p 54 target.htb</code></pre>
       <!-- Loaded from slides/04i_stealth_tcp_responses.html -->
 <!-- SLIDE: Stealth TCP Responses & OS Limitations -->
 <section>
-  <h2><i class="fa-solid fa-table-list highlight-htb"></i> Stealth TCP Responses & Limitations</h2>
+  <h2><i class="fa-solid fa-table-list highlight-htb"></i> Stealth TCP Yanıtları ve Kısıtlamaları</h2>
   <p class="slide-subtitle">
-    Interpreting probe responses and understanding non-RFC compliant operating system behavior.
+    Probe yanıtlarını yorumlama ve RFC standartlarına uymayan işletim sistemi davranışlarını anlama.
   </p>
 
   <div class="grid-2" style="align-items: stretch; gap: 1.4rem;">
@@ -667,23 +665,23 @@ nping --udp --traceroute -c 13 -p 54 target.htb</code></pre>
     <div class="cyber-card" style="display: flex; flex-direction: column; justify-content: space-between;">
       <div>
         <div class="card-title">
-          <span class="cyber-badge badge-htb">STATE MAPPING</span> Stealth Response Table
+          <span class="cyber-badge badge-htb">STATE MAPPING</span> Stealth Yanıt Tablosu
         </div>
         
         <table style="width: 100%; border-collapse: collapse; font-size: 0.85em; margin-top: 0.8rem; color: var(--text-main);">
           <thead>
             <tr style="border-bottom: 2px solid var(--htb-border); text-align: left;">
-              <th style="padding: 8px; color: var(--text-white); font-family: var(--font-heading);">Probe Response</th>
-              <th style="padding: 8px; color: var(--text-white); font-family: var(--font-heading); text-align: right;">Assigned State</th>
+              <th style="padding: 8px; color: var(--text-white); font-family: var(--font-heading);">Probe Yanıtı</th>
+              <th style="padding: 8px; color: var(--text-white); font-family: var(--font-heading); text-align: right;">Atanan Durum</th>
             </tr>
           </thead>
           <tbody>
             <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
-              <td style="padding: 10px 8px;">No response received (even after retries)</td>
+              <td style="padding: 10px 8px;">Yanıt alınamadı (yeniden denemeler sonrasında bile)</td>
               <td style="padding: 10px 8px; text-align: right;"><span class="cyber-badge badge-yellow" style="font-size: 0.72rem;">open | filtered</span></td>
             </tr>
             <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
-              <td style="padding: 10px 8px;">TCP <code style="color: var(--accent-red);">RST</code> packet returned</td>
+              <td style="padding: 10px 8px;">TCP <code style="color: var(--accent-red);">RST</code> paketi döndü</td>
               <td style="padding: 10px 8px; text-align: right;"><span class="cyber-badge badge-red" style="font-size: 0.72rem;">closed</span></td>
             </tr>
             <tr>
@@ -695,7 +693,7 @@ nping --udp --traceroute -c 13 -p 54 target.htb</code></pre>
       </div>
 
       <div style="margin-top: 1rem; font-size: 0.82em; color: var(--text-muted); padding: 0.5rem 0.8rem; background: rgba(7, 14, 27, 0.6); border-radius: 4px;">
-        <i class="fa-solid fa-circle-info highlight-cyan"></i> Open ports drop probes without replying, making them indistinguishable from firewall drops.
+        <i class="fa-solid fa-circle-info highlight-cyan"></i> Open portlar probe paketlerini yanıt vermeden drop eder; bu da onları firewall drop durumundan ayırt etmeyi imkansız kılar.
       </div>
     </div>
 
@@ -705,11 +703,11 @@ nping --udp --traceroute -c 13 -p 54 target.htb</code></pre>
       <!-- Threat Card for Windows OS Non-compliance -->
       <div class="cyber-card threat">
         <div class="card-title">
-          <span class="cyber-badge badge-red">LIMITATION</span> OS Non-Compliance (Windows/Cisco)
+          <span class="cyber-badge badge-red">KISITLAMA</span> İşletim Sistemi Uyumsuzlukları (Windows/Cisco)
         </div>
         <ul class="threat-list" style="margin-bottom: 0;">
-          <li><strong>RFC 793 Requirement:</strong> Works primarily on Linux, BSD, and Unix systems adhering strictly to RFC 793.</li>
-          <li><strong>Windows / Cisco Behavior:</strong> MS Windows and Cisco devices respond with <code style="color: var(--accent-red);">RST</code> packets to malformed probes regardless of whether the port is open or closed, showing all ports as <span class="cyber-badge badge-red" style="font-size: 0.7rem;">closed</span>.</li>
+          <li><strong>RFC 793 Gereksinimi:</strong> Öncelikli olarak RFC 793 standartlarına katı şekilde uyan Linux, BSD ve Unix sistemlerde çalışır.</li>
+          <li><strong>Windows / Cisco Davranışı:</strong> MS Windows ve Cisco cihazları, port açık veya kapalı olsun, malformed probe'lara <code style="color: var(--accent-red);">RST</code> paketleriyle yanıt verir; bu da tüm portların <span class="cyber-badge badge-red" style="font-size: 0.7rem;">closed</span> görünmesine yol açar.</li>
         </ul>
       </div>
 
@@ -737,7 +735,7 @@ nping --udp --traceroute -c 13 -p 54 target.htb</code></pre>
 <section>
   <h2><i class="fa-solid fa-shield-halved highlight-htb"></i> TCP ACK Scan (<code style="color: var(--htb-green);">-sA</code>)</h2>
   <p class="slide-subtitle">
-    Mapping firewall rulesets, detecting stateful filtering, and identifying reachable ports.
+    Firewall kural setlerini haritalama ve stateful/stateless yapısını tespit etme.
   </p>
 
   <div class="grid-2" style="align-items: stretch; gap: 1.4rem;">
@@ -746,22 +744,22 @@ nping --udp --traceroute -c 13 -p 54 target.htb</code></pre>
     <div style="display: flex; flex-direction: column; gap: 1rem;">
       <div class="cyber-card">
         <div class="card-title">
-          <span class="cyber-badge badge-htb">FLAG: -sA</span> Firewall Ruleset Mapping
+          <span class="cyber-badge badge-htb">FLAG: -sA</span> Firewall Kural Seti Haritalama
         </div>
         <ul style="margin-bottom: 0.6rem;">
-          <li><strong>Unique Objective:</strong> Unlike other scans, TCP ACK scan <strong>never determines open ports</strong> (or even <code style="color: var(--accent-yellow);">open|filtered</code>).</li>
-          <li><strong>Primary Purpose:</strong> Used exclusively to map out firewall rulesets and determine whether firewalls are <strong>stateful</strong> or <strong>stateless</strong>.</li>
-          <li><strong>Probe Flag:</strong> Sends probe packets with only the <code style="color: var(--accent-cyan);">ACK</code> flag set.</li>
+          <li><strong>Port Durumu Tespit Etmez:</strong> Açık portları veya <code style="color: var(--accent-yellow);">open|filtered</code> durumunu belirlemez.</li>
+          <li><strong>Temel Amaç:</strong> Firewall yapısının <strong>stateful</strong> veya <strong>stateless</strong> olduğunu tespit eder.</li>
+          <li><strong>Probe Flag:</strong> Yalnızca <code style="color: var(--accent-cyan);">ACK</code> flag'li probe paketleri gönderir.</li>
         </ul>
       </div>
 
       <div class="cyber-card secure">
         <div class="card-title">
-          <span class="cyber-badge badge-cyan">FIREWALL STATE</span> Stateful vs. Stateless
+          <span class="cyber-badge badge-cyan">FIREWALL YAPISI</span> Stateful vs Stateless
         </div>
         <ul class="secure-list" style="margin-bottom: 0;">
-          <li><strong>Stateless Firewalls:</strong> Pass unexpected ACK probes through $\rightarrow$ ports respond with <code style="color: var(--accent-red);">RST</code> and are labeled <span class="cyber-badge badge-cyan" style="font-size: 0.72rem;">unfiltered</span>.</li>
-          <li><strong>Stateful Firewalls:</strong> Track active connection tables; drop unexpected ACK probes without an active session $\rightarrow$ labeled <span class="cyber-badge badge-purple" style="font-size: 0.72rem;">filtered</span>.</li>
+          <li><strong>Stateless Firewall:</strong> ACK paketlerini geçirir $\rightarrow$ portlar <code style="color: var(--accent-red);">RST</code> döner $\rightarrow$ <span class="cyber-badge badge-cyan" style="font-size: 0.72rem;">unfiltered</span>.</li>
+          <li><strong>Stateful Firewall:</strong> Session tablosu tutar; oturumsuz ACK paketlerini drop eder $\rightarrow$ <span class="cyber-badge badge-purple" style="font-size: 0.72rem;">filtered</span>.</li>
         </ul>
       </div>
     </div>
@@ -772,27 +770,27 @@ nping --udp --traceroute -c 13 -p 54 target.htb</code></pre>
       <!-- Probe Response Table Card -->
       <div class="cyber-card">
         <div class="card-title">
-          <span class="cyber-badge badge-purple">STATE MAPPING</span> ACK Probe Response Table
+          <span class="cyber-badge badge-purple">DURUM HARİTALAMASI</span> ACK Yanıt Tablosu
         </div>
         
         <table style="width: 100%; border-collapse: collapse; font-size: 0.84em; margin-top: 0.6rem; color: var(--text-main);">
           <thead>
             <tr style="border-bottom: 2px solid var(--htb-border); text-align: left;">
-              <th style="padding: 6px 8px; color: var(--text-white); font-family: var(--font-heading);">Probe Response</th>
-              <th style="padding: 6px 8px; color: var(--text-white); font-family: var(--font-heading); text-align: right;">Assigned State</th>
+              <th style="padding: 6px 8px; color: var(--text-white); font-family: var(--font-heading);">Probe Yanıtı</th>
+              <th style="padding: 6px 8px; color: var(--text-white); font-family: var(--font-heading); text-align: right;">Atanan Durum</th>
             </tr>
           </thead>
           <tbody>
             <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
-              <td style="padding: 8px;">TCP <code style="color: var(--accent-red);">RST</code> packet returned</td>
+              <td style="padding: 8px;">TCP <code style="color: var(--accent-red);">RST</code> yanıtı</td>
               <td style="padding: 8px; text-align: right;"><span class="cyber-badge badge-cyan" style="font-size: 0.72rem;">unfiltered</span></td>
             </tr>
             <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
-              <td style="padding: 8px;">No response received (after retries)</td>
+              <td style="padding: 8px;">Yanıt yok (timeout)</td>
               <td style="padding: 8px; text-align: right;"><span class="cyber-badge badge-purple" style="font-size: 0.72rem;">filtered</span></td>
             </tr>
             <tr>
-              <td style="padding: 8px;">ICMP Unreachable (Type 3, Code 1, 2, 3, 9, 10, 13)</td>
+              <td style="padding: 8px;">ICMP Unreachable (Type 3)</td>
               <td style="padding: 8px; text-align: right;"><span class="cyber-badge badge-purple" style="font-size: 0.72rem;">filtered</span></td>
             </tr>
           </tbody>
@@ -822,7 +820,7 @@ nping --udp --traceroute -c 13 -p 54 target.htb</code></pre>
 <section>
   <h2><i class="fa-solid fa-user-secret highlight-htb"></i> TCP Idle Scan (<code style="color: var(--htb-green);">-sI</code>)</h2>
   <p class="slide-subtitle">
-    "Blind" port scanning technique that bounces forged packets off an innocent zombie host.
+    Forged paketleri masum bir zombie host üzerinden sektiren "blind" port tarama tekniği.
   </p>
 
   <div class="grid-2" style="align-items: stretch; gap: 1.4rem;">
@@ -833,22 +831,22 @@ nping --udp --traceroute -c 13 -p 54 target.htb</code></pre>
       <!-- Blind Scanning Concept -->
       <div class="cyber-card">
         <div class="card-title">
-          <span class="cyber-badge badge-htb">BLIND SCANNING</span> Evasion & Spoofing
+          <span class="cyber-badge badge-htb">BLIND SCANNING</span> Evasion ve Spoofing
         </div>
         <ul style="margin-bottom: 0.6rem;">
-          <li><strong>Zero Direct Packets:</strong> Attacker scans target without sending a single packet from their own IP address directly to the target.</li>
-          <li><strong>Zombie Host Bouncing:</strong> Traffic is bounced off an idle "zombie" host. Target IDS logs will list the innocent zombie as the attacker.</li>
+          <li><strong>Sıfır Doğrudan Paket:</strong> Saldırgan, kendi IP adresinden hedefe doğrudan tek bir paket bile göndermeden hedefi tarar.</li>
+          <li><strong>Zombie Host Üzerinden Sektirme:</strong> Trafik, boşta (idle) duran bir "zombie" host üzerinden sektirilir. Hedef IDS logları masum zombie host'u saldırgan olarak kaydeder.</li>
         </ul>
       </div>
 
       <!-- Packet Forging Logic -->
       <div class="cyber-card secure">
         <div class="card-title">
-          <span class="cyber-badge badge-cyan">RAW PACKETS</span> Forging the SYN Probe
+          <span class="cyber-badge badge-cyan">RAW PACKETS</span> SYN Probe Paketini Forged Oluşturma
         </div>
         <ul class="secure-list" style="margin-bottom: 0;">
-          <li><strong>Craft TCP Payload:</strong> Sets <code style="color: var(--htb-green);">SYN = 1</code> requesting target port connection.</li>
-          <li><strong>IP Header Spoofing:</strong> Sets <strong>Destination IP</strong> = Target IP, and <strong>Source IP</strong> = Zombie IP!</li>
+          <li><strong>TCP Payload Oluşturma:</strong> Hedef port bağlantısı talep etmek için <code style="color: var(--htb-green);">SYN = 1</code> olarak ayarlar.</li>
+          <li><strong>IP Header Spoofing:</strong> <strong>Destination IP</strong> = Target IP ve <strong>Source IP</strong> = Zombie IP olarak ayarlar!</li>
         </ul>
       </div>
 
@@ -861,7 +859,7 @@ nping --udp --traceroute -c 13 -p 54 target.htb</code></pre>
       <div style="background: #ffffff; padding: 10px; border-radius: 8px; border: 1px solid var(--htb-border); box-shadow: 0 0 20px var(--htb-green-glow); text-align: center;">
         <img src="media/idle_scan_ip_id_field.png" alt="IP Header ID Field" style="max-height: 170px; width: 100%; display: block; object-fit: contain;">
         <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #333333; font-weight: 600; margin-top: 6px;">
-          <i class="fa-solid fa-barcode" style="color: #2e7d32;"></i> 16-Bit IP Packet Identification Field (Increments Sequentially)
+          <i class="fa-solid fa-barcode" style="color: #2e7d32;"></i> 16-Bit IP Packet Identification (IP ID) Alanı (Sırayla Artar)
         </div>
       </div>
 
@@ -886,9 +884,9 @@ PORT   STATE SERVICE
       <!-- Loaded from slides/04l_tcp_idle_scan_open.html -->
 <!-- SLIDE: TCP Idle Scan Open Port Mechanics -->
 <section>
-  <h2><i class="fa-solid fa-door-open highlight-htb"></i> Idle Scan: Open Port Execution</h2>
+  <h2><i class="fa-solid fa-door-open highlight-htb"></i> Idle Scan: Open Port Çalışma Mantığı</h2>
   <p class="slide-subtitle">
-    Step-by-step packet flow and IP ID increment analysis (+2) when scanning an open target port.
+    Açık bir hedef port taranırken adım adım paket akışı ve IP ID artış analizi (+2).
   </p>
 
   <div class="grid-2" style="align-items: center; gap: 1.4rem;">
@@ -897,27 +895,27 @@ PORT   STATE SERVICE
     <div class="cyber-card" style="display: flex; flex-direction: column; justify-content: space-between;">
       <div>
         <div class="card-title">
-          <span class="cyber-badge badge-htb">STEP-BY-STEP</span> Open Port IP ID Flow
+          <span class="cyber-badge badge-htb">STEP-BY-STEP</span> Open Port IP ID Akışı
         </div>
 
         <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.8rem; font-size: 0.86em;">
           
           <!-- Step 1 -->
           <div style="border-left: 3px solid var(--htb-green); padding-left: 0.8rem;">
-            <strong style="color: var(--htb-green);">Step 1: Probe Zombie's Initial IP ID</strong>
-            <div style="color: var(--text-muted);">Attacker sends <code style="color: var(--htb-green);">SYN-ACK</code> to zombie. Zombie responds with <code style="color: var(--accent-red);">RST</code>, disclosing <code style="color: var(--htb-green);">IP ID = 31337</code>.</div>
+            <strong style="color: var(--htb-green);">Adım 1: Zombie'nin Başlangıç IP ID Değerini Probe Etme</strong>
+            <div style="color: var(--text-muted);">Attacker, zombie'ye bir <code style="color: var(--htb-green);">SYN-ACK</code> gönderir. Zombie, <code style="color: var(--accent-red);">RST</code> ile yanıt verir ve <code style="color: var(--htb-green);">IP ID = 31337</code> değerini ortaya çıkarır.</div>
           </div>
 
           <!-- Step 2 -->
           <div style="border-left: 3px solid var(--accent-cyan); padding-left: 0.8rem;">
-            <strong style="color: var(--accent-cyan);">Step 2: Forge SYN to Target</strong>
-            <div style="color: var(--text-muted);">Target port is OPEN; sends <code style="color: var(--htb-green);">SYN-ACK</code> to zombie. Zombie sends <code style="color: var(--accent-red);">RST</code> to target, incrementing its IP ID to <code style="color: var(--accent-cyan);">31338</code>.</div>
+            <strong style="color: var(--accent-cyan);">Adım 2: Hedefe Forged SYN Gönderme</strong>
+            <div style="color: var(--text-muted);">Hedef port OPEN durumundadır; zombie'ye bir <code style="color: var(--htb-green);">SYN-ACK</code> gönderir. Zombie, hedefe <code style="color: var(--accent-red);">RST</code> göndererek kendi IP ID değerini <code style="color: var(--accent-cyan);">31338</code> olarak artırır.</div>
           </div>
 
           <!-- Step 3 -->
           <div style="border-left: 3px solid var(--accent-purple); padding-left: 0.8rem;">
-            <strong style="color: var(--accent-purple);">Step 3: Re-probe Zombie's IP ID</strong>
-            <div style="color: var(--text-muted);">Attacker probes zombie again. Zombie returns <code style="color: var(--accent-red);">RST</code> with <code style="color: var(--accent-purple);">IP ID = 31339</code>.</div>
+            <strong style="color: var(--accent-purple);">Adım 3: Zombie IP ID Değerini Yeniden Probe Etme</strong>
+            <div style="color: var(--text-muted);">Attacker, zombie'yi tekrar probe eder. Zombie, <code style="color: var(--accent-purple);">IP ID = 31339</code> değeriyle bir <code style="color: var(--accent-red);">RST</code> döndürür.</div>
           </div>
 
         </div>
@@ -925,7 +923,7 @@ PORT   STATE SERVICE
 
       <!-- Verdict Badge Box -->
       <div style="margin-top: 1rem; padding: 0.65rem 0.9rem; background: rgba(159, 239, 0, 0.12); border: 1px solid var(--htb-green); border-radius: 6px; font-size: 0.86em; color: var(--text-white);">
-        <i class="fa-solid fa-check-circle highlight-htb"></i> <strong>Verdict:</strong> Total IP ID incremented by <strong>+2</strong> $\rightarrow$ Target Port is <span class="cyber-badge badge-htb" style="font-size: 0.72rem;">open</span>!
+        <i class="fa-solid fa-check-circle highlight-htb"></i> <strong>Sonuç:</strong> Toplam IP ID <strong>+2</strong> arttı $\rightarrow$ Hedef Port <span class="cyber-badge badge-htb" style="font-size: 0.72rem;">open</span>!
       </div>
     </div>
 
@@ -933,7 +931,7 @@ PORT   STATE SERVICE
     <div style="background: #ffffff; padding: 12px; border-radius: 8px; border: 1px solid var(--htb-border); box-shadow: 0 0 20px var(--htb-green-glow); text-align: center;">
       <img src="media/idle_scan_open_port.png" alt="Idle Scan Open Port Diagram" style="max-height: 380px; width: 100%; display: block; object-fit: contain;">
       <div style="font-family: var(--font-mono); font-size: 0.73rem; color: #333333; font-weight: 600; margin-top: 6px;">
-        <i class="fa-solid fa-diagram-project" style="color: #2e7d32;"></i> Figure: Open Port Sequence (Attacker &rarr; Zombie &rarr; Target)
+        <i class="fa-solid fa-diagram-project" style="color: #2e7d32;"></i> Şekil: Open Port Adım Sırası (Attacker &rarr; Zombie &rarr; Target)
       </div>
     </div>
 
@@ -943,9 +941,9 @@ PORT   STATE SERVICE
       <!-- Loaded from slides/04m_tcp_idle_scan_closed_filtered.html -->
 <!-- SLIDE: TCP Idle Scan Closed & Filtered Ports -->
 <section>
-  <h2><i class="fa-solid fa-ban highlight-htb"></i> Idle Scan: Closed & Filtered Ports</h2>
+  <h2><i class="fa-solid fa-ban highlight-htb"></i> Idle Scan: Closed ve Filtered Portlar</h2>
   <p class="slide-subtitle">
-    Comparing packet traces and IP ID increment behaviors (+1) for closed and filtered target ports.
+    Closed ve filtered hedef portlar için packet trace izleri ve IP ID artış davranışlarının (+1) karşılaştırılması.
   </p>
 
   <div class="grid-2" style="align-items: stretch; gap: 1.4rem;">
@@ -954,17 +952,17 @@ PORT   STATE SERVICE
     <div style="display: flex; flex-direction: column; gap: 0.8rem;">
       <div class="cyber-card threat" style="padding: 0.9rem 1.1rem;">
         <div class="card-title" style="font-size: 1.05em; margin-bottom: 0.4rem;">
-          <span class="cyber-badge badge-red">INCREMENT +1</span> Closed Port Sequence
+          <span class="cyber-badge badge-red">ARTIŞ +1</span> Closed Port Akışı
         </div>
         <p style="margin: 0; font-size: 0.84em; color: var(--text-main); line-height: 1.45;">
-          Target sends an unsolicited <code style="color: var(--accent-red);">RST</code> to zombie. Zombie ignores it and sends no packet. Zombie IP ID increments by only <strong>+1</strong> during final probe.
+          Hedef, zombie'ye talep edilmemiş bir <code style="color: var(--accent-red);">RST</code> gönderir. Zombie bunu yok sayar ve paket göndermez. Son probe sırasında zombie IP ID değeri yalnızca <strong>+1</strong> kadar artar.
         </p>
       </div>
 
       <div style="background: #ffffff; padding: 8px; border-radius: 8px; border: 1px solid var(--htb-border-red); box-shadow: 0 0 15px rgba(255, 46, 99, 0.2); text-align: center;">
         <img src="media/idle_scan_closed.png" alt="Idle Scan Closed Port Diagram" style="max-height: 200px; width: 100%; display: block; object-fit: contain;">
         <div style="font-family: var(--font-mono); font-size: 0.7rem; color: #333333; font-weight: 600; margin-top: 4px;">
-          <i class="fa-solid fa-xmark-circle" style="color: #c62828;"></i> Closed Port Trace (Target sends RST &rarr; Zombie ignores)
+          <i class="fa-solid fa-xmark-circle" style="color: #c62828;"></i> Closed Port Trace (Target RST gönderir &rarr; Zombie yok sayar)
         </div>
       </div>
     </div>
@@ -973,17 +971,17 @@ PORT   STATE SERVICE
     <div style="display: flex; flex-direction: column; gap: 0.8rem;">
       <div class="cyber-card" style="padding: 0.9rem 1.1rem;">
         <div class="card-title" style="font-size: 1.05em; margin-bottom: 0.4rem;">
-          <span class="cyber-badge badge-purple">INCREMENT +1</span> Filtered Port Sequence
+          <span class="cyber-badge badge-purple">ARTIŞ +1</span> Filtered Port Akışı
         </div>
         <p style="margin: 0; font-size: 0.84em; color: var(--text-main); line-height: 1.45;">
-          Target firewall drops packet. Zombie receives nothing and sends no packet. Zombie IP ID increments by <strong>+1</strong> during final probe (indistinguishable from closed).
+          Hedef firewall paketi drop eder. Zombie hiçbir şey almaz ve paket göndermez. Son probe sırasında zombie IP ID değeri <strong>+1</strong> kadar artar (closed durumundan ayırt edilemez).
         </p>
       </div>
 
       <div style="background: #ffffff; padding: 8px; border-radius: 8px; border: 1px solid var(--htb-border); box-shadow: 0 0 15px rgba(157, 78, 221, 0.25); text-align: center;">
         <img src="media/idle_scan_filtered.png" alt="Idle Scan Filtered Port Diagram" style="max-height: 200px; width: 100%; display: block; object-fit: contain;">
         <div style="font-family: var(--font-mono); font-size: 0.7rem; color: #333333; font-weight: 600; margin-top: 4px;">
-          <i class="fa-solid fa-filter" style="color: #6a1b9a;"></i> Filtered Port Trace (Firewall drops &rarr; Zombie unaware)
+          <i class="fa-solid fa-filter" style="color: #6a1b9a;"></i> Filtered Port Trace (Firewall drop eder &rarr; Zombie habersiz kalır)
         </div>
       </div>
     </div>
@@ -994,9 +992,9 @@ PORT   STATE SERVICE
       <!-- Loaded from slides/05_discovery_flags.html -->
 <!-- SLIDE: Host Discovery Flags -->
 <section>
-  <h2><i class="fa-solid fa-binoculars highlight-htb"></i> Host Discovery & Ping Flags</h2>
+  <h2><i class="fa-solid fa-binoculars highlight-htb"></i> Host Discovery ve Ping Flag'leri</h2>
   <p class="slide-subtitle">
-    Controlling how Nmap discovers active hosts, handles ARP, and manages DNS resolution:
+    Nmap'in aktif host'ları nasıl keşfettiğini, ARP süreçlerini ve DNS çözümlemesini nasıl yönettiğini kontrol etme:
   </p>
 
   <div style="display: flex; flex-direction: column; gap: 0.85rem; text-align: left; max-width: 1050px; margin: 0 auto;">
@@ -1005,7 +1003,7 @@ PORT   STATE SERVICE
     <div style="display: grid; grid-template-columns: 220px 1fr; gap: 1.2rem; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.6rem;">
       <div><code style="color: var(--htb-green); font-size: 1rem; font-weight: 700;">-Pn</code></div>
       <div style="font-size: 0.95em; color: var(--text-main);">
-        Disables host discovery and assumes the host is alive.
+        Host discovery sürecini devre dışı bırakır ve host'un aktif olduğunu varsayar.
       </div>
     </div>
 
@@ -1013,7 +1011,7 @@ PORT   STATE SERVICE
     <div style="display: grid; grid-template-columns: 220px 1fr; gap: 1.2rem; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.6rem;">
       <div><code style="color: var(--htb-green); font-size: 1rem; font-weight: 700;">-sn</code></div>
       <div style="font-size: 0.95em; color: var(--text-main);">
-        Skips port scan; only checks if target host is alive or not (ping sweep).
+        Port taramasını atlar; yalnızca hedef host'un aktif olup olmadığını kontrol eder (ping sweep).
       </div>
     </div>
 
@@ -1021,7 +1019,7 @@ PORT   STATE SERVICE
     <div style="display: grid; grid-template-columns: 220px 1fr; gap: 1.2rem; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.6rem;">
       <div><code style="color: var(--htb-green); font-size: 1rem; font-weight: 700;">-PR</code></div>
       <div style="font-size: 0.95em; color: var(--text-main);">
-        Performs ARP ping discovery for local subnet scanning.
+        Yerel subnet taraması için ARP ping discovery gerçekleştirir.
       </div>
     </div>
 
@@ -1029,7 +1027,7 @@ PORT   STATE SERVICE
     <div style="display: grid; grid-template-columns: 220px 1fr; gap: 1.2rem; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.6rem;">
       <div><code style="color: var(--htb-green); font-size: 1rem; font-weight: 700;">-n</code></div>
       <div style="font-size: 0.95em; color: var(--text-main);">
-        Disables reverse DNS resolution to speed up scanning.
+        Taramayı hızlandırmak için reverse DNS resolution işlemini devre dışı bırakır.
       </div>
     </div>
 
@@ -1037,7 +1035,7 @@ PORT   STATE SERVICE
     <div style="display: grid; grid-template-columns: 220px 1fr; gap: 1.2rem; align-items: center; padding-bottom: 0.2rem;">
       <div><code style="color: var(--htb-green); font-size: 0.9rem; font-weight: 700;">--disable-arp-ping</code></div>
       <div style="font-size: 0.95em; color: var(--text-main);">
-        Disables default ARP ping probes on local Ethernet networks.
+        Yerel Ethernet ağlarındaki varsayılan ARP ping probe paketlerini devre dışı bırakır.
       </div>
     </div>
 
@@ -1047,9 +1045,9 @@ PORT   STATE SERVICE
       <!-- Loaded from slides/06_debug_flags.html -->
 <!-- SLIDE: Debug & Trace Flags -->
 <section>
-  <h2><i class="fa-solid fa-bug highlight-htb"></i> Debug & Trace Flags</h2>
+  <h2><i class="fa-solid fa-bug highlight-htb"></i> Debug ve Trace Flag'leri</h2>
   <p class="slide-subtitle">
-    Inspecting packet exchanges, scan decisions, and real-time progress:
+    Paket alışverişlerini, tarama kararlarını ve anlık ilerlemeyi inceleme:
   </p>
 
   <div style="display: flex; flex-direction: column; gap: 1rem; text-align: left; max-width: 1050px; margin: 0 auto;">
@@ -1058,7 +1056,7 @@ PORT   STATE SERVICE
     <div style="display: grid; grid-template-columns: 220px 1fr; gap: 1.2rem; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.8rem;">
       <div><code style="color: var(--accent-cyan); font-size: 0.95rem; font-weight: 700;">--packet-trace</code></div>
       <div style="font-size: 0.95em; color: var(--text-main);">
-        Shows a detailed trace of every packet sent and received by Nmap.
+        Nmap tarafından gönderilen ve alınan her paketin ayrıntılı izini (packet trace) gösterir.
       </div>
     </div>
 
@@ -1066,7 +1064,7 @@ PORT   STATE SERVICE
     <div style="display: grid; grid-template-columns: 220px 1fr; gap: 1.2rem; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.8rem;">
       <div><code style="color: var(--accent-cyan); font-size: 0.95rem; font-weight: 700;">--reason</code></div>
       <div style="font-size: 0.95em; color: var(--text-main);">
-        Displays the precise reason (e.g. <code style="color: var(--accent-red);">syn-ack</code>, <code style="color: var(--accent-red);">rst</code>, or <code style="color: var(--accent-red);">no-response</code>) why Nmap assigned a specific port state.
+        Nmap'in belirli bir port durumunu atama gerekçesini (örneğin <code style="color: var(--accent-red);">syn-ack</code>, <code style="color: var(--accent-red);">rst</code> veya <code style="color: var(--accent-red);">no-response</code>) tam olarak görüntüler.
       </div>
     </div>
 
@@ -1074,7 +1072,7 @@ PORT   STATE SERVICE
     <div style="display: grid; grid-template-columns: 220px 1fr; gap: 1.2rem; align-items: center; padding-bottom: 0.2rem;">
       <div><code style="color: var(--accent-cyan); font-size: 0.95rem; font-weight: 700;">--stats-every=5s</code></div>
       <div style="font-size: 0.95em; color: var(--text-main);">
-        Prints scan status and progress metrics periodically every 5 seconds.
+        Tarama durumunu ve ilerleme metriklerini periyodik olarak her 5 saniyede bir yazdırır.
       </div>
     </div>
 
@@ -1084,9 +1082,9 @@ PORT   STATE SERVICE
       <!-- Loaded from slides/07_evasion_flags.html -->
 <!-- SLIDE: Firewall Evasion & Spoofing Flags -->
 <section>
-  <h2><i class="fa-solid fa-user-secret highlight-htb"></i> Firewall Evasion & Spoofing</h2>
+  <h2><i class="fa-solid fa-user-secret highlight-htb"></i> Firewall Evasion ve Spoofing</h2>
   <p class="slide-subtitle">
-    Bypassing firewall packet filters and masking source origins:
+    Firewall paket filtrelerini atlatma ve kaynak adres kimliğini gizleme:
   </p>
 
   <div style="display: flex; flex-direction: column; gap: 1.2rem; text-align: left; max-width: 1050px; margin: 0 auto;">
@@ -1095,9 +1093,9 @@ PORT   STATE SERVICE
     <div style="display: grid; grid-template-columns: 220px 1fr; gap: 1.2rem; align-items: start; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 1rem;">
       <div><code style="color: var(--accent-red); font-size: 0.95rem; font-weight: 700;">--source-port</code></div>
       <div style="font-size: 0.95em; color: var(--text-main);">
-        Changes the source port to bypass firewall rules (e.g. <code style="color: var(--htb-green);">--source-port 53</code>).
+        Firewall kurallarını atlatmak için kaynak portu değiştirir (örneğin <code style="color: var(--htb-green);">--source-port 53</code>).
         <p style="margin-top: 0.5rem; color: var(--text-muted); font-style: italic; font-size: 0.92em;">
-          "If the traffic is coming FROM port 53 (DNS), it must be legitimate DNS traffic. Let it through."
+          "Eğer trafik port 53 (DNS) üzerinden geliyorsa, meşru bir DNS trafiğidir. Geçişine izin ver."
         </p>
       </div>
     </div>
@@ -1106,7 +1104,7 @@ PORT   STATE SERVICE
     <div style="display: grid; grid-template-columns: 220px 1fr; gap: 1.2rem; align-items: start; padding-bottom: 0.2rem;">
       <div><code style="color: var(--accent-red); font-size: 0.95rem; font-weight: 700;">-S</code></div>
       <div style="font-size: 0.95em; color: var(--text-main);">
-        Spoofs the source IP address of scan packets to conceal the true scanner identity.
+        Gerçek tarayıcı kimliğini gizlemek için tarama paketlerinin kaynak IP adresini spoof eder.
       </div>
     </div>
 
@@ -1118,30 +1116,30 @@ PORT   STATE SERVICE
 <section>
   <h2><i class="fa-solid fa-code highlight-htb"></i> Nmap Scripting Engine (NSE)</h2>
   <p class="slide-subtitle">
-    Automating vulnerability detection, service enumeration, and exploitation with Lua scripts:
+    Lua script'leri ile zafiyet tespiti, servis enumeration ve konfigürasyon denetimlerini otomatikleştirme:
   </p>
 
   <div class="grid-2" style="align-items: start; gap: 1.5rem;">
     <!-- Key Concepts -->
     <div style="display: flex; flex-direction: column; gap: 0.8rem; text-align: left;">
       <div style="border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.6rem;">
-        <strong style="color: var(--htb-green); font-size: 1.05em;">What is NSE?</strong>
+        <strong style="color: var(--htb-green); font-size: 1.05em;">NSE Nedir?</strong>
         <p style="margin-top: 0.3rem; font-size: 0.92em; color: var(--text-main);">
-          NSE allows users to write and share Lua scripts to automate complex network tasks, vulnerability scanning, and advanced service discovery.
+          NSE, kullanıcıların karmaşık ağ görevlerini, zafiyet taramalarını ve gelişmiş servis keşiflerini otomatikleştirmek için Lua script'leri yazıp paylaşmalarına olanak tanır.
         </p>
       </div>
 
       <div style="border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.6rem;">
-        <strong style="color: var(--accent-cyan); font-size: 1.05em;">14 Total Categories</strong>
+        <strong style="color: var(--accent-cyan); font-size: 1.05em;">Toplam 14 Kategori</strong>
         <p style="margin-top: 0.3rem; font-size: 0.92em; color: var(--text-main);">
-          Over 600+ scripts organized into 14 distinct functional categories ranging from passive discovery to active exploitation.
+          Pasif keşiften aktif sızmaya (exploitation) kadar uzanan 14 farklı işlevsel kategoride düzenlenmiş 600'den fazla script.
         </p>
       </div>
 
       <div>
-        <strong style="color: var(--accent-purple); font-size: 1.05em;">Default Script Execution</strong>
+        <strong style="color: var(--accent-purple); font-size: 1.05em;">Varsayılan Script Çalıştırma</strong>
         <p style="margin-top: 0.3rem; font-size: 0.92em; color: var(--text-main);">
-          The <code style="color: var(--htb-green);">-sC</code> flag runs the standard set of safe, fast default scripts against open ports.
+          <code style="color: var(--htb-green);">-sC</code> flag'i, açık portlara karşı güvenli ve hızlı standart default script setini çalıştırır.
         </p>
       </div>
     </div>
@@ -1152,15 +1150,15 @@ PORT   STATE SERVICE
         <span class="terminal-dot dot-red"></span>
         <span class="terminal-dot dot-yellow"></span>
         <span class="terminal-dot dot-green"></span>
-        <span class="terminal-title">root@htb:~# NSE Command Syntax</span>
+        <span class="terminal-title">root@htb:~# NSE Komut Sentaksı</span>
       </div>
-      <pre><code class="language-bash"># Run default scripts (-sC)
+      <pre><code class="language-bash"># Default script'leri çalıştır (-sC)
 sudo nmap 10.10.11.20 -sC
 
-# Run all scripts in a category (e.g. vuln)
+# Bir kategorideki tüm script'leri çalıştır (ör. vuln)
 sudo nmap 10.10.11.20 --script vuln
 
-# Run specific scripts by name
+# İsime göre belirli script'leri çalıştır
 sudo nmap 10.10.11.20 --script http-enum,smb-os-discovery</code></pre>
     </div>
   </div>
@@ -1169,9 +1167,9 @@ sudo nmap 10.10.11.20 --script http-enum,smb-os-discovery</code></pre>
       <!-- Loaded from slides/09_nse_categories.html -->
 <!-- SLIDE: NSE Script Categories -->
 <section>
-  <h2><i class="fa-solid fa-layer-group highlight-htb"></i> NSE Script Categories</h2>
+  <h2><i class="fa-solid fa-layer-group highlight-htb"></i> NSE Script Kategorileri</h2>
   <p class="slide-subtitle" style="margin-bottom: 1rem; font-size: 0.88em; line-height: 1.45;">
-    Nmap Scripting Engine (NSE) is another handy feature of Nmap. It provides us with the possibility to create scripts in Lua for interaction with certain services. There are a total of 14 categories into which these scripts can be divided:
+    Nmap Scripting Engine (NSE), Nmap'in sunduğu en güçlü özelliklerden biridir. Belirli servislerle etkileşime geçmek üzere Lua dilinde script'ler oluşturmamıza imkan tanır. Bu script'lerin ayrıldığı toplam 14 kategori bulunmaktadır:
   </p>
 
   <div class="grid-2" style="gap: 1.2rem; align-items: start; max-width: 1150px; margin: 0 auto; text-align: left;">
@@ -1179,37 +1177,37 @@ sudo nmap 10.10.11.20 --script http-enum,smb-os-discovery</code></pre>
     <div style="display: flex; flex-direction: column; gap: 0.4rem;">
       <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
         <div><code style="color: var(--htb-green); font-weight: 700; font-size: 0.85rem;">auth</code></div>
-        <div style="font-size: 0.78em; color: var(--text-main);">Determination of authentication credentials.</div>
+        <div style="font-size: 0.78em; color: var(--text-main);">Kimlik doğrulama (authentication) bilgilerinin tespiti.</div>
       </div>
 
       <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
         <div><code style="color: var(--htb-green); font-weight: 700; font-size: 0.85rem;">broadcast</code></div>
-        <div style="font-size: 0.78em; color: var(--text-main);">Scripts, which are used for host discovery by broadcasting and the discovered hosts, can be automatically added to the remaining scans.</div>
+        <div style="font-size: 0.78em; color: var(--text-main);">Broadcast yöntemiyle host discovery gerçekleştiren script'ler; keşfedilen host'lar kalan taramalara otomatik eklenebilir.</div>
       </div>
 
       <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
         <div><code style="color: var(--htb-green); font-weight: 700; font-size: 0.85rem;">brute</code></div>
-        <div style="font-size: 0.78em; color: var(--text-main);">Executes scripts that try to log in to the respective service by brute-forcing with credentials.</div>
+        <div style="font-size: 0.78em; color: var(--text-main);">Kimlik bilgileriyle brute-force uygulayarak ilgili servise giriş yapmaya çalışan script'leri çalıştırır.</div>
       </div>
 
       <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
         <div><code style="color: var(--htb-green); font-weight: 700; font-size: 0.85rem;">default</code></div>
-        <div style="font-size: 0.78em; color: var(--text-main);">Default scripts executed by using the <code style="color: var(--htb-green);">-sC</code> option.</div>
+        <div style="font-size: 0.78em; color: var(--text-main);"><code style="color: var(--htb-green);">-sC</code> seçeneği kullanılarak çalıştırılan varsayılan default script'ler.</div>
       </div>
 
       <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
         <div><code style="color: var(--htb-green); font-weight: 700; font-size: 0.85rem;">discovery</code></div>
-        <div style="font-size: 0.78em; color: var(--text-main);">Evaluation of accessible services.</div>
+        <div style="font-size: 0.78em; color: var(--text-main);">Erişilebilir servislerin ve ağ bilgilerinin değerlendirilmesi ve keşfi.</div>
       </div>
 
       <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
         <div><code style="color: var(--accent-red); font-weight: 700; font-size: 0.85rem;">dos</code></div>
-        <div style="font-size: 0.78em; color: var(--text-main);">These scripts are used to check services for denial of service vulnerabilities and are used less as it harms the services.</div>
+        <div style="font-size: 0.78em; color: var(--text-main);">Servisleri denial of service zafiyetlerine karşı denetlemek için kullanılır; servislere zarar verebileceğinden daha az tercih edilir.</div>
       </div>
 
       <div style="display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start; padding-bottom: 0.2rem;">
         <div><code style="color: var(--accent-red); font-weight: 700; font-size: 0.85rem;">exploit</code></div>
-        <div style="font-size: 0.78em; color: var(--text-main);">This category of scripts tries to exploit known vulnerabilities for the scanned port.</div>
+        <div style="font-size: 0.78em; color: var(--text-main);">Taranan port için bilinen zafiyetleri exploit etmeye çalışan script kategorisi.</div>
       </div>
     </div>
 
@@ -1217,37 +1215,37 @@ sudo nmap 10.10.11.20 --script http-enum,smb-os-discovery</code></pre>
     <div style="display: flex; flex-direction: column; gap: 0.4rem;">
       <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
         <div><code style="color: var(--accent-cyan); font-weight: 700; font-size: 0.85rem;">external</code></div>
-        <div style="font-size: 0.78em; color: var(--text-main);">Scripts that use external services for further processing.</div>
+        <div style="font-size: 0.78em; color: var(--text-main);">İleri düzey işlemler ve sorgular için harici (external) servisleri kullanan script'ler.</div>
       </div>
 
       <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
         <div><code style="color: var(--accent-cyan); font-weight: 700; font-size: 0.85rem;">fuzzer</code></div>
-        <div style="font-size: 0.78em; color: var(--text-main);">This uses scripts to identify vulnerabilities and unexpected packet handling by sending different fields, which can take much time.</div>
+        <div style="font-size: 0.78em; color: var(--text-main);">Farklı paket alanları göndererek beklenmeyen paket işleme davranışlarını ve zafiyetleri tespit eden fuzzer script'leri (uzun sürebilir).</div>
       </div>
 
       <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
         <div><code style="color: var(--accent-yellow); font-weight: 700; font-size: 0.85rem;">intrusive</code></div>
-        <div style="font-size: 0.78em; color: var(--text-main);">Intrusive scripts that could negatively affect the target system.</div>
+        <div style="font-size: 0.78em; color: var(--text-main);">Hedef sistemi olumsuz etkileyebilecek agresif ve müdahaleci (intrusive) script'ler.</div>
       </div>
 
       <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
         <div><code style="color: var(--accent-purple); font-weight: 700; font-size: 0.85rem;">malware</code></div>
-        <div style="font-size: 0.78em; color: var(--text-main);">Checks if some malware infects the target system.</div>
+        <div style="font-size: 0.78em; color: var(--text-main);">Hedef sisteme herhangi bir malware bulaşıp bulaşmadığını denetler.</div>
       </div>
 
       <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
         <div><code style="color: var(--htb-green); font-weight: 700; font-size: 0.85rem;">safe</code></div>
-        <div style="font-size: 0.78em; color: var(--text-main);">Defensive scripts that do not perform intrusive and destructive access.</div>
+        <div style="font-size: 0.78em; color: var(--text-main);">Müdahaleci veya yıkıcı erişimler gerçekleştirmeyen güvenli (safe) script'ler.</div>
       </div>
 
       <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.35rem; display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start;">
         <div><code style="color: var(--accent-cyan); font-weight: 700; font-size: 0.85rem;">version</code></div>
-        <div style="font-size: 0.78em; color: var(--text-main);">Extension for service detection.</div>
+        <div style="font-size: 0.78em; color: var(--text-main);">Servis tespiti (service detection) mekanizması için gelişmiş eklentiler.</div>
       </div>
 
       <div style="display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; align-items: start; padding-bottom: 0.2rem;">
         <div><code style="color: var(--accent-red); font-weight: 700; font-size: 0.85rem;">vuln</code></div>
-        <div style="font-size: 0.78em; color: var(--text-main);">Identification of specific vulnerabilities.</div>
+        <div style="font-size: 0.78em; color: var(--text-main);">Belirli zafiyetlerin (vulnerabilities) tespiti ve doğrulanması.</div>
       </div>
     </div>
   </div>
@@ -1331,9 +1329,9 @@ sudo nmap 10.10.11.20 --script http-enum,smb-os-discovery</code></pre>
       <!-- Loaded from slides/12_masscan_usage.html -->
 <!-- SLIDE 12: Masscan Commands & Rate Control -->
 <section>
-  <h2><i class="fa-solid fa-terminal highlight-htb"></i> Masscan Commands & Rate Control</h2>
+  <h2><i class="fa-solid fa-terminal highlight-htb"></i> Masscan Komutları ve Hız Kontrolü</h2>
   <p class="slide-subtitle">
-    Essential CLI syntax, key configuration flags, and packet rate tuning best practices.
+    Temel CLI sentaksı, ana konfigürasyon flag'leri ve paket hızı optimizasyon pratikleri.
   </p>
 
   <div class="grid-2" style="align-items: stretch; gap: 1.4rem;">
@@ -1342,13 +1340,13 @@ sudo nmap 10.10.11.20 --script http-enum,smb-os-discovery</code></pre>
     <div style="display: flex; flex-direction: column; gap: 1rem;">
       <div class="cyber-card">
         <div class="card-title">
-          <span class="cyber-badge badge-htb">CLI OPTIONS</span> Essential Configuration Flags
+          <span class="cyber-badge badge-htb">CLI SEÇENEKLERİ</span> Temel Konfigürasyon Flag'leri
         </div>
         <ul style="margin-bottom: 0.6rem; font-size: 0.88em;">
-          <li><code style="color: var(--htb-green);">--rate &lt;pps&gt;</code> Specifies transmit rate in packets per second (e.g. <code style="color: var(--htb-green);">--rate 100000</code>).</li>
-          <li><code style="color: var(--accent-cyan);">--banners</code> Enables TCP banner grabbing (grabs HTTP Server headers, SSH version strings, etc.).</li>
-          <li><code style="color: var(--accent-purple);">--exclude &lt;ip&gt;</code> Excludes sensitive IP addresses or subnets from the scan range.</li>
-          <li><code style="color: var(--accent-yellow);">-oJ &lt;filename&gt;</code> Saves scan results in structured JSON format for automated parsing.</li>
+          <li><code style="color: var(--htb-green);">--rate &lt;pps&gt;</code> Saniyedeki paket iletim hızını (packets per second) belirler (ör. <code style="color: var(--htb-green);">--rate 100000</code>).</li>
+          <li><code style="color: var(--accent-cyan);">--banners</code> TCP banner grabbing özelliğini etkinleştirir (HTTP Server header'larını, SSH sürüm bilgilerini vb. yakalar).</li>
+          <li><code style="color: var(--accent-purple);">--exclude &lt;ip&gt;</code> Hassas IP adreslerini veya subnet'leri tarama aralığından hariç tutar.</li>
+          <li><code style="color: var(--accent-yellow);">-oJ &lt;filename&gt;</code> Tarama sonuçlarını otomasyon süreçleri için yapılandırılmış JSON formatında kaydeder.</li>
         </ul>
       </div>
     </div>
@@ -1362,12 +1360,12 @@ sudo nmap 10.10.11.20 --script http-enum,smb-os-discovery</code></pre>
           <span class="terminal-dot dot-red"></span>
           <span class="terminal-dot dot-yellow"></span>
           <span class="terminal-dot dot-green"></span>
-          <span class="terminal-title">Full Port Range Subnet Scan</span>
+          <span class="terminal-title">Tüm Port Aralığında Subnet Taraması</span>
         </div>
-        <pre style="margin: 0;"><code class="language-bash" style="padding: 0.75rem 1rem; font-size: 0.76em;"># Scan top web ports across a /16 subnet at 100,000 pps
+        <pre style="margin: 0;"><code class="language-bash" style="padding: 0.75rem 1rem; font-size: 0.76em;"># Bir /16 subnet üzerindeki popüler web portlarını 100.000 pps hızında tara
 sudo masscan -p80,443 10.10.0.0/16 --rate 100000 -oJ web_scan.json
 
-# Full 65,535 port scan with banner grabbing
+# Banner grabbing etkinleştirilmiş 65.535 portluk tam tarama
 sudo masscan -p1-65535 10.10.20.0/24 --banners --rate 25000</code></pre>
       </div>
 
@@ -1377,9 +1375,9 @@ sudo masscan -p1-65535 10.10.20.0/24 --banners --rate 25000</code></pre>
           <span class="terminal-dot dot-red"></span>
           <span class="terminal-dot dot-yellow"></span>
           <span class="terminal-dot dot-green"></span>
-          <span class="terminal-title">Scanning with Exclusion File</span>
+          <span class="terminal-title">Hariç Tutma (Exclusion) Dosyası ile Tarama</span>
         </div>
-        <pre style="margin: 0;"><code class="language-bash" style="padding: 0.75rem 1rem; font-size: 0.76em;"># Exclude sensitive domain controllers & gateways
+        <pre style="margin: 0;"><code class="language-bash" style="padding: 0.75rem 1rem; font-size: 0.76em;"># Hassas domain controller ve gateway cihazlarını hariç tut
 sudo masscan 10.0.0.0/8 -p80 --excludefile exclude.txt --rate 50000</code></pre>
       </div>
 
@@ -1388,51 +1386,25 @@ sudo masscan 10.0.0.0/8 -p80 --excludefile exclude.txt --rate 50000</code></pre>
   </div>
 </section>
 
-      <!-- Loaded from slides/12a_when_to_use_masscan.html -->
-<!-- SLIDE 12a: When to Use Masscan -->
-<section>
-  <h2><i class="fa-solid fa-circle-question highlight-htb"></i> When to Use Masscan?</h2>
-
-  <div style="max-width: 900px; margin: 3rem auto 0 auto; text-align: center;">
-    <div style="margin-bottom: 1.8rem;">
-      <span class="cyber-badge badge-htb" style="font-size: 1rem; padding: 0.4rem 0.8rem;">INTERNET-SCALE DISCOVERY</span>
-    </div>
-    <p style="font-size: 1.35rem; line-height: 1.8; color: var(--text-main); margin: 0;">
-      Masscan, tek bir makine üzerinde derinlemesine <strong>enumeration</strong> yapmak yerine, geniş <strong>network ranges</strong> üzerinde kapsamlı bir <strong>initial discovery</strong> yürütmeniz gerektiğinde kullanılmalıdır. Diğer araçların gerektirdiği sürenin çok küçük bir kısmında, yüzlerce veya binlerce <strong>IP address</strong> genelinde açık portları (<strong>open ports</strong>) tespit etmek üzere tasarlanmıştır.
-    </p>
-  </div>
-</section>
-
-      <!-- Loaded from slides/13b_zafiyetli_network_protokolleri.html -->
-<!-- SLIDE: Section Title - Zafiyetli Network Protokolleri -->
-<section data-background-gradient="radial-gradient(circle, rgba(159,239,0,0.12) 0%, rgba(11,18,31,1) 100%)">
-  <div style="text-align: center;">
-    <span class="cyber-badge badge-red" style="margin-bottom: 1.5rem; font-size: 0.9rem;">
-      <i class="fa-solid fa-bug"></i> BLOCK 2 // NETWORK ATTACKS
-    </span>
-    <h1 style="font-size: 3.4em; margin-bottom: 0.4em;">Network <span class="htb-highlight">Attacks</span></h1>
-  </div>
-</section>
-
       <!-- Loaded from slides/14_telnet_overview.html -->
 <!-- SLIDE 14: Telnet Protocol Overview -->
 <section>
-  <h2><i class="fa-solid fa-terminal highlight-htb"></i> Legacy Remote Access: Telnet</h2>
+  <h2><i class="fa-solid fa-terminal highlight-htb"></i> Legacy Uzaktan Erişim: Telnet</h2>
   <p class="slide-subtitle">
-    ARPANET virtual terminal protocol providing unencrypted remote CLI shell access.
+    Şifresiz uzaktan CLI shell erişimi sağlayan ARPANET virtual terminal protokolü.
   </p>
 
   <div class="grid-2">
     <!-- Card 1: Core Specs -->
     <div class="cyber-card">
       <div class="card-title">
-        <span class="cyber-badge badge-htb">ARCHITECTURE</span> Protocol Basics
+        <span class="cyber-badge badge-htb">MİMARİ</span> Protokol Temelleri
       </div>
       <ul>
-        <li><strong>Origin:</strong> Created in 1969 for text-based remote shell access.</li>
-        <li><strong>Architecture:</strong> Client connects to remote daemon (<code style="color: var(--htb-green);">telnetd</code>).</li>
-        <li><strong>Ports:</strong> <span class="highlight-htb">TCP 23</span> (default) & <span class="highlight-cyan">TCP 2323</span> (embedded IoT).</li>
-        <li><strong>Transport:</strong> Raw 8-bit ASCII stream over unencrypted TCP.</li>
+        <li><strong>Köken:</strong> 1969 yılında metin tabanlı uzaktan shell erişimi için geliştirilmiştir.</li>
+        <li><strong>Mimari:</strong> Client, uzaktaki bir daemon (<code style="color: var(--htb-green);">telnetd</code>) yapısına bağlanır.</li>
+        <li><strong>Portlar:</strong> <span class="highlight-htb">TCP 23</span> (varsayılan) ve <span class="highlight-cyan">TCP 2323</span> (gömülü IoT).</li>
+        <li><strong>İletim:</strong> Şifrelenmemiş TCP üzerinde raw 8-bit ASCII veri akışı.</li>
       </ul>
     </div>
 
@@ -1452,74 +1424,31 @@ Password: Password123!
 admin@target:~$ id
 uid=1000(admin) gid=1000(admin)</code></pre>
       <p style="font-size: 0.8em; color: var(--text-muted); text-align: center; margin-top: -0.4rem;">
-        <i class="fa-solid fa-triangle-exclamation highlight-yellow"></i> <strong>Cleartext Stream:</strong> Credentials & commands transmitted in plaintext.
+        <i class="fa-solid fa-triangle-exclamation highlight-yellow"></i> <strong>Cleartext Akışı:</strong> Kimlik bilgileri ve komutlar plaintext olarak iletilir.
       </p>
     </div>
-  </div>
-</section>
-
-      <!-- Loaded from slides/14_0_why_telnet.html -->
-<!-- SLIDE 14_0: Why Telnet Was Needed & What It Solved -->
-<section>
-  <h2><i class="fa-solid fa-circle-question highlight-htb"></i> Telnet: Neden İhtiyaç Duyuldu ve Neyi Çözdü?</h2>
-
-  <div style="display: flex; flex-direction: column; gap: 1.8rem; text-align: left; font-size: 1.15rem; line-height: 1.7; max-width: 950px; margin: 2rem auto 0 auto; color: var(--text-main);">
-    
-    <!-- Section 1 -->
-    <div>
-      <h3 style="color: var(--accent-red); font-size: 1.4rem; margin-bottom: 0.6rem;">
-        <i class="fa-solid fa-triangle-exclamation"></i> 1. Telnet Öncesindeki Problem
-      </h3>
-      <ul style="margin-left: 1.5rem; margin-bottom: 0;">
-        <li style="margin-bottom: 0.5rem;">
-          <strong>Fiziksel Yakınlık Zorunluluğu:</strong> CLI console erişimi için cihazların yanındaki dedicated terminallerde oturmak gerekiyordu.
-        </li>
-        <li>
-          <strong>Standart Eksikliği:</strong> Farklı üreticilerin (IBM, DEC, Unix) uyumsuz terminal standartları nedeniyle ortak uzaktan yönetim yoktu.
-        </li>
-      </ul>
-    </div>
-
-    <!-- Section 2 -->
-    <div>
-      <h3 style="color: var(--htb-green); font-size: 1.4rem; margin-bottom: 0.6rem;">
-        <i class="fa-solid fa-circle-check"></i> 2. Telnet Neyi Çözdü?
-      </h3>
-      <ol style="margin-left: 1.5rem; margin-bottom: 0;">
-        <li style="margin-bottom: 0.6rem;">
-          <strong>Evrensel Remote Access (NVT):</strong> RFC 854 standartlarıyla donanım ve OS bağımsız ortak iletişim sağladı.
-        </li>
-        <li style="margin-bottom: 0.6rem;">
-          <strong>TCP/IP ile Remote Administration:</strong> Fiziksel erişim olmadan uzaktaki sunucularda log in olma, komut çalıştırma ve yönetim imkanı sundu.
-        </li>
-        <li>
-          <strong>Resource Sharing:</strong> Merkezi mainframe'lerdeki pahalı işlem gücünün uzaktan paylaşılmasını sağladı.
-        </li>
-      </ol>
-    </div>
-
   </div>
 </section>
 
       <!-- Loaded from slides/14a_telnet_authentication.html -->
 <!-- SLIDE 14a: Telnet Authentication Architecture -->
 <section>
-  <h2><i class="fa-solid fa-key highlight-htb"></i> Telnet Authentication Architecture</h2>
+  <h2><i class="fa-solid fa-key highlight-htb"></i> Telnet Authentication Mimarisi</h2>
   <p class="slide-subtitle">
-    How Telnet delegates user authentication to the host operating system.
+    Telnet'in kullanıcı authentication süreçlerini ana işletim sistemine nasıl devrettiği.
   </p>
 
   <div style="max-width: 800px; margin: 0 auto;">
     <!-- Card 1: Protocol Limitation -->
     <div class="cyber-card threat">
       <div class="card-title">
-        <span class="cyber-badge badge-red">PROTOCOL LIMITATION</span> Zero Native Auth
+        <span class="cyber-badge badge-red">PROTOKOL KISITLAMASI</span> Dahili Auth Yokluğu
       </div>
       <ul class="threat-list">
-        <li><strong>No Built-in Auth:</strong> RFC 854 has <span class="highlight-red">no cryptographic handshake</span> or authentication layer.</li>
-        <li><strong>Post-Handshake Trigger:</strong> Authentication begins <em>after</em> completing TCP 3-way handshake on Port 23.</li>
-        <li><strong>PTY Allocation:</strong> Receiving daemon (<code style="color: var(--htb-green);">telnetd</code>) initializes a Pseudo-Terminal interface.</li>
-        <li><strong>OS Delegation:</strong> <code style="color: var(--htb-green);">telnetd</code> hands off login prompt directly to host <code style="color: var(--accent-cyan);">'/bin/login'</code>.</li>
+        <li><strong>Dahili Auth Yoktur:</strong> RFC 854 standartlarında herhangi bir <span class="highlight-red">kriptografik handshake</span> veya authentication katmanı bulunmaz.</li>
+        <li><strong>Handshake Sonrası Tetikleme:</strong> Authentication süreci, Port 23 üzerindeki TCP 3-way handshake tamamlandıktan <em>sonra</em> başlar.</li>
+        <li><strong>PTY Tahsisi:</strong> Bağlantıyı karşılayan daemon (<code style="color: var(--htb-green);">telnetd</code>) bir Pseudo-Terminal (PTY) arayüzü başlatır.</li>
+        <li><strong>İşletim Sistemine Devir:</strong> <code style="color: var(--htb-green);">telnetd</code>, login prompt ekranını doğrudan host üzerindeki <code style="color: var(--accent-cyan);">'/bin/login'</code> sürecine devreder.</li>
       </ul>
     </div>
   </div>
@@ -1625,75 +1554,26 @@ IAC (255) + WILL (251) + ECHO (1) --> \xff\xfb\x01</code></pre>
       <!-- Loaded from slides/16_telnet_vs_ssh.html -->
 <!-- SLIDE 16: Telnet vs SSH & Protocol Hardening -->
 <section>
-  <h2><i class="fa-solid fa-shield-halved highlight-htb"></i> Secure Alternative: Telnet vs. SSH</h2>
+  <h2><i class="fa-solid fa-shield-halved highlight-htb"></i> Güvenli Alternatif: Telnet vs SSH</h2>
   <p class="slide-subtitle">
-    Cleartext remote access kullanımını kaldırmak için hardening adımları.
+    Cleartext uzaktan erişim kullanımını sonlandırmak için hardening adımları.
   </p>
 
   <div class="slide-center" style="max-width: 840px; text-align: left; margin-top: 1.8rem;">
     <ul class="secure-list" style="font-size: 1.1em; line-height: 1.7;">
       <li style="margin-bottom: 1.1rem;">
-        <strong>Decommission Daemons:</strong> Server'lar, switch'ler ve IoT node'larında <code style="color: var(--htb-green);">telnetd</code> servisini durdurun ve tamamen kaldırın.
+        <strong>Daemon'ları Devre Dışı Bırakma:</strong> Sunucular, switch'ler ve IoT node'larında <code style="color: var(--htb-green);">telnetd</code> servisini durdurun ve tamamen kaldırın.
       </li>
       <li style="margin-bottom: 1.1rem;">
-        <strong>Firewall Filtering:</strong> <span class="highlight-htb">TCP 23</span> ve <span class="highlight-cyan">TCP 2323</span> portlarındaki inbound trafiği engelleyin.
+        <strong>Firewall Filtreleme:</strong> <span class="highlight-htb">TCP 23</span> ve <span class="highlight-cyan">TCP 2323</span> portlarındaki inbound trafiği engelleyin.
       </li>
       <li style="margin-bottom: 1.1rem;">
-        <strong>Deploy SSH Keys:</strong> SSH key pair kullanımını (<code style="color: var(--htb-green);">ed25519</code>) zorunlu kılın ve password auth'u devre dışı bırakın.
+        <strong>SSH Key Dağıtımı:</strong> SSH key pair kullanımını (<code style="color: var(--htb-green);">ed25519</code>) zorunlu kılın ve password auth özelliğini devre dışı bırakın.
       </li>
       <li style="margin-bottom: 1.1rem;">
-        <strong>VLAN Isolation:</strong> Eski management interface'lerini dedicated, kısıtlı VLAN'lar üzerinde izole edin.
+        <strong>VLAN İzolasyonu:</strong> Eski management interface'lerini dedicated, kısıtlı VLAN'lar üzerinde izole edin.
       </li>
     </ul>
-  </div>
-</section>
-
-      <!-- Loaded from slides/16a_whats_snmp.html -->
-<!-- SLIDE 16a: What's SNMP -->
-<section>
-  <h2><i class="fa-solid fa-circle-question highlight-htb"></i> SNMP</h2>
-
-  <div style="max-width: 900px; margin: 3rem auto 0 auto; text-align: center;">
-    <div style="margin-bottom: 1.8rem;">
-      <span class="cyber-badge badge-htb" style="font-size: 1rem; padding: 0.4rem 0.8rem;">NETWORK MANAGEMENT</span>
-    </div>
-    <p style="font-size: 1.35rem; line-height: 1.8; color: var(--text-main); margin: 0;">
-      <strong>Simple Network Management Protocol (SNMP)</strong>, network cihazlarını <strong>monitor</strong> etmek amacıyla geliştirilmiştir. <strong>Monitoring</strong> işlevine ek olarak, bu protokol cihazları uzaktan <strong>configure</strong> etmek için de kullanılabilir. Güncel sürümü <strong>SNMPv3</strong>'tür.
-    </p>
-  </div>
-</section>
-
-      <!-- Loaded from slides/16b_snmp_communication.html -->
-<!-- SLIDE 16b: SNMP Communication Principles -->
-<section>
-  <h2><i class="fa-solid fa-diagram-project highlight-htb"></i> SNMP İletişim Prensipleri</h2>
-
-  <div class="grid-2" style="align-items: center; gap: 2rem;">
-    <!-- Left Column: Plain Text Description -->
-    <div style="display: flex; flex-direction: column; gap: 1.5rem; font-size: 1.1rem; line-height: 1.7; color: var(--text-main); text-align: left;">
-      <div>
-        <h3 style="color: var(--htb-green); font-size: 1.25rem; margin-bottom: 0.4rem;">
-          <i class="fa-solid fa-server"></i> UDP Port 161 (Polling & Commands)
-        </h3>
-        <p style="margin: 0;">
-          SNMP packet'ları <strong>monitoring data</strong> taşır ve <strong>UDP port 161</strong> üzerinden <strong>agent</strong>'lara yönetim komutları iletir.
-        </p>
-      </div>
-
-      <div>
-        <h3 style="color: var(--accent-cyan); font-size: 1.25rem; margin-bottom: 0.4rem;">
-          <i class="fa-solid fa-bell"></i> UDP Port 162 (Traps & Notifications)
-        </h3>
-        <p style="margin: 0;">
-          Opsiyonel olarak <strong>UDP port 162</strong> üzerinden <strong>trap</strong> mekanizmasını kullanır. Cihazlarda bir <strong>event</strong> meydana geldiğinde, SNMP bu <strong>notification</strong> verilerini <strong>client</strong> cihazlara anında iletir.
-        </p>
-      </div>
-    </div>
-
-    <!-- Right Column: Diagram Image -->
-    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-      <img src="media/SNMP_communication_principles_diagram.PNG" alt="SNMP Communication Principles Diagram" style="width: 100%; max-height: 320px; object-fit: contain; border-radius: 8px; display: block;" />
-    </div>
   </div>
 </section>
 
@@ -2455,7 +2335,6 @@ tftp> quit</code></pre>
     </div>
   </div>
 </section>
-
 
       <!-- Loaded from slides/32_dhcp_overview.html -->
 <!-- SLIDE 32: What is DHCP & DORA Process -->
@@ -3279,6 +3158,196 @@ ADDITIONAL SECTION: (Glue Record)
         <p style="font-size: 0.82em; color: var(--text-muted); margin-top: 0.3rem; margin-bottom: 0;">Docker ve K8s pod katmanları</p>
       </div>
     </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/44e_perimeter_security.html -->
+<!-- SLIDE 44e: Perimeter Security -->
+<section>
+  <h2><i class="fa-solid fa-shield-halved highlight-htb"></i> Perimeter Security</h2>
+  <p class="slide-subtitle" style="text-align: center;">
+    Geleneksel çevre güvenliği modeli ile mikro segmentasyon mimarisinin karşılaştırılması.
+  </p>
+
+  <div style="text-align: center; margin-top: 1rem;">
+    <img src="media/micro_segmentation_perimeter_security.webp" alt="Perimeter Security Architecture" style="max-height: 480px; width: auto; max-width: 100%; display: block; margin: 0 auto; border-radius: 8px;">
+  </div>
+</section>
+
+      <!-- Loaded from slides/44f_how_it_works_microsegmentation.html -->
+<!-- SLIDE 44f: How It Works - Microsegmentation Deployment -->
+<section>
+  <h2><i class="fa-solid fa-gears highlight-htb"></i> How It Works: Deployment Yöntemleri</h2>
+  <p class="slide-subtitle">
+    Karmaşık altyapılarda Microsegmentation sınırlarını uygulamak için kullanılan 3 temel yöntem:
+  </p>
+
+  <div class="grid-3" style="align-items: stretch; gap: 1.2rem; margin-top: 1.2rem;">
+    <!-- Agent-based -->
+    <div class="cyber-card" style="display: flex; flex-direction: column; justify-content: flex-start; text-align: left;">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">HOST LEVEL</span> Agent-Based
+      </div>
+      <p style="font-size: 0.85em; color: var(--text-main); line-height: 1.5; margin-top: 0.5rem; margin-bottom: 0;">
+        Host makinesine veya container yapısına doğrudan bir agent yüklenir. Bu agent, workload kimliğini temel alarak trafiği kısıtlamak için işletim sisteminin yerleşik firewall mekanizmalarını (Linux iptables veya Windows Firewall gibi) yönetir.
+      </p>
+    </div>
+
+    <!-- Network-based -->
+    <div class="cyber-card" style="display: flex; flex-direction: column; justify-content: flex-start; text-align: left;">
+      <div class="card-title">
+        <span class="cyber-badge badge-cyan">INFRASTRUCTURE</span> Network-Based
+      </div>
+      <p style="font-size: 0.85em; color: var(--text-main); line-height: 1.5; margin-top: 0.5rem; margin-bottom: 0;">
+        Mevcut ağ altyapısını kullanır. İzolasyon kurallarını uygulamak için fiziksel veya sanal switch'lere, load balancer cihazlarına ve Software-Defined Networking (SDN) teknolojilerine dayanır.
+      </p>
+    </div>
+
+    <!-- Native cloud controls -->
+    <div class="cyber-card" style="display: flex; flex-direction: column; justify-content: flex-start; text-align: left;">
+      <div class="card-title">
+        <span class="cyber-badge badge-purple">CLOUD NATIVE</span> Native Cloud Controls
+      </div>
+      <p style="font-size: 0.85em; color: var(--text-main); line-height: 1.5; margin-top: 0.5rem; margin-bottom: 0;">
+        Bulut platformlarının sunduğu yerleşik firewall çözümlerinden yararlanır. Cloud instance'ları etrafında sınırlar oluşturmak için AWS Security Groups, Azure Firewalls veya Google Cloud Firewall kurallarını kullanır.
+      </p>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/44g_macrosegmentation_vs_microsegmentation.html -->
+<!-- SLIDE 44g: Macrosegmentation vs Microsegmentation -->
+<section>
+  <h2><i class="fa-solid fa-code-compare highlight-htb"></i> Macrosegmentation vs. Microsegmentation</h2>
+  <p class="slide-subtitle">
+    Geleneksel ağ segmentasyonu ile modern mikro segmentasyon yaklaşımlarının karşılaştırılması.
+  </p>
+
+  <div class="grid-2" style="align-items: center; gap: 1.4rem; margin-top: 1rem;">
+    <!-- Left Column: Comparison Cards -->
+    <div style="display: flex; flex-direction: column; gap: 0.9rem;">
+      <!-- Macrosegmentation -->
+      <div class="cyber-card threat" style="padding: 0.9rem 1.1rem;">
+        <div class="card-title" style="font-size: 1.05em; margin-bottom: 0.4rem;">
+          <span class="cyber-badge badge-red">TRADITIONAL</span> Macrosegmentation
+        </div>
+        <ul class="threat-list" style="font-size: 0.82em; margin-bottom: 0;">
+          <li><strong>Odak Noktası:</strong> North-South trafiğini (ağ sınırları ve VLAN geçişlerini) kontrol eder.</li>
+          <li><strong>Granularity:</strong> Coarse-grained (IP adresi, subnet ve VLAN seviyesinde geniş segmentler).</li>
+          <li><strong>Kısıtlama:</strong> Aynı subnet içindeki East-West trafiğini denetleyemez; tek bir host ihlal edildiğinde tüm subnet riske girer.</li>
+        </ul>
+      </div>
+
+      <!-- Microsegmentation -->
+      <div class="cyber-card secure" style="padding: 0.9rem 1.1rem;">
+        <div class="card-title" style="font-size: 1.05em; margin-bottom: 0.4rem;">
+          <span class="cyber-badge badge-htb">ZERO TRUST</span> Microsegmentation
+        </div>
+        <ul class="secure-list" style="font-size: 0.82em; margin-bottom: 0;">
+          <li><strong>Odak Noktası:</strong> East-West trafiğini (sunucular ve workload'lar arası iç trafiği) kontrol eder.</li>
+          <li><strong>Granularity:</strong> Fine-grained (kimlik, etiket, süreç ve uygulama bazlı hassas sınırlar).</li>
+          <li><strong>Avantaj:</strong> Aynı IP subnet'i üzerindeki workload'ları bile izole eder; lateral movement hamlelerini durdurur.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Right Column: Diagram Image -->
+    <div style="background: #ffffff; padding: 10px; border-radius: 8px; border: 1px solid var(--htb-border); box-shadow: 0 0 20px var(--htb-green-glow); text-align: center;">
+      <img src="media/microsegmentation-vs-network-segmentation-DP2.jpg.webp" alt="Macrosegmentation vs Microsegmentation Diagram" style="max-height: 380px; width: 100%; display: block; object-fit: contain;">
+      <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #333333; font-weight: 600; margin-top: 6px;">
+        <i class="fa-solid fa-diagram-project" style="color: #2e7d32;"></i> Network-Level (Macro) vs. Workload-Level (Micro) Isolation
+      </div>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/44h_static_ip_vs_identity_policies.html -->
+<!-- SLIDE 44h: Static IP Rules vs Identity-Based Policies -->
+<section>
+  <h2><i class="fa-solid fa-tags highlight-htb"></i> Identity-Based Policy Engine</h2>
+  <p class="slide-subtitle">
+    Geleneksel static IP kuralları ile dinamik kimlik tabanlı kural motorunun karşılaştırılması.
+  </p>
+
+  <div class="grid-2" style="align-items: stretch; gap: 1.4rem; margin-top: 1rem;">
+    <!-- Left Column: The Old Way (Static IP) -->
+    <div class="cyber-card threat" style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title">
+          <span class="cyber-badge badge-red">THE OLD WAY</span> Static IP Rules
+        </div>
+        <p style="font-size: 0.85em; color: var(--text-main); margin-top: 0.5rem; margin-bottom: 0.8rem;">
+          Geleneksel firewall yapılarında kurallar sabit IP adresleri veya subnet aralıkları kullanılarak yazılırdı:
+        </p>
+        <div style="background: rgba(0, 0, 0, 0.4); padding: 0.6rem 0.8rem; border-radius: 6px; font-family: var(--font-mono); font-size: 0.8em; text-align: center; border: 1px solid var(--htb-border-red); color: var(--accent-red);">
+          ALLOW 192.168.1.50 &rarr; TCP 5432 &rarr; 10.0.2.15
+        </div>
+      </div>
+      <ul class="threat-list" style="font-size: 0.8em; margin-top: 0.8rem; margin-bottom: 0;">
+        <li><strong>Kısıtlama:</strong> Cloud ve K8s ortamlarında container ve VM'ler sürekli yeniden başladığı için IP adresleri değişir (IP drift). Sabit IP kuralları geçersiz hale gelir veya güvenlik açıkları oluşturur.</li>
+      </ul>
+    </div>
+
+    <!-- Right Column: The New Way (Identity-Based) -->
+    <div class="cyber-card secure" style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title">
+          <span class="cyber-badge badge-htb">THE NEW WAY</span> Identity-Based Policies
+        </div>
+        <p style="font-size: 0.85em; color: var(--text-main); margin-top: 0.5rem; margin-bottom: 0.8rem;">
+          IP adresleri yerine her workload oluşturulduğunda dinamik etiketler (metadata tags) atanır:
+        </p>
+        <div style="background: rgba(0, 0, 0, 0.4); padding: 0.6rem 0.8rem; border-radius: 6px; font-family: var(--font-mono); font-size: 0.8em; text-align: center; border: 1px solid var(--htb-border); color: var(--htb-green);">
+          Role = Web &amp; Env = Prod &rarr; TCP 8443 &rarr; Role = App &amp; Env = Prod
+        </div>
+      </div>
+      <ul class="secure-list" style="font-size: 0.8em; margin-top: 0.8rem; margin-bottom: 0;">
+        <li><strong>Avantaj:</strong> Yeni container'lar otomatik olarak etiketleri devralır; elle IP kuralı yazmaya gerek kalmadan firewall politikaları anında uygulanır.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+      <!-- Loaded from slides/44i_identity_policy_comparison_table.html -->
+<!-- SLIDE 44i: Identity Policy Comparison Table -->
+<section>
+  <h2><i class="fa-solid fa-table-list highlight-htb"></i> Static IP vs. Identity Policies</h2>
+  <p class="slide-subtitle">
+    Geleneksel IP tabanlı kurallar ile Mikro Segmentasyon kimlik politikalarının karşılaştırması:
+  </p>
+
+  <div class="cyber-card" style="max-width: 1050px; margin: 1.2rem auto 0 auto; padding: 1rem 1.4rem;">
+    <table style="width: 100%; border-collapse: collapse; font-size: 0.85em; color: var(--text-main);">
+      <thead>
+        <tr style="border-bottom: 2px solid var(--htb-border); text-align: left;">
+          <th style="padding: 10px; color: var(--text-white); font-family: var(--font-heading); width: 22%;">Feature</th>
+          <th style="padding: 10px; color: var(--accent-red); font-family: var(--font-heading); width: 39%;">Static IP Rules (Traditional)</th>
+          <th style="padding: 10px; color: var(--htb-green); font-family: var(--font-heading); width: 39%;">Identity-Based Policies (Microsegmentation)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+          <td style="padding: 10px; font-weight: bold; color: var(--text-white);">Identifier</td>
+          <td style="padding: 10px;">Hardcoded IP Addresses (<code style="color: var(--accent-red);">10.10.1.5</code>)</td>
+          <td style="padding: 10px;">Dynamic Labels &amp; Tags (<code style="color: var(--htb-green);">role=web, env=prod</code>)</td>
+        </tr>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+          <td style="padding: 10px; font-weight: bold; color: var(--text-white);">Cloud / K8s Desteği</td>
+          <td style="padding: 10px;">Zayıf (IP adresleri değiştiğinde kurallar bozulur)</td>
+          <td style="padding: 10px;">Native (auto-scaling süreçlerine otomatik uyum sağlar)</td>
+        </tr>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+          <td style="padding: 10px; font-weight: bold; color: var(--text-white);">Okunabilirlik</td>
+          <td style="padding: 10px;">Düşük (<code style="color: var(--accent-red);">172.16.4.12</code> adresinin ne yaptığını anlamak zordur)</td>
+          <td style="padding: 10px;">Yüksek (<code style="color: var(--htb-green);">app=finance</code> gibi net iş mantığı tanımları sunar)</td>
+        </tr>
+        <tr>
+          <td style="padding: 10px; font-weight: bold; color: var(--text-white);">Güvenlik Riski</td>
+          <td style="padding: 10px;">Yüksek (eski kalmış kurallar ve IP geri dönüşüm riskleri)</td>
+          <td style="padding: 10px;">Zero Trust (en katı kimlik doğrulama kontrolleri)</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </section>
 

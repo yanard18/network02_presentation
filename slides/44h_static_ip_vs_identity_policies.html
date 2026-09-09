@@ -1,0 +1,45 @@
+<!-- SLIDE 44h: Static IP Rules vs Identity-Based Policies -->
+<section>
+  <h2><i class="fa-solid fa-tags highlight-htb"></i> Identity-Based Policy Engine</h2>
+  <p class="slide-subtitle">
+    Geleneksel static IP kuralları ile dinamik kimlik tabanlı kural motorunun karşılaştırılması.
+  </p>
+
+  <div class="grid-2" style="align-items: stretch; gap: 1.4rem; margin-top: 1rem;">
+    <!-- Left Column: The Old Way (Static IP) -->
+    <div class="cyber-card threat" style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title">
+          <span class="cyber-badge badge-red">THE OLD WAY</span> Static IP Rules
+        </div>
+        <p style="font-size: 0.85em; color: var(--text-main); margin-top: 0.5rem; margin-bottom: 0.8rem;">
+          Geleneksel firewall yapılarında kurallar sabit IP adresleri veya subnet aralıkları kullanılarak yazılırdı:
+        </p>
+        <div style="background: rgba(0, 0, 0, 0.4); padding: 0.6rem 0.8rem; border-radius: 6px; font-family: var(--font-mono); font-size: 0.8em; text-align: center; border: 1px solid var(--htb-border-red); color: var(--accent-red);">
+          ALLOW 192.168.1.50 &rarr; TCP 5432 &rarr; 10.0.2.15
+        </div>
+      </div>
+      <ul class="threat-list" style="font-size: 0.8em; margin-top: 0.8rem; margin-bottom: 0;">
+        <li><strong>Kısıtlama:</strong> Cloud ve K8s ortamlarında container ve VM'ler sürekli yeniden başladığı için IP adresleri değişir (IP drift). Sabit IP kuralları geçersiz hale gelir veya güvenlik açıkları oluşturur.</li>
+      </ul>
+    </div>
+
+    <!-- Right Column: The New Way (Identity-Based) -->
+    <div class="cyber-card secure" style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title">
+          <span class="cyber-badge badge-htb">THE NEW WAY</span> Identity-Based Policies
+        </div>
+        <p style="font-size: 0.85em; color: var(--text-main); margin-top: 0.5rem; margin-bottom: 0.8rem;">
+          IP adresleri yerine her workload oluşturulduğunda dinamik etiketler (metadata tags) atanır:
+        </p>
+        <div style="background: rgba(0, 0, 0, 0.4); padding: 0.6rem 0.8rem; border-radius: 6px; font-family: var(--font-mono); font-size: 0.8em; text-align: center; border: 1px solid var(--htb-border); color: var(--htb-green);">
+          Role = Web &amp; Env = Prod &rarr; TCP 8443 &rarr; Role = App &amp; Env = Prod
+        </div>
+      </div>
+      <ul class="secure-list" style="font-size: 0.8em; margin-top: 0.8rem; margin-bottom: 0;">
+        <li><strong>Avantaj:</strong> Yeni container'lar otomatik olarak etiketleri devralır; elle IP kuralı yazmaya gerek kalmadan firewall politikaları anında uygulanır.</li>
+      </ul>
+    </div>
+  </div>
+</section>

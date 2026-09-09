@@ -1,0 +1,39 @@
+<!-- SLIDE 44f: How It Works - Microsegmentation Deployment -->
+<section>
+  <h2><i class="fa-solid fa-gears highlight-htb"></i> How It Works: Deployment Yöntemleri</h2>
+  <p class="slide-subtitle">
+    Karmaşık altyapılarda Microsegmentation sınırlarını uygulamak için kullanılan 3 temel yöntem:
+  </p>
+
+  <div class="grid-3" style="align-items: stretch; gap: 1.2rem; margin-top: 1.2rem;">
+    <!-- Agent-based -->
+    <div class="cyber-card" style="display: flex; flex-direction: column; justify-content: flex-start; text-align: left;">
+      <div class="card-title">
+        <span class="cyber-badge badge-htb">HOST LEVEL</span> Agent-Based
+      </div>
+      <p style="font-size: 0.85em; color: var(--text-main); line-height: 1.5; margin-top: 0.5rem; margin-bottom: 0;">
+        Host makinesine veya container yapısına doğrudan bir agent yüklenir. Bu agent, workload kimliğini temel alarak trafiği kısıtlamak için işletim sisteminin yerleşik firewall mekanizmalarını (Linux iptables veya Windows Firewall gibi) yönetir.
+      </p>
+    </div>
+
+    <!-- Network-based -->
+    <div class="cyber-card" style="display: flex; flex-direction: column; justify-content: flex-start; text-align: left;">
+      <div class="card-title">
+        <span class="cyber-badge badge-cyan">INFRASTRUCTURE</span> Network-Based
+      </div>
+      <p style="font-size: 0.85em; color: var(--text-main); line-height: 1.5; margin-top: 0.5rem; margin-bottom: 0;">
+        Mevcut ağ altyapısını kullanır. İzolasyon kurallarını uygulamak için fiziksel veya sanal switch'lere, load balancer cihazlarına ve Software-Defined Networking (SDN) teknolojilerine dayanır.
+      </p>
+    </div>
+
+    <!-- Native cloud controls -->
+    <div class="cyber-card" style="display: flex; flex-direction: column; justify-content: flex-start; text-align: left;">
+      <div class="card-title">
+        <span class="cyber-badge badge-purple">CLOUD NATIVE</span> Native Cloud Controls
+      </div>
+      <p style="font-size: 0.85em; color: var(--text-main); line-height: 1.5; margin-top: 0.5rem; margin-bottom: 0;">
+        Bulut platformlarının sunduğu yerleşik firewall çözümlerinden yararlanır. Cloud instance'ları etrafında sınırlar oluşturmak için AWS Security Groups, Azure Firewalls veya Google Cloud Firewall kurallarını kullanır.
+      </p>
+    </div>
+  </div>
+</section>

@@ -1,22 +1,23 @@
 <!-- SLIDE 14a: Telnet Authentication Architecture -->
 <section>
-  <h2><i class="fa-solid fa-key highlight-htb"></i> Telnet Authentication Architecture</h2>
+  <h2><i class="fa-solid fa-key highlight-htb"></i> Telnet Authentication Mimarisi</h2>
   <p class="slide-subtitle">
-    How Telnet delegates user authentication to the host operating system.
+    Telnet'in kullanıcı authentication süreçlerini ana işletim sistemine nasıl devrettiği.
   </p>
 
   <div style="max-width: 800px; margin: 0 auto;">
     <!-- Card 1: Protocol Limitation -->
     <div class="cyber-card threat">
       <div class="card-title">
-        <span class="cyber-badge badge-red">PROTOCOL LIMITATION</span> Zero Native Auth
+        <span class="cyber-badge badge-red">PROTOKOL KISITLAMASI</span> Dahili Auth Yokluğu
       </div>
       <ul class="threat-list">
-        <li><strong>No Built-in Auth:</strong> RFC 854 has <span class="highlight-red">no cryptographic handshake</span> or authentication layer.</li>
-        <li><strong>Post-Handshake Trigger:</strong> Authentication begins <em>after</em> completing TCP 3-way handshake on Port 23.</li>
-        <li><strong>PTY Allocation:</strong> Receiving daemon (<code style="color: var(--htb-green);">telnetd</code>) initializes a Pseudo-Terminal interface.</li>
-        <li><strong>OS Delegation:</strong> <code style="color: var(--htb-green);">telnetd</code> hands off login prompt directly to host <code style="color: var(--accent-cyan);">'/bin/login'</code>.</li>
+        <li><strong>Dahili Auth Yoktur:</strong> RFC 854 standartlarında herhangi bir <span class="highlight-red">kriptografik handshake</span> veya authentication katmanı bulunmaz.</li>
+        <li><strong>Handshake Sonrası Tetikleme:</strong> Authentication süreci, Port 23 üzerindeki TCP 3-way handshake tamamlandıktan <em>sonra</em> başlar.</li>
+        <li><strong>PTY Tahsisi:</strong> Bağlantıyı karşılayan daemon (<code style="color: var(--htb-green);">telnetd</code>) bir Pseudo-Terminal (PTY) arayüzü başlatır.</li>
+        <li><strong>İşletim Sistemine Devir:</strong> <code style="color: var(--htb-green);">telnetd</code>, login prompt ekranını doğrudan host üzerindeki <code style="color: var(--accent-cyan);">'/bin/login'</code> sürecine devreder.</li>
       </ul>
     </div>
   </div>
 </section>
+

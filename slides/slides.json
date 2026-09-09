@@ -78,5 +78,10 @@
   "44b_micro_segmentation.html",
   "44c_key_concepts_microsegmentation.html",
   "44d_what_is_a_workload.html",
+  "44e_perimeter_security.html",
+  "44f_how_it_works_microsegmentation.html",
+  "44g_macrosegmentation_vs_microsegmentation.html",
+  "44h_static_ip_vs_identity_policies.html",
+  "44i_identity_policy_comparison_table.html",
   "summary.html"
 ]

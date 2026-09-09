@@ -1,8 +1,8 @@
 <!-- SLIDE: Stealth TCP Responses & OS Limitations -->
 <section>
-  <h2><i class="fa-solid fa-table-list highlight-htb"></i> Stealth TCP Responses & Limitations</h2>
+  <h2><i class="fa-solid fa-table-list highlight-htb"></i> Stealth TCP Yanıtları ve Kısıtlamaları</h2>
   <p class="slide-subtitle">
-    Interpreting probe responses and understanding non-RFC compliant operating system behavior.
+    Probe yanıtlarını yorumlama ve RFC standartlarına uymayan işletim sistemi davranışlarını anlama.
   </p>
 
   <div class="grid-2" style="align-items: stretch; gap: 1.4rem;">
@@ -11,23 +11,23 @@
     <div class="cyber-card" style="display: flex; flex-direction: column; justify-content: space-between;">
       <div>
         <div class="card-title">
-          <span class="cyber-badge badge-htb">STATE MAPPING</span> Stealth Response Table
+          <span class="cyber-badge badge-htb">STATE MAPPING</span> Stealth Yanıt Tablosu
         </div>
         
         <table style="width: 100%; border-collapse: collapse; font-size: 0.85em; margin-top: 0.8rem; color: var(--text-main);">
           <thead>
             <tr style="border-bottom: 2px solid var(--htb-border); text-align: left;">
-              <th style="padding: 8px; color: var(--text-white); font-family: var(--font-heading);">Probe Response</th>
-              <th style="padding: 8px; color: var(--text-white); font-family: var(--font-heading); text-align: right;">Assigned State</th>
+              <th style="padding: 8px; color: var(--text-white); font-family: var(--font-heading);">Probe Yanıtı</th>
+              <th style="padding: 8px; color: var(--text-white); font-family: var(--font-heading); text-align: right;">Atanan Durum</th>
             </tr>
           </thead>
           <tbody>
             <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
-              <td style="padding: 10px 8px;">No response received (even after retries)</td>
+              <td style="padding: 10px 8px;">Yanıt alınamadı (yeniden denemeler sonrasında bile)</td>
               <td style="padding: 10px 8px; text-align: right;"><span class="cyber-badge badge-yellow" style="font-size: 0.72rem;">open | filtered</span></td>
             </tr>
             <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
-              <td style="padding: 10px 8px;">TCP <code style="color: var(--accent-red);">RST</code> packet returned</td>
+              <td style="padding: 10px 8px;">TCP <code style="color: var(--accent-red);">RST</code> paketi döndü</td>
               <td style="padding: 10px 8px; text-align: right;"><span class="cyber-badge badge-red" style="font-size: 0.72rem;">closed</span></td>
             </tr>
             <tr>
@@ -39,7 +39,7 @@
       </div>
 
       <div style="margin-top: 1rem; font-size: 0.82em; color: var(--text-muted); padding: 0.5rem 0.8rem; background: rgba(7, 14, 27, 0.6); border-radius: 4px;">
-        <i class="fa-solid fa-circle-info highlight-cyan"></i> Open ports drop probes without replying, making them indistinguishable from firewall drops.
+        <i class="fa-solid fa-circle-info highlight-cyan"></i> Open portlar probe paketlerini yanıt vermeden drop eder; bu da onları firewall drop durumundan ayırt etmeyi imkansız kılar.
       </div>
     </div>
 
@@ -49,11 +49,11 @@
       <!-- Threat Card for Windows OS Non-compliance -->
       <div class="cyber-card threat">
         <div class="card-title">
-          <span class="cyber-badge badge-red">LIMITATION</span> OS Non-Compliance (Windows/Cisco)
+          <span class="cyber-badge badge-red">KISITLAMA</span> İşletim Sistemi Uyumsuzlukları (Windows/Cisco)
         </div>
         <ul class="threat-list" style="margin-bottom: 0;">
-          <li><strong>RFC 793 Requirement:</strong> Works primarily on Linux, BSD, and Unix systems adhering strictly to RFC 793.</li>
-          <li><strong>Windows / Cisco Behavior:</strong> MS Windows and Cisco devices respond with <code style="color: var(--accent-red);">RST</code> packets to malformed probes regardless of whether the port is open or closed, showing all ports as <span class="cyber-badge badge-red" style="font-size: 0.7rem;">closed</span>.</li>
+          <li><strong>RFC 793 Gereksinimi:</strong> Öncelikli olarak RFC 793 standartlarına katı şekilde uyan Linux, BSD ve Unix sistemlerde çalışır.</li>
+          <li><strong>Windows / Cisco Davranışı:</strong> MS Windows ve Cisco cihazları, port açık veya kapalı olsun, malformed probe'lara <code style="color: var(--accent-red);">RST</code> paketleriyle yanıt verir; bu da tüm portların <span class="cyber-badge badge-red" style="font-size: 0.7rem;">closed</span> görünmesine yol açar.</li>
         </ul>
       </div>
 
@@ -75,3 +75,4 @@
 
   </div>
 </section>
+

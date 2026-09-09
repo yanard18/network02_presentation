@@ -1,8 +1,8 @@
 <!-- SLIDE: TCP Idle Scan Open Port Mechanics -->
 <section>
-  <h2><i class="fa-solid fa-door-open highlight-htb"></i> Idle Scan: Open Port Execution</h2>
+  <h2><i class="fa-solid fa-door-open highlight-htb"></i> Idle Scan: Open Port Çalışma Mantığı</h2>
   <p class="slide-subtitle">
-    Step-by-step packet flow and IP ID increment analysis (+2) when scanning an open target port.
+    Açık bir hedef port taranırken adım adım paket akışı ve IP ID artış analizi (+2).
   </p>
 
   <div class="grid-2" style="align-items: center; gap: 1.4rem;">
@@ -11,27 +11,27 @@
     <div class="cyber-card" style="display: flex; flex-direction: column; justify-content: space-between;">
       <div>
         <div class="card-title">
-          <span class="cyber-badge badge-htb">STEP-BY-STEP</span> Open Port IP ID Flow
+          <span class="cyber-badge badge-htb">STEP-BY-STEP</span> Open Port IP ID Akışı
         </div>
 
         <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.8rem; font-size: 0.86em;">
           
           <!-- Step 1 -->
           <div style="border-left: 3px solid var(--htb-green); padding-left: 0.8rem;">
-            <strong style="color: var(--htb-green);">Step 1: Probe Zombie's Initial IP ID</strong>
-            <div style="color: var(--text-muted);">Attacker sends <code style="color: var(--htb-green);">SYN-ACK</code> to zombie. Zombie responds with <code style="color: var(--accent-red);">RST</code>, disclosing <code style="color: var(--htb-green);">IP ID = 31337</code>.</div>
+            <strong style="color: var(--htb-green);">Adım 1: Zombie'nin Başlangıç IP ID Değerini Probe Etme</strong>
+            <div style="color: var(--text-muted);">Attacker, zombie'ye bir <code style="color: var(--htb-green);">SYN-ACK</code> gönderir. Zombie, <code style="color: var(--accent-red);">RST</code> ile yanıt verir ve <code style="color: var(--htb-green);">IP ID = 31337</code> değerini ortaya çıkarır.</div>
           </div>
 
           <!-- Step 2 -->
           <div style="border-left: 3px solid var(--accent-cyan); padding-left: 0.8rem;">
-            <strong style="color: var(--accent-cyan);">Step 2: Forge SYN to Target</strong>
-            <div style="color: var(--text-muted);">Target port is OPEN; sends <code style="color: var(--htb-green);">SYN-ACK</code> to zombie. Zombie sends <code style="color: var(--accent-red);">RST</code> to target, incrementing its IP ID to <code style="color: var(--accent-cyan);">31338</code>.</div>
+            <strong style="color: var(--accent-cyan);">Adım 2: Hedefe Forged SYN Gönderme</strong>
+            <div style="color: var(--text-muted);">Hedef port OPEN durumundadır; zombie'ye bir <code style="color: var(--htb-green);">SYN-ACK</code> gönderir. Zombie, hedefe <code style="color: var(--accent-red);">RST</code> göndererek kendi IP ID değerini <code style="color: var(--accent-cyan);">31338</code> olarak artırır.</div>
           </div>
 
           <!-- Step 3 -->
           <div style="border-left: 3px solid var(--accent-purple); padding-left: 0.8rem;">
-            <strong style="color: var(--accent-purple);">Step 3: Re-probe Zombie's IP ID</strong>
-            <div style="color: var(--text-muted);">Attacker probes zombie again. Zombie returns <code style="color: var(--accent-red);">RST</code> with <code style="color: var(--accent-purple);">IP ID = 31339</code>.</div>
+            <strong style="color: var(--accent-purple);">Adım 3: Zombie IP ID Değerini Yeniden Probe Etme</strong>
+            <div style="color: var(--text-muted);">Attacker, zombie'yi tekrar probe eder. Zombie, <code style="color: var(--accent-purple);">IP ID = 31339</code> değeriyle bir <code style="color: var(--accent-red);">RST</code> döndürür.</div>
           </div>
 
         </div>
@@ -39,7 +39,7 @@
 
       <!-- Verdict Badge Box -->
       <div style="margin-top: 1rem; padding: 0.65rem 0.9rem; background: rgba(159, 239, 0, 0.12); border: 1px solid var(--htb-green); border-radius: 6px; font-size: 0.86em; color: var(--text-white);">
-        <i class="fa-solid fa-check-circle highlight-htb"></i> <strong>Verdict:</strong> Total IP ID incremented by <strong>+2</strong> $\rightarrow$ Target Port is <span class="cyber-badge badge-htb" style="font-size: 0.72rem;">open</span>!
+        <i class="fa-solid fa-check-circle highlight-htb"></i> <strong>Sonuç:</strong> Toplam IP ID <strong>+2</strong> arttı $\rightarrow$ Hedef Port <span class="cyber-badge badge-htb" style="font-size: 0.72rem;">open</span>!
       </div>
     </div>
 
@@ -47,9 +47,10 @@
     <div style="background: #ffffff; padding: 12px; border-radius: 8px; border: 1px solid var(--htb-border); box-shadow: 0 0 20px var(--htb-green-glow); text-align: center;">
       <img src="media/idle_scan_open_port.png" alt="Idle Scan Open Port Diagram" style="max-height: 380px; width: 100%; display: block; object-fit: contain;">
       <div style="font-family: var(--font-mono); font-size: 0.73rem; color: #333333; font-weight: 600; margin-top: 6px;">
-        <i class="fa-solid fa-diagram-project" style="color: #2e7d32;"></i> Figure: Open Port Sequence (Attacker &rarr; Zombie &rarr; Target)
+        <i class="fa-solid fa-diagram-project" style="color: #2e7d32;"></i> Şekil: Open Port Adım Sırası (Attacker &rarr; Zombie &rarr; Target)
       </div>
     </div>
 
   </div>
 </section>
+

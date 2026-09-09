@@ -1,21 +1,21 @@
 <!-- SLIDE 14: Telnet Protocol Overview -->
 <section>
-  <h2><i class="fa-solid fa-terminal highlight-htb"></i> Legacy Remote Access: Telnet</h2>
+  <h2><i class="fa-solid fa-terminal highlight-htb"></i> Legacy Uzaktan Erişim: Telnet</h2>
   <p class="slide-subtitle">
-    ARPANET virtual terminal protocol providing unencrypted remote CLI shell access.
+    Şifresiz uzaktan CLI shell erişimi sağlayan ARPANET virtual terminal protokolü.
   </p>
 
   <div class="grid-2">
     <!-- Card 1: Core Specs -->
     <div class="cyber-card">
       <div class="card-title">
-        <span class="cyber-badge badge-htb">ARCHITECTURE</span> Protocol Basics
+        <span class="cyber-badge badge-htb">MİMARİ</span> Protokol Temelleri
       </div>
       <ul>
-        <li><strong>Origin:</strong> Created in 1969 for text-based remote shell access.</li>
-        <li><strong>Architecture:</strong> Client connects to remote daemon (<code style="color: var(--htb-green);">telnetd</code>).</li>
-        <li><strong>Ports:</strong> <span class="highlight-htb">TCP 23</span> (default) & <span class="highlight-cyan">TCP 2323</span> (embedded IoT).</li>
-        <li><strong>Transport:</strong> Raw 8-bit ASCII stream over unencrypted TCP.</li>
+        <li><strong>Köken:</strong> 1969 yılında metin tabanlı uzaktan shell erişimi için geliştirilmiştir.</li>
+        <li><strong>Mimari:</strong> Client, uzaktaki bir daemon (<code style="color: var(--htb-green);">telnetd</code>) yapısına bağlanır.</li>
+        <li><strong>Portlar:</strong> <span class="highlight-htb">TCP 23</span> (varsayılan) ve <span class="highlight-cyan">TCP 2323</span> (gömülü IoT).</li>
+        <li><strong>İletim:</strong> Şifrelenmemiş TCP üzerinde raw 8-bit ASCII veri akışı.</li>
       </ul>
     </div>
 
@@ -35,8 +35,9 @@ Password: Password123!
 admin@target:~$ id
 uid=1000(admin) gid=1000(admin)</code></pre>
       <p style="font-size: 0.8em; color: var(--text-muted); text-align: center; margin-top: -0.4rem;">
-        <i class="fa-solid fa-triangle-exclamation highlight-yellow"></i> <strong>Cleartext Stream:</strong> Credentials & commands transmitted in plaintext.
+        <i class="fa-solid fa-triangle-exclamation highlight-yellow"></i> <strong>Cleartext Akışı:</strong> Kimlik bilgileri ve komutlar plaintext olarak iletilir.
       </p>
     </div>
   </div>
 </section>
+
